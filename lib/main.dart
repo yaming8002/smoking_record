@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smoking_record/settingPage.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
 import 'HomePage.dart';
@@ -7,6 +8,7 @@ import 'databace/DatabaseHelper.dart';
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await DBHelper.database;
+  AppSettings.init() ;
   runApp(MyApp(database: db));
 }
 

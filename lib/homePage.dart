@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smoking_record/settingPage.dart';
 
 import 'addSomkingPage.dart';
 import 'databace/DatabaseHelper.dart';
@@ -50,13 +51,18 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   Future<void> getLastEndTime() async {
-    final maps = await db
-        ?.rawQuery('SELECT * FROM SmokingStatus ORDER BY id DESC LIMIT 1');
+    final maps = await db?.rawQuery(
+        "SELECT strftime('%H:%M', smokingEndTime) as end_time, * FROM SmokingStatus ORDER BY id DESC LIMIT 1");
+
     if (maps != null && maps.isNotEmpty) {
-      SmokingStatus lastStatus = SmokingStatus.fromMap(maps.first);
-      setState(() {
-        _targetTime = lastStatus.smokingEndTime;
-      });
+      final formattedEndTime = maps.first['end_time'] as String?;
+      final timeChange = AppSettings.getTimeChange();
+      if (formattedEndTime != null && formattedEndTime.compareTo(timeChange) >= 0) {
+        final lastStatus = SmokingStatus.fromMap(maps.first);
+        setState(() {
+          _targetTime = lastStatus.smokingEndTime;
+        });
+      }
     }
   }
 
@@ -127,42 +133,16 @@ class _MyHomePageState extends State<HomePage> {
   void _navigateToSecondPage() async {
     // 创建 HistoryList 并设置当前时间
     SmokingStatus newStatus = SmokingStatus(
-      null,
-      // 此處設定為 null 以便 SQLite 自動生成一個 ID
-      1,
-      // 這是一個代表菸數的範例數值，請替換為實際菸數
-      DateTime.now(),
-      // 這是抽菸開始時間，現在設定為當前時間
-      DateTime.now(),
-      // 這是抽菸結束時間，現在設定為當前時間
-      3,
-      // 這是一個代表評價等級的範例數值，請替換為實際評價等級
-      DateTime.now().difference(DateTime.now()),
-      // 此處為總抽菸時間，目前為 0，因為起始和結束時間相同
-      _targetTime == null
-          ? null
-          : DateTime.now().difference(_targetTime!), // 這是抽菸的間隔時間，
+      null,      // 此處設定為 null 以便 SQLite 自動生成一個 ID
+      1,      // 這是一個代表菸數的範例數值，請替換為實際菸數
+      DateTime.now(),      // 這是抽菸開始時間，現在設定為當前時間
+      DateTime.now(),      // 這是抽菸結束時間，現在設定為當前時間
+      3,      // 這是一個代表評價等級的範例數值，請替換為實際評價等級
+      DateTime.now().difference(DateTime.now()),      // 此處為總抽菸時間，目前為 0，因為起始和結束時間相同
+      _targetTime == null ? null  : DateTime.now().difference(_targetTime!), // 這是抽菸的間隔時間，
     );
 
-    // 提供廣告視窗
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Advertisement'),
-          content: Text('This is where the ad goes.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-
+    print(newStatus.toString()) ;
     await Navigator.push(
       // 必須新增 await 否則會先執行厚片的代碼 getDayAndWeekTotalNum()
       context,
@@ -191,6 +171,17 @@ class _MyHomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Home'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings), // 設定圖標
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()), // 導航到設定頁面
+              );
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
@@ -200,8 +191,8 @@ class _MyHomePageState extends State<HomePage> {
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   double radius = constraints.maxWidth < constraints.maxHeight
-                      ? constraints.maxWidth / 2
-                      : constraints.maxHeight / 2;
+                      ? constraints.maxWidth / 3
+                      : constraints.maxHeight / 3;
                   return GestureDetector(
                     onTap: _navigateToSecondPage,
                     child: CircleAvatar(
@@ -217,56 +208,13 @@ class _MyHomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 3,
+              child: Column(
                 children: <Widget>[
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '今天的總抽菸數',
-                    child: dayTotalNum?.toString() ?? "0",
-                  ),
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '總抽菸時間',
-                    child: _formatDuration(dayAllTime ?? Duration.zero),
-                  ),
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '時間平均間隔',
-                    child: _formatDuration(daySpacing ?? Duration.zero),
-                  ),
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '本週的總抽菸數',
-                    child: dayTotalNum?.toString() ?? "0",
-                  ),
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '本週的總抽菸時間',
-                    child: _formatDuration(weekAllTime ?? Duration.zero),
-                  ),
-                  InfoCardBuild(
-                    rowCount: 3,
-                    title: '本週的平均抽菸間距',
-                    child: _formatDuration(weekSpacing ?? Duration.zero),
-                  ),
-
-                  // buildCard('今天的總抽菸數:', dayTotalNum?.toString() ?? "0"),
-                  // // Replace 0 with actual data
-                  // buildCard(
-                  //     '總抽菸時間:', _formatDuration(dayAllTime ?? Duration.zero)),
-                  // // Replace 0 with actual data
-                  // buildCard(
-                  //     '平均時間間距:', _formatDuration(daySpacing ?? Duration.zero)),
-                  // // Replace 0 with actual data
-                  // buildCard('本週的總抽菸數:', weekTotalNum?.toString() ?? "0"),
-                  // // Replace 0 with actual data
-                  // buildCard(
-                  //     '總抽菸時間:', _formatDuration(weekAllTime ?? Duration.zero)),
-                  // // Replace 0 with actual data
-                  // buildCard('本週平均抽菸間距:',
-                  //     _formatDuration(weekSpacing ?? Duration.zero)),
-                  // Replace 0 with actual data
+                  // 今日區塊
+                  _buildInfoSection('今日', dayTotalNum, dayAllTime, daySpacing),
+                  SizedBox(height: 20.0), // 間距
+                  // 本週區塊
+                  _buildInfoSection('本週', weekTotalNum, weekAllTime, weekSpacing),
                 ],
               ),
             ),
@@ -275,25 +223,69 @@ class _MyHomePageState extends State<HomePage> {
       ),
     );
   }
-//
-// Card buildCard(String title, String data) {
-//   return Card(
-//     child: Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Text(
-//             title,
-//             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-//           ),
-//           Text(
-//             data,
-//             style: TextStyle(fontSize: 24),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
+
+  Widget _buildInfoSection(String title, int? totalNum, Duration? allTime, Duration? spacing) {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white60,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _buildInfoCard(context,'吸菸數', totalNum?.toString() ?? "0"),
+              _buildInfoCard(context,'累計時間', _formatDuration(allTime ?? Duration.zero)),
+              _buildInfoCard(context,'平均間隔', _formatDuration(spacing ?? Duration.zero)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(BuildContext context, String title, String content) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double cardWidth = (screenWidth - (4 * 8)) / 3; // 減去邊界和間距
+
+    return Container(
+      width: cardWidth,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey[300]!),
+        borderRadius: BorderRadius.circular(4.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // 使內容居中
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center, // 文字居中
+            ),
+            SizedBox(height: 8),
+            Text(
+              content,
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center, // 文字居中
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

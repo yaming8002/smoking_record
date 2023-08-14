@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smoking_record/settingPage.dart';
 import 'databace/DatabaseHelper.dart';
 import 'databace/SmokingStatus.dart';
 
@@ -13,10 +15,12 @@ class AddSomkingPage extends StatefulWidget {
   _AddPageState createState() => _AddPageState();
 }
 
+
 class _AddPageState extends State<AddSomkingPage> {
   static const double cardWidth = 200; // Adjust as needed
   static const double cardHeight = 100; // Adjust as needed
   static const List<int> ratings = [1, 2, 3, 4, 5];
+  AppSettings appSettings = AppSettings();
 
   Timer? _timer;
   int? _selectedNum;
@@ -32,7 +36,38 @@ class _AddPageState extends State<AddSomkingPage> {
     _selectedEvaluate = widget.status.smokingRating;
     _smokingInterval = widget.status.smokingInterval;
     _startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 這裡可以安全地顯示對話框或進行其他UI操作
+      _showAdv();
+    });
   }
+
+  Future<void> _initAppSettings() async {
+    // await appSettings.init();
+    _showAdv();
+  }
+
+  Future<void> _showAdv() async {
+    // 提供廣告視窗
+    await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Advertisement'),
+        content: Text('This is where the ad goes.'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+    );
+  }
+
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -51,6 +86,11 @@ class _AddPageState extends State<AddSomkingPage> {
     String minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     String seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
+  }
+
+  Future<int> getUserSettings(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key) ?? 5; // 如果找不到對應的設定值，返回一個默認值
   }
 
   @override
@@ -183,6 +223,33 @@ class _AddPageState extends State<AddSomkingPage> {
                 widget.status.smokingEndTime = DateTime.now();
                 widget.status.totalSmokingTime = DateTime.now().difference(widget.status.smokingStartTime);
                 widget.status.smokingInterval = _smokingInterval ;
+
+                // Insert into the database
+                await DBHelper.insert('SmokingStatus', widget.status.toMap());
+
+                // Pop the current page off the navigation stack
+                Navigator.pop(context);
+              },
+            ),
+            ElevatedButton(
+              child: Text('Save by count '),
+              onPressed: () async {
+                // Update the history data
+                widget.status.smokeCount = _selectedNum!;
+                widget.status.smokingRating = _selectedEvaluate!;
+                int totalSmokingTimeInSeconds = _selectedNum! * (AppSettings.getAverageSmokingTime() );
+                widget.status.totalSmokingTime = Duration(seconds: totalSmokingTimeInSeconds);
+                widget.status.smokingEndTime =  widget.status.smokingStartTime.add( widget.status.totalSmokingTime) ;
+                widget.status.smokingInterval = _smokingInterval ;
+
+                // Check if smokingEndTime is greater than now
+                if (widget.status.smokingEndTime.isAfter(DateTime.now())) {
+                  // Show a message to the user or handle this condition as needed
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('End time cannot be in the future!')),
+                  );
+                  return;
+                }
 
                 // Insert into the database
                 await DBHelper.insert('SmokingStatus', widget.status.toMap());

@@ -38,7 +38,8 @@ dependencies:
   sqflite: ^2.0.0
   path: ^1.8.3
   path_provider: ^2.0.15
-
+  shared_preferences: ^2.0.7
+  intl: ^0.17.0 # 加入 intl 依賴
 
 dev_dependencies:
   flutter_test:
