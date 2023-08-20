@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:smoking_record/settingPage.dart';
+import 'package:sqflite/sqflite.dart';
 
+import 'SmokingListPage.dart';
 import 'addSomkingPage.dart';
-import 'databace/DatabaseHelper.dart';
-import 'package:sqflite_common/sqlite_api.dart';
 import 'databace/SmokingStatus.dart';
-import 'layoutFormat/InfoCardBuild.dart';
 
 class HomePage extends StatefulWidget {
   final Database database;
@@ -52,15 +52,14 @@ class _MyHomePageState extends State<HomePage> {
 
   Future<void> getLastEndTime() async {
     final maps = await db?.rawQuery(
-        "SELECT strftime('%H:%M', smokingEndTime) as end_time, * FROM SmokingStatus ORDER BY id DESC LIMIT 1");
+        "SELECT endTime FROM SmokingStatus ORDER BY endTime DESC LIMIT 1");
 
     if (maps != null && maps.isNotEmpty) {
-      final formattedEndTime = maps.first['end_time'] as String?;
+      final formattedEndTime = maps.first['endTime'] as String?;
       final timeChange = AppSettings.getTimeChange();
       if (formattedEndTime != null && formattedEndTime.compareTo(timeChange) >= 0) {
-        final lastStatus = SmokingStatus.fromMap(maps.first);
         setState(() {
-          _targetTime = lastStatus.smokingEndTime;
+          _targetTime = DateTime.parse(formattedEndTime) ;
         });
       }
     }
@@ -85,21 +84,30 @@ class _MyHomePageState extends State<HomePage> {
     return '$hours:$minutes:$seconds';
   }
 
+  List<String> daterange(DateTime now ){
+    String timeChange = AppSettings.getTimeChange() ;
+    String formattedStartOfWeekDate = DateFormat("yyyy-MM-dd").format(now.subtract(Duration(days: now.weekday - 1)));
+    DateTime startDateTime = DateTime.parse('$formattedStartOfWeekDate $timeChange');
+    DateTime endDateTime = startDateTime.add(Duration(days: 7));
+    List<String> list = [DateFormat("yyyy-MM-dd").format(startDateTime),
+      DateFormat("yyyy-MM-dd").format(endDateTime)]  ;
+    return list ;
+  }
+
   Future<void> getDayAndWeekTotalNum() async {
     await getLastEndTime();
 
     DateTime now = DateTime.now();
-    DateTime todayStart = DateTime(now.year, now.month, now.day);
-    DateTime weekStart = now.subtract(Duration(days: now.weekday - 1));
-    weekStart =
-        DateTime(weekStart.year, weekStart.month, weekStart.day, 0, 0, 0);
+    String todayStart =DateFormat("yyyy-MM-dd").format(now) ;
+    List<String> rangeDate = daterange(now) ;
+    String weekSelect = '''SELECT  
+      SUM(count) as smokeCount, 
+      SUM(totalTime) as totalSmokingTime, 
+      avg(spacing) as smokingInterval 
+      FROM summaryDay WHERE sDate >= ? and  sDate <= ? ''' ;
 
     // Query for the week data
-    final weekTotalres = await db?.rawQuery(
-        'SELECT *, SUM(smokeCount) as smokeCount, SUM(totalSmokingTime) as totalSmokingTime, avg(smokingInterval) as smokingInterval '
-        'FROM SmokingStatus WHERE smokingStartTime >= ?',
-        [weekStart.toIso8601String()]);
-
+    final weekTotalres = await db?.rawQuery( weekSelect, rangeDate);
     if (weekTotalres != null && weekTotalres.isNotEmpty) {
       setState(() {
         weekTotalNum = (weekTotalres.first['smokeCount'] ?? 0) as int;
@@ -111,21 +119,18 @@ class _MyHomePageState extends State<HomePage> {
                     .round());
       });
     }
-
+    String daySelect =  '''SELECT * FROM summaryDay WHERE sDate = ? ''' ;
     // Query for the day data
-    final res = await db?.rawQuery(
-        'SELECT *, SUM(smokeCount) as smokeCount, SUM(totalSmokingTime) as totalSmokingTime, avg(smokingInterval) as smokingInterval '
-        'FROM SmokingStatus WHERE smokingStartTime >= ?',
-        [todayStart.toIso8601String()]);
+    final res = await db?.rawQuery( daySelect,  [todayStart]);
 
     if (res != null && res.isNotEmpty) {
       setState(() {
-        dayTotalNum = (res.first['smokeCount'] ?? 0) as int;
+        dayTotalNum = (res.first['count'] ?? 0) as int;
         dayAllTime =
-            Duration(milliseconds: (res.first['totalSmokingTime'] ?? 0) as int);
+            Duration(milliseconds: (res.first['totalTime'] ?? 0) as int);
         daySpacing = Duration(
             milliseconds:
-                (res.first['smokingInterval'] as double? ?? 0.0).round());
+                (res.first['spacing'] as int? ?? 0).round());
       });
     }
   }
@@ -172,12 +177,22 @@ class _MyHomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Home'),
         actions: <Widget>[
+          /*
+          IconButton(
+            icon: Icon(Icons.edit), // 編輯圖標
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SmokingListPage(database: widget.database,)),
+              );
+            },
+          ),*/
           IconButton(
             icon: Icon(Icons.settings), // 設定圖標
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsPage()), // 導航到設定頁面
+                MaterialPageRoute(builder: (context) => SettingsPage()),
               );
             },
           )

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,10 @@ class AppSettings {
     return _prefs.getInt('average_smoking_time') ?? 300;
   }
 
+  static double getAppVersion() {
+    return _prefs.getDouble('app_version') ?? 0.1;
+  }
+
   static Future<void> setLanguage(String language) async {
     await _prefs.setString('language', language);
   }
@@ -30,6 +35,10 @@ class AppSettings {
 
   static Future<void> setAverageSmokingTime(int averageSmokingTime) async {
     await _prefs.setInt('average_smoking_time', averageSmokingTime);
+  }
+
+  static Future<void> setAppVersion(double appVersion) async {
+    await _prefs.setDouble('app_version', appVersion);
   }
 }
 
@@ -44,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
   String _language = '中文'; // 預設語言
   String _timeChange = '07:00'; // 預設換日時間，24小時制
   int _averageSmokingTime = 300; // 預設抽菸時間，300秒
+  double _appVersion = 0.1; // 預設抽菸時間，300秒
 
   @override
   void initState() {
@@ -61,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
       _language = AppSettings.getLanguage() ?? _language;  // 使用靜態方法
       _timeChange = AppSettings.getTimeChange() ?? _timeChange;  // 使用靜態方法
       _averageSmokingTime = AppSettings.getAverageSmokingTime() ?? _averageSmokingTime;  // 使用靜態方法
-
+      _appVersion = AppSettings.getAppVersion() ?? _appVersion;
       // 在這裡也更新控制器的 text 屬性
       _timeChangeController.text = _timeChange;
       _averageSmokingTimeController.text = _averageSmokingTime.toString();
@@ -72,6 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
     await AppSettings.setLanguage(_language);  // 使用靜態方法
     await AppSettings.setTimeChange(_timeChange);  // 使用靜態方法
     await AppSettings.setAverageSmokingTime(_averageSmokingTime);  // 使用靜態方法
+    await AppSettings.setAppVersion(_appVersion);  // 使用靜態方法
   }
 
   @override
@@ -124,6 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: saveSettings,
               child: Text('Save Settings'),
             ),
+          Text('Version : ' +AppSettings.getAppVersion().toString()) ,
           ],
         ),
       ),

@@ -24,17 +24,17 @@ class _AddPageState extends State<AddSomkingPage> {
 
   Timer? _timer;
   int? _selectedNum;
-  int? _selectedEvaluate = 3;
+  int? _smokingEvaluate = 3;
 
   String _timeDiff = "00:00:00";
-  Duration? _smokingInterval;
+  Duration? _smokingSpacing;
 
   @override
   void initState() {
     super.initState();
-    _selectedNum = widget.status.smokeCount;
-    _selectedEvaluate = widget.status.smokingRating;
-    _smokingInterval = widget.status.smokingInterval;
+    _selectedNum = widget.status.count;
+    _smokingEvaluate = widget.status.evaluate;
+    _smokingSpacing = widget.status.spacing;
     _startTimer();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // 這裡可以安全地顯示對話框或進行其他UI操作
@@ -73,7 +73,7 @@ class _AddPageState extends State<AddSomkingPage> {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _timeDiff = _formatDuration(
-            DateTime.now().difference(widget.status.smokingStartTime));
+            DateTime.now().difference(widget.status.startTime));
       });
     });
   }
@@ -134,7 +134,7 @@ class _AddPageState extends State<AddSomkingPage> {
                   children: [
                     Text('距離上一次'),
                     ListTile(
-                      title:Text(_smokingInterval == null ? "00:00:00" : _formatDuration(_smokingInterval!) ),
+                      title:Text(_smokingSpacing == null ? "00:00:00" : _formatDuration(_smokingSpacing!) ),
                     ),
                   ],
                 ),
@@ -199,10 +199,10 @@ class _AddPageState extends State<AddSomkingPage> {
                           return Expanded(
                             child: RadioListTile<int>(
                               value: rating,
-                              groupValue: _selectedEvaluate,
+                              groupValue: _smokingEvaluate,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedEvaluate = value!;
+                                  _smokingEvaluate = value!;
                                 });
                               },
                             ),
@@ -218,14 +218,14 @@ class _AddPageState extends State<AddSomkingPage> {
               child: Text('Save'),
               onPressed: () async {
                 // Update the history data
-                widget.status.smokeCount = _selectedNum!;
-                widget.status.smokingRating = _selectedEvaluate!;
-                widget.status.smokingEndTime = DateTime.now();
-                widget.status.totalSmokingTime = DateTime.now().difference(widget.status.smokingStartTime);
-                widget.status.smokingInterval = _smokingInterval ;
+                widget.status.count = _selectedNum!;
+                widget.status.evaluate = _smokingEvaluate!;
+                widget.status.endTime = DateTime.now();
+                widget.status.totalTime = DateTime.now().difference(widget.status.startTime);
+                widget.status.spacing = _smokingSpacing ;
 
                 // Insert into the database
-                await DBHelper.insert('SmokingStatus', widget.status.toMap());
+                await DBHelper.insertSmokingStatus( widget.status.toMap());
 
                 // Pop the current page off the navigation stack
                 Navigator.pop(context);
@@ -235,15 +235,15 @@ class _AddPageState extends State<AddSomkingPage> {
               child: Text('Save by count '),
               onPressed: () async {
                 // Update the history data
-                widget.status.smokeCount = _selectedNum!;
-                widget.status.smokingRating = _selectedEvaluate!;
+                widget.status.count = _selectedNum!;
+                widget.status.evaluate = _smokingEvaluate!;
                 int totalSmokingTimeInSeconds = _selectedNum! * (AppSettings.getAverageSmokingTime() );
-                widget.status.totalSmokingTime = Duration(seconds: totalSmokingTimeInSeconds);
-                widget.status.smokingEndTime =  widget.status.smokingStartTime.add( widget.status.totalSmokingTime) ;
-                widget.status.smokingInterval = _smokingInterval ;
+                widget.status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
+                widget.status.endTime =  widget.status.startTime.add( widget.status.totalTime) ;
+                widget.status.spacing = _smokingSpacing ;
 
                 // Check if smokingEndTime is greater than now
-                if (widget.status.smokingEndTime.isAfter(DateTime.now())) {
+                if (widget.status.endTime.isAfter(DateTime.now())) {
                   // Show a message to the user or handle this condition as needed
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('End time cannot be in the future!')),
@@ -252,7 +252,7 @@ class _AddPageState extends State<AddSomkingPage> {
                 }
 
                 // Insert into the database
-                await DBHelper.insert('SmokingStatus', widget.status.toMap());
+                await DBHelper.insertSmokingStatus( widget.status.toMap());
 
                 // Pop the current page off the navigation stack
                 Navigator.pop(context);
