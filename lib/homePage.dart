@@ -236,6 +236,20 @@ class _MyHomePageState extends State<HomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: _buildAdBanner(),
+    );
+  }
+
+  Widget _buildAdBanner() {
+    return Container(
+      height: 50, // 這是廣告的高度，可以根據你的需要調整
+      color: Colors.grey[300], // 廣告的背景顏色
+      child: Center(
+        child: Text(
+          '這裡是廣告',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 
@@ -300,6 +314,7 @@ class _MyHomePageState extends State<HomePage> {
           ],
         ),
       ),
+
     );
   }
 

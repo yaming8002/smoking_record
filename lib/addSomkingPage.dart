@@ -103,6 +103,7 @@ class _AddPageState extends State<AddSomkingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Add Page'),
       ),
       body: Center(
