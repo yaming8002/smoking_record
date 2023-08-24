@@ -15,7 +15,6 @@ class AddSomkingPage extends StatefulWidget {
   _AddPageState createState() => _AddPageState();
 }
 
-
 class _AddPageState extends State<AddSomkingPage> {
   static const double cardWidth = 200; // Adjust as needed
   static const double cardHeight = 100; // Adjust as needed
@@ -50,30 +49,29 @@ class _AddPageState extends State<AddSomkingPage> {
   Future<void> _showAdv() async {
     // 提供廣告視窗
     await showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Advertisement'),
-        content: Text('This is where the ad goes.'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Advertisement'),
+          content: Text('This is where the ad goes.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
-
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _timeDiff = _formatDuration(
-            DateTime.now().difference(widget.status.startTime));
+        _timeDiff =
+            _formatDuration(DateTime.now().difference(widget.status.startTime));
       });
     });
   }
@@ -135,7 +133,9 @@ class _AddPageState extends State<AddSomkingPage> {
                   children: [
                     Text('距離上一次'),
                     ListTile(
-                      title:Text(_smokingSpacing == null ? "00:00:00" : _formatDuration(_smokingSpacing!) ),
+                      title: Text(_smokingSpacing == null
+                          ? "00:00:00"
+                          : _formatDuration(_smokingSpacing!)),
                     ),
                   ],
                 ),
@@ -164,10 +164,12 @@ class _AddPageState extends State<AddSomkingPage> {
                         Expanded(
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            controller: TextEditingController(text: '$_selectedNum'),
+                            controller:
+                                TextEditingController(text: '$_selectedNum'),
                             onSubmitted: (value) {
                               setState(() {
-                                _selectedNum = int.tryParse(value) ?? _selectedNum;
+                                _selectedNum =
+                                    int.tryParse(value) ?? _selectedNum;
                               });
                             },
                           ),
@@ -215,49 +217,60 @@ class _AddPageState extends State<AddSomkingPage> {
                 ),
               ),
             ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () async {
-                // Update the history data
-                widget.status.count = _selectedNum!;
-                widget.status.evaluate = _smokingEvaluate!;
-                widget.status.endTime = DateTime.now();
-                widget.status.totalTime = DateTime.now().difference(widget.status.startTime);
-                widget.status.spacing = _smokingSpacing ;
+            Row(
 
-                // Insert into the database
-                await DBHelper.insertSmokingStatus( widget.status.toMap());
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: Text('Save'),
+                  onPressed: () async {
+                    // Update the history data
+                    widget.status.count = _selectedNum!;
+                    widget.status.evaluate = _smokingEvaluate!;
+                    widget.status.endTime = DateTime.now();
+                    widget.status.totalTime =
+                        DateTime.now().difference(widget.status.startTime);
+                    widget.status.spacing = _smokingSpacing;
 
-                // Pop the current page off the navigation stack
-                Navigator.pop(context);
-              },
-            ),
-            ElevatedButton(
-              child: Text('Save by count '),
-              onPressed: () async {
-                // Update the history data
-                widget.status.count = _selectedNum!;
-                widget.status.evaluate = _smokingEvaluate!;
-                int totalSmokingTimeInSeconds = _selectedNum! * (AppSettings.getAverageSmokingTime() );
-                widget.status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
-                widget.status.endTime =  widget.status.startTime.add( widget.status.totalTime) ;
-                widget.status.spacing = _smokingSpacing ;
+                    // Insert into the database
+                    await DBHelper.insertSmokingStatus(widget.status.toMap());
 
-                // Check if smokingEndTime is greater than now
-                if (widget.status.endTime.isAfter(DateTime.now())) {
-                  // Show a message to the user or handle this condition as needed
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('End time cannot be in the future!')),
-                  );
-                  return;
-                }
+                    // Pop the current page off the navigation stack
+                    Navigator.pop(context);
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('Save by count '),
+                  onPressed: () async {
+                    // Update the history data
+                    widget.status.count = _selectedNum!;
+                    widget.status.evaluate = _smokingEvaluate!;
+                    int totalSmokingTimeInSeconds =
+                        _selectedNum! * (AppSettings.getAverageSmokingTime());
+                    widget.status.totalTime =
+                        Duration(seconds: totalSmokingTimeInSeconds);
+                    widget.status.endTime =
+                        widget.status.startTime.add(widget.status.totalTime);
+                    widget.status.spacing = _smokingSpacing;
 
-                // Insert into the database
-                await DBHelper.insertSmokingStatus( widget.status.toMap());
+                    // Check if smokingEndTime is greater than now
+                    if (widget.status.endTime.isAfter(DateTime.now())) {
+                      // Show a message to the user or handle this condition as needed
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text('End time cannot be in the future!')),
+                      );
+                      return;
+                    }
 
-                // Pop the current page off the navigation stack
-                Navigator.pop(context);
-              },
+                    // Insert into the database
+                    await DBHelper.insertSmokingStatus(widget.status.toMap());
+
+                    // Pop the current page off the navigation stack
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
           ],
         ),

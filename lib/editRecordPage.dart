@@ -130,8 +130,8 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                   widget.status.endTime = DateTime.parse('${_endDateController.text} ${_endTimeController.text}');
                   widget.status.totalTime = widget.status.endTime.difference(widget.status.startTime);
                   widget.status.evaluate = _smokingEvaluate!;
-                  // await DBHelper.updateSmokingStatus(widget.status.toMap());
-                  Navigator.pop(context);
+                   await DBHelper.updateSmokingStatus(widget.status.toMap());
+                  Navigator.pop(context,true);
                 },
               ),
             ],

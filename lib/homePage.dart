@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:smoking_record/reportPage.dart';
 import 'package:smoking_record/settingPage.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -50,16 +51,30 @@ class _MyHomePageState extends State<HomePage> {
     await getDayAndWeekTotalNum();
   }
 
+
+  String? formatDate(String? isoDate) {
+    if (isoDate == null) {
+      return isoDate ;
+    }
+    DateTime parsedDate = DateTime.parse(isoDate);
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDate);
+  }
+
   Future<void> getLastEndTime() async {
     final maps = await db?.rawQuery(
         "SELECT endTime FROM SmokingStatus ORDER BY endTime DESC LIMIT 1");
 
     if (maps != null && maps.isNotEmpty) {
-      final formattedEndTime = maps.first['endTime'] as String?;
-      final timeChange = AppSettings.getTimeChange();
-      if (formattedEndTime != null && formattedEndTime.compareTo(timeChange) >= 0) {
+      final   formattedEndTime = formatDate((maps.first['endTime'] as String?)) ;
+      String now = DateFormat('yyyy-MM-dd').format(DateTime.now()) ;
+      print(formattedEndTime) ;
+      final timeChange = '$now ${AppSettings.getTimeChange()}';
+
+      print(timeChange) ;
+      if (formattedEndTime != null &&
+          formattedEndTime.compareTo(timeChange) >= 0) {
         setState(() {
-          _targetTime = DateTime.parse(formattedEndTime) ;
+          _targetTime = DateTime.parse(formattedEndTime);
         });
       }
     }
@@ -84,30 +99,34 @@ class _MyHomePageState extends State<HomePage> {
     return '$hours:$minutes:$seconds';
   }
 
-  List<String> daterange(DateTime now ){
-    String timeChange = AppSettings.getTimeChange() ;
-    String formattedStartOfWeekDate = DateFormat("yyyy-MM-dd").format(now.subtract(Duration(days: now.weekday - 1)));
-    DateTime startDateTime = DateTime.parse('$formattedStartOfWeekDate $timeChange');
+  List<String> daterange(DateTime now) {
+    String timeChange = AppSettings.getTimeChange();
+    String formattedStartOfWeekDate = DateFormat("yyyy-MM-dd")
+        .format(now.subtract(Duration(days: now.weekday - 1)));
+    DateTime startDateTime =
+        DateTime.parse('$formattedStartOfWeekDate $timeChange');
     DateTime endDateTime = startDateTime.add(Duration(days: 7));
-    List<String> list = [DateFormat("yyyy-MM-dd").format(startDateTime),
-      DateFormat("yyyy-MM-dd").format(endDateTime)]  ;
-    return list ;
+    List<String> list = [
+      DateFormat("yyyy-MM-dd").format(startDateTime),
+      DateFormat("yyyy-MM-dd").format(endDateTime)
+    ];
+    return list;
   }
 
   Future<void> getDayAndWeekTotalNum() async {
     await getLastEndTime();
 
     DateTime now = DateTime.now();
-    String todayStart =DateFormat("yyyy-MM-dd").format(now) ;
-    List<String> rangeDate = daterange(now) ;
+    String todayStart = DateFormat("yyyy-MM-dd").format(now);
+    List<String> rangeDate = daterange(now);
     String weekSelect = '''SELECT  
       SUM(count) as smokeCount, 
       SUM(totalTime) as totalSmokingTime, 
       avg(spacing) as smokingInterval 
-      FROM summaryDay WHERE sDate >= ? and  sDate <= ? ''' ;
+      FROM summaryDay WHERE sDate >= ? and  sDate <= ? ''';
 
     // Query for the week data
-    final weekTotalres = await db?.rawQuery( weekSelect, rangeDate);
+    final weekTotalres = await db?.rawQuery(weekSelect, rangeDate);
     if (weekTotalres != null && weekTotalres.isNotEmpty) {
       setState(() {
         weekTotalNum = (weekTotalres.first['smokeCount'] ?? 0) as int;
@@ -119,18 +138,17 @@ class _MyHomePageState extends State<HomePage> {
                     .round());
       });
     }
-    String daySelect =  '''SELECT * FROM summaryDay WHERE sDate = ? ''' ;
+    String daySelect = '''SELECT * FROM summaryDay WHERE sDate = ? ''';
     // Query for the day data
-    final res = await db?.rawQuery( daySelect,  [todayStart]);
+    final res = await db?.rawQuery(daySelect, [todayStart]);
 
     if (res != null && res.isNotEmpty) {
       setState(() {
         dayTotalNum = (res.first['count'] ?? 0) as int;
         dayAllTime =
             Duration(milliseconds: (res.first['totalTime'] ?? 0) as int);
-        daySpacing = Duration(
-            milliseconds:
-                (res.first['spacing'] as int? ?? 0).round());
+        daySpacing =
+            Duration(milliseconds: (res.first['spacing'] as int? ?? 0).round());
       });
     }
   }
@@ -138,16 +156,24 @@ class _MyHomePageState extends State<HomePage> {
   void _navigateToSecondPage() async {
     // 创建 HistoryList 并设置当前时间
     SmokingStatus newStatus = SmokingStatus(
-      null,      // 此處設定為 null 以便 SQLite 自動生成一個 ID
-      1,      // 這是一個代表菸數的範例數值，請替換為實際菸數
-      DateTime.now(),      // 這是抽菸開始時間，現在設定為當前時間
-      DateTime.now(),      // 這是抽菸結束時間，現在設定為當前時間
-      3,      // 這是一個代表評價等級的範例數值，請替換為實際評價等級
-      DateTime.now().difference(DateTime.now()),      // 此處為總抽菸時間，目前為 0，因為起始和結束時間相同
-      _targetTime == null ? null  : DateTime.now().difference(_targetTime!), // 這是抽菸的間隔時間，
+      null,
+      // 此處設定為 null 以便 SQLite 自動生成一個 ID
+      1,
+      // 這是一個代表菸數的範例數值，請替換為實際菸數
+      DateTime.now(),
+      // 這是抽菸開始時間，現在設定為當前時間
+      DateTime.now(),
+      // 這是抽菸結束時間，現在設定為當前時間
+      3,
+      // 這是一個代表評價等級的範例數值，請替換為實際評價等級
+      DateTime.now().difference(DateTime.now()),
+      // 此處為總抽菸時間，目前為 0，因為起始和結束時間相同
+      _targetTime == null
+          ? null
+          : DateTime.now().difference(_targetTime!), // 這是抽菸的間隔時間，
     );
 
-    print(newStatus.toString()) ;
+    print(newStatus.toString());
     await Navigator.push(
       // 必須新增 await 否則會先執行厚片的代碼 getDayAndWeekTotalNum()
       context,
@@ -226,10 +252,11 @@ class _MyHomePageState extends State<HomePage> {
               child: Column(
                 children: <Widget>[
                   // 今日區塊
-                  _buildInfoSection('今日', dayTotalNum, dayAllTime, daySpacing),
+                  _buildInfoSection('今日','一週', dayTotalNum, dayAllTime, daySpacing),
                   SizedBox(height: 20.0), // 間距
                   // 本週區塊
-                  _buildInfoSection('本週', weekTotalNum, weekAllTime, weekSpacing),
+                  _buildInfoSection(
+                      '本週', '一週', weekTotalNum, weekAllTime, weekSpacing),
                 ],
               ),
             ),
@@ -253,27 +280,38 @@ class _MyHomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildInfoSection(String title, int? totalNum, Duration? allTime, Duration? spacing) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white60,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: <Widget>[
-          Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Widget _buildInfoSection(
+      String title,String dropdownValue, int? totalNum, Duration? allTime, Duration? spacing) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ReportPage(dropdownValue:dropdownValue)),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.white60,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Column(
             children: <Widget>[
-              _buildInfoCard(context,'吸菸數', totalNum?.toString() ?? "0"),
-              _buildInfoCard(context,'累計時間', _formatDuration(allTime ?? Duration.zero)),
-              _buildInfoCard(context,'平均間隔', _formatDuration(spacing ?? Duration.zero)),
+              Text(title,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  _buildInfoCard(context, '吸菸數', totalNum?.toString() ?? "0"),
+                  _buildInfoCard(context, '累計時間',
+                      _formatDuration(allTime ?? Duration.zero)),
+                  _buildInfoCard(context, '平均間隔',
+                      _formatDuration(spacing ?? Duration.zero)),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 
   Widget _buildInfoCard(BuildContext context, String title, String content) {
@@ -314,8 +352,6 @@ class _MyHomePageState extends State<HomePage> {
           ],
         ),
       ),
-
     );
   }
-
 }

@@ -28,7 +28,8 @@ class _SmokingListPageState extends State<SmokingListPage> {
   void initState() {
     super.initState();
     db = widget.database;
-    _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now()); // Initialize _selectedDate here
+    _selectedDate = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now()); // Initialize _selectedDate here
     _dateList.add(_selectedDate);
     _loadDropdownButton().then((_) {
       _loadData();
@@ -48,19 +49,20 @@ class _SmokingListPageState extends State<SmokingListPage> {
   }
 
   _loadData() async {
-    print(_dateList[0]) ;
     DateTime startDate =
-      DateTime.parse(_selectedDate + ' ' + AppSettings.getTimeChange());
+        DateTime.parse(_selectedDate + ' ' + AppSettings.getTimeChange());
     DateTime endDate = startDate.add(Duration(days: 1));
 
-
     int offset = _currentPage * _itemsPerPage; // 計算偏移量
-    print(offset) ;
-    print(_currentPage) ;
-    print(_itemsPerPage) ;
+
     List<Map<String, dynamic>> list = await db!.rawQuery(
         'SELECT * from SmokingStatus where startTime >= ? AND endTime < ? LIMIT ? OFFSET ?',
-        [startDate.toIso8601String(), endDate.toIso8601String(), _itemsPerPage, offset]);
+        [
+          startDate.toIso8601String(),
+          endDate.toIso8601String(),
+          _itemsPerPage,
+          offset
+        ]);
 
     _smokingList = list.map((item) => SmokingStatus.fromMap(item)).toList();
     setState(() {});
@@ -77,11 +79,8 @@ class _SmokingListPageState extends State<SmokingListPage> {
           DropdownButton<String>(
             value: _dateList.contains(_selectedDate) ? _selectedDate : null,
             onChanged: (value) {
-              setState(() {
-                print( "------------------") ;
-                print( value) ;
+              setState(()  {
                 _selectedDate = value!;
-                print( _selectedDate) ;
                 _loadData();
               });
             },
@@ -92,7 +91,6 @@ class _SmokingListPageState extends State<SmokingListPage> {
               );
             }).toList(),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Table(
@@ -119,18 +117,22 @@ class _SmokingListPageState extends State<SmokingListPage> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditSomkingPage(status: item)),
+                                builder: (context) => EditSomkingPage(status: item),
+                              ),
                             );
+
+                            if (result != null && result == true) {
+                              _loadData(); // 重新加載資料的函數
+                            }
                           },
                         ),
                         Center(child: Text('${item.count}')),
-                        Center(child: Text('${item.startTime}')),
-                        Center(child: Text('${item.endTime}')),
+                        Center(child: Text(item.endTime.toIso8601String().substring(11,19))),
+                        Center(child: Text(item.endTime.toIso8601String().substring(11,19))),
                         Center(child: Text('${item.evaluate}')),
                       ],
                     );
@@ -138,7 +140,6 @@ class _SmokingListPageState extends State<SmokingListPage> {
                 ],
               ),
             ),
-
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,9 +167,3 @@ class _SmokingListPageState extends State<SmokingListPage> {
     );
   }
 }
-
-
-
-
-
-

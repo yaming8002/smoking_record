@@ -174,11 +174,7 @@ class DBHelper {
     );
   }
 
-  static insertSmokingStatus( Map<String, dynamic> map) async {
-    print(map) ;
-    await DBHelper.insert('SmokingStatus', map );
-    // await DBHelper.insertSmokingStatus( map ) ;
-    String date = map['endTime'].substring(0,10);
+  static updateSummaryDay(String date ) async{
     String timeChange = AppSettings.getTimeChange() ;
     DateTime startDateTime = DateTime.parse('$date $timeChange');
     DateTime endDateTime = startDateTime.add(Duration(days: 1));
@@ -200,7 +196,34 @@ class DBHelper {
     print(records[0]) ;
     // summaryDay today = summaryDay.fromMap(records[0]);
     await DBHelper.insertorReplace('summaryDay', records[0] );
+  }
 
+
+  static insertSmokingStatus( Map<String, dynamic> map) async {
+    await DBHelper.insert('SmokingStatus', map );
+    // await DBHelper.insertSmokingStatus( map ) ;
+    await DBHelper.updateSummaryDay(map['endTime'].substring(0,10));
+  }
+
+  static updateSmokingStatus(Map<String, dynamic> map) async {
+    if (map['id'] != null) {
+
+      List<String> updates = [];
+      map.forEach((key, value) {
+        if (value is String) {
+          updates.add('$key = "$value"');
+        } else {
+          updates.add('$key = $value');
+        }
+      });
+
+      String sql = 'UPDATE SmokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
+      print(sql); // 這將打印生成的SQL語句
+
+      await _db?.execute(sql);
+    } else {
+      print('Error: SmokingStatus does not have an id.');
+    }
   }
 
 
