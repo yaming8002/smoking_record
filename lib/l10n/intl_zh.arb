@@ -1,0 +1,15 @@
+{
+"home":"主頁",
+"title":"我是 17",
+"addPage":"新增紀錄",
+"Date":"日期",
+"list": "清單",
+"edit":"編輯",
+"smokeCount":"菸數",
+"startTime" :"開始時間",
+"endTime":"結束時間",
+"evaluate":"感受評分",
+"previousPage":"上一頁",
+"nextPage":"下一頁"
+
+}

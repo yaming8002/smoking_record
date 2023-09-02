@@ -1,10 +1,10 @@
-class summaryDay {
+class SummaryDay {
   final String sDate;
 
   final int count;
 
   final int frequency;
- //  final int avgCount;
+  //  final int avgCount;
 
   final Duration totalTime;
   final Duration avgTime;
@@ -12,7 +12,7 @@ class summaryDay {
 
   final double evaluate;
 
-  summaryDay(
+  SummaryDay(
       this.sDate,
       this.count,
       this.frequency,
@@ -35,20 +35,19 @@ class summaryDay {
     };
   }
 
-
-  summaryDay.fromMap(Map<String, dynamic> map, )
-      : sDate = map['sDate'],
-        count = map['count'],
-        frequency = map['frequency'],
+  SummaryDay.fromMap(
+    Map<String, dynamic> map,
+  )   : sDate = map['sDate'] ?? '-',
+        count = map['count'] ?? 0,
+        frequency = map['frequency'] ?? 0,
         // avgCount = map['avgCount'],
-        totalTime = Duration(milliseconds: map['totalTime']),
-        avgTime = Duration(milliseconds: map['avgTime']),
-        spacing = Duration(milliseconds: map['spacing']),
-        evaluate = double.parse(map['evaluate'].toStringAsFixed(2)) ;
+        totalTime = Duration(milliseconds: map['totalTime'] ?? 0),
+        avgTime = Duration(milliseconds: map['avgTime'] ?? 0),
+        spacing = Duration(milliseconds: map['spacing'] ?? 0),
+        evaluate = double.parse((map['evaluate'] ?? 0.0).toStringAsFixed(2));
 
   @override
   String toString() {
     return 'summaryDay{sDate: $sDate, count: $count, frequency: $frequency, totalTime: $totalTime, avgTime: $avgTime, spacing: $spacing, evaluate: $evaluate}';
   }
-
 }

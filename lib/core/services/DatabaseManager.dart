@@ -1,19 +1,22 @@
 import 'dart:io';
-import 'package:intl/intl.dart';
+
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smoking_record/databace/summaryDay.dart';
+import 'package:smoking_record/core/models/summaryDay.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../settingPage.dart';
-import 'SmokingStatus.dart';
+import 'AppSettingService.dart';
 
-
-class DBHelper {
+class DatabaseManager {
   static Database? _db;
-  static const int databaseVersion = 2; // 統一的版本控制
+  static const int databaseVersion = 2;
 
-  static Future<Database> get database async {
+  DatabaseManager(Database db) {
+    _db = db;
+    initDB();
+  }
+
+  Future<Database> get database async {
     if (_db != null) {
       return _db!;
     }
@@ -33,7 +36,6 @@ class DBHelper {
   }
 
   static Future _onCreate(Database db, int version) async {
-
     await db.execute('''
         CREATE TABLE SmokingStatus  (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,10 +50,10 @@ class DBHelper {
 
     await db.execute('''
       DROP TABLE IF EXISTS summaryDay; 
-      ''') ;
+      ''');
 
     await db.execute('''
-      CREATE TABLE summaryDay (
+      CREATE TABLE SummaryDay (
           sDate TEXT PRIMARY KEY,  -- 將 sDate 設定為主鍵
           count INTEGER NOT NULL,
           frequency INTEGER NOT NULL,
@@ -74,20 +76,17 @@ class DBHelper {
 
   Future<void> checkAndUpdate() async {
     final currentVersion = 0.3; // 你的當前 app 版本
-    final storedVersion =  AppSettings.getAppVersion() ;
+    final storedVersion = AppSettingService.getAppVersion();
 
     if (storedVersion < currentVersion) {
       await updateDailySmokingSummary();
-      AppSettings.setAppVersion(currentVersion) ;
+      AppSettingService.setAppVersion(currentVersion);
     }
   }
 
-
   static Future<void> updateDailySmokingSummary() async {
-    Database db = await DBHelper.database;
-
     // 步驟1: 從 SmokingStatus 表中選取所有資料
-    List<Map<String, dynamic>> smokingData = await db.query('SmokingStatus');
+    List<Map<String, dynamic>> smokingData = await _db!.query('SmokingStatus');
 
     // 根據 smokingEndTime 進行分組，並計算每日的摘要
     Map<String, Map<String, dynamic>> groupedData = {};
@@ -113,60 +112,59 @@ class DBHelper {
       groupedData[date]?['smokingEvaluate'] += record['smokingEvaluate'];
     }
 
-
     for (var date in groupedData.keys) {
-      groupedData[date]?['averageSmokingTime'] = groupedData[date]?['totalSmokingTime'] / groupedData[date]?['totalSmokes'];
-      groupedData[date]?['smokingEvaluate'] = (groupedData[date]?['smokingEvaluate'] / groupedData[date]?['totalSmokes']).round();
+      groupedData[date]?['averageSmokingTime'] = groupedData[date]
+              ?['totalSmokingTime'] /
+          groupedData[date]?['totalSmokes'];
+      groupedData[date]?['smokingEvaluate'] = (groupedData[date]
+                  ?['smokingEvaluate'] /
+              groupedData[date]?['totalSmokes'])
+          .round();
     }
 
     // 步驟3: 檢查 DailySmokingSummary 表中是否已有該日期的資料，如果有，則刪除
     for (var date in groupedData.keys) {
-      await db.delete('DailySmokingSummary', where: 'summaryDate = ?', whereArgs: [date]);
+      await _db!.delete('DailySmokingSummary',
+          where: 'summaryDate = ?', whereArgs: [date]);
     }
 
     // 步驟4: 將計算結果插入 DailySmokingSummary 表中
     for (var date in groupedData.keys) {
-      await db.insert('DailySmokingSummary', groupedData[date]!);
+      await _db!.insert('DailySmokingSummary', groupedData[date]!);
     }
   }
 
-  static Future<int> delete(String table, int id) async {
-    Database db = await DBHelper.database;
-    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
+  Future<int> delete(String table, int id) async {
+    return await _db!.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
   // 插入操作
-  static Future<int> insert(String table, Map<String, dynamic> data) async {
-    Database db = await DBHelper.database;
-    return await db.insert(table, data);
+  Future<int> insert(String table, Map<String, dynamic> data) async {
+    if (_db == null) print("_db is null");
+    return await _db!.insert(table, data);
   }
 
-  static Future<int> insertorReplace(String table, Map<String, dynamic> data) async {
-    Database db = await DBHelper.database;
-    return await db.insert(
-        table,
-        data,
-        conflictAlgorithm: ConflictAlgorithm.replace
-    );
+  Future<int> insertorReplace(String table, Map<String, dynamic> data) async {
+    return await _db!
+        .insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
   // 查詢操作
-  static Future<List<Map<String, dynamic>>> select(String table) async {
-    Database db = await DBHelper.database;
-    return await db.query(table);
+  Future<List<Map<String, dynamic>>> select(String table) async {
+    return await _db!.query(table);
   }
 
-  static Future<List<Map<String, dynamic>>> rawQuery(String sql, [List<dynamic>? arguments]) async {
-    Database db = await DBHelper.database;
-    return await db.rawQuery(sql, arguments);
+  Future<List<Map<String, dynamic>>> rawQuery(String sql,
+      [List<dynamic>? arguments]) async {
+    return await _db!.rawQuery(sql, arguments);
   }
 
   // 更新操作
-  static Future<int> update(String table, int id, Map<String, dynamic> data) async {
-    Database db = await DBHelper.database;
-    return await db.update(table, data, where: 'id = ?', whereArgs: [id]);
+  Future<int> update(String table, int id, Map<String, dynamic> data) async {
+    return await _db!.update(table, data, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<void> insertOrUpdateSummaryDay(Database db, summaryDay day) async {
+  Future<void> insertOrUpdateSummaryDay(Database db, SummaryDay day) async {
     await db.insert(
       'summary_days',
       day.toMap(),
@@ -174,8 +172,8 @@ class DBHelper {
     );
   }
 
-  static updateSummaryDay(String date ) async{
-    String timeChange = AppSettings.getTimeChange() ;
+  updateSummaryDay(String date) async {
+    String timeChange = AppSettingService.getTimeChange();
     DateTime startDateTime = DateTime.parse('$date $timeChange');
     DateTime endDateTime = startDateTime.add(Duration(days: 1));
 
@@ -190,24 +188,25 @@ class DBHelper {
       FROM SmokingStatus 
       WHERE endTime > ? and endTime < ?'''; // 注意這裡的結束括號
 
-    List<dynamic> arguments = [date, startDateTime.toString(), endDateTime.toString()];
+    List<dynamic> arguments = [
+      date,
+      startDateTime.toString(),
+      endDateTime.toString()
+    ];
 
-    List<Map<String, dynamic>> records = await DBHelper.rawQuery(sql, arguments);
-    print(records[0]) ;
+    List<Map<String, dynamic>> records = await rawQuery(sql, arguments);
     // summaryDay today = summaryDay.fromMap(records[0]);
-    await DBHelper.insertorReplace('summaryDay', records[0] );
+    await insertorReplace('summaryDay', records[0]);
   }
 
-
-  static insertSmokingStatus( Map<String, dynamic> map) async {
-    await DBHelper.insert('SmokingStatus', map );
+  insertSmokingStatus(Map<String, dynamic> map) async {
+    await insert('SmokingStatus', map);
     // await DBHelper.insertSmokingStatus( map ) ;
-    await DBHelper.updateSummaryDay(map['endTime'].substring(0,10));
+    await updateSummaryDay(map['endTime'].substring(0, 10));
   }
 
-  static updateSmokingStatus(Map<String, dynamic> map) async {
+  updateSmokingStatus(Map<String, dynamic> map) async {
     if (map['id'] != null) {
-
       List<String> updates = [];
       map.forEach((key, value) {
         if (value is String) {
@@ -217,7 +216,8 @@ class DBHelper {
         }
       });
 
-      String sql = 'UPDATE SmokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
+      String sql =
+          'UPDATE SmokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
       print(sql); // 這將打印生成的SQL語句
 
       await _db?.execute(sql);
@@ -226,6 +226,7 @@ class DBHelper {
     }
   }
 
-
-
+  execute(String sql, [List<dynamic>? arguments]) {
+    _db!.execute(sql, arguments);
+  }
 }

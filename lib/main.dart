@@ -1,21 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:smoking_record/settingPage.dart';
-import 'package:sqflite_common/sqlite_api.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
-import 'HomePage.dart';
-import 'databace/DatabaseHelper.dart';
+import 'core/services/AppSettingService.dart';
+import 'core/services/DatabaseManager.dart';
+import 'core/services/SmokingSatusService.dart';
+import 'core/services/SummaryService.dart';
+import 'generated/l10n.dart';
+import 'ui/pages/HomePage.dart';
 
-void main() async  {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final db = await DBHelper.database;
-  AppSettings.init() ;
-  runApp(MyApp(database: db));
+  await AppSettingService.init();
+  Database db = await DatabaseManager.initDB();
+
+  runApp(MultiProvider(
+    providers: [
+      Provider<DatabaseManager>(
+        create: (context) => DatabaseManager(db),
+      ),
+      ProxyProvider<DatabaseManager, SummaryService>(
+        update: (context, databaseManager, previous) =>
+            SummaryService(databaseManager),
+      ),
+      ProxyProvider2<DatabaseManager, SummaryService, SmokingSatusService>(
+        update: (context, databaseManager, summaryService, previous) =>
+            SmokingSatusService(databaseManager, summaryService),
+      ),
+    ],
+    builder: (context, child) {
+      return const MyApp();
+    },
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  final Database database;
-
-  MyApp({required this.database});
+  const MyApp({super.key});
 
   // 這個 widget 是你的應用的根（起點）。
   @override
@@ -34,10 +55,27 @@ class MyApp extends StatelessWidget {
         // 若要重置狀態，請使用熱重啟（hot restart）。
         //
         // 對於代碼也是如此，而不僅僅是值：大多數代碼更改都可以只使用熱重新加載（hot reload）來測試。
+        primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
-      home: HomePage(  database: database),
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        // 如果语言是英语
+        if (locale?.languageCode == 'en') {
+          //注意大小写，返回美国英语
+          return const Locale('en', 'US');
+        } else {
+          return locale;
+        }
+      },
+      supportedLocales: S.delegate.supportedLocales,
+      home: HomePage(),
     );
   }
 }
