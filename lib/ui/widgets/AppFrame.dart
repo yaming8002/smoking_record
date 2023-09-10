@@ -23,7 +23,7 @@ class AppFrame extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(appBarTitle ?? S.current.home),
+        title: Text(appBarTitle ?? S.current.page_home),
         actions: <Widget>[
           if (appBarActions != null) ...appBarActions!,
           IconButton(
@@ -33,7 +33,7 @@ class AppFrame extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChangeNotifierProvider(
-                    create: (context) => SettingsProvider(),
+                    create: (context) => SettingsProvider(context),
                     child: SettingsPage(),
                   ),
                 ),

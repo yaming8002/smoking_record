@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/models/SmokingStatus.dart';
 import '../../core/providers/EditRecordProvider.dart';
+import '../../generated/l10n.dart';
 import '../widgets/AppFrame.dart';
 import '../widgets/input/DateTimePickerWidget.dart';
 import '../widgets/input/cigaretteAmountWidget.dart';
@@ -41,7 +42,7 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                         },
                       ),
                     ),
-                    Text("開始",
+                    Text(S.current.time_startTime,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     DateTimePickerWidget(
@@ -51,7 +52,7 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                         provider.status.startTime = newDateTime;
                       },
                     ),
-                    Text("結束",
+                    Text(S.current.time_endTime,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     DateTimePickerWidget(
@@ -62,7 +63,7 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                       },
                     ),
                     ListTile(
-                      title: Text('情緒評分'),
+                      title: Text(S.current.smokingStatus_evaluate),
                       trailing: DropdownButton<int>(
                         value: provider.status.evaluate,
                         onChanged: (value) {
@@ -79,7 +80,7 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                       ),
                     ),
                     ElevatedButton(
-                      child: Text('Save'),
+                      child: Text(S.current.setting_save),
                       onPressed: () async {
                         await provider.updateSmokingStatus();
                         Navigator.pop(context);

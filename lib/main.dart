@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:smoking_record/ui/pages/HomePage.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'core/services/AppSettingService.dart';
 import 'core/services/DatabaseManager.dart';
+import 'core/services/DayTimeManager.dart';
 import 'core/services/SmokingSatusService.dart';
 import 'core/services/SummaryService.dart';
+import 'core/services/notification_service.dart';
 import 'generated/l10n.dart';
-import 'ui/pages/HomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppSettingService.init();
+  DayTimeManager().initialize();
   Database db = await DatabaseManager.initDB();
 
   runApp(MultiProvider(
@@ -24,37 +27,45 @@ void main() async {
         update: (context, databaseManager, previous) =>
             SummaryService(databaseManager),
       ),
-      ProxyProvider2<DatabaseManager, SummaryService, SmokingSatusService>(
-        update: (context, databaseManager, summaryService, previous) =>
-            SmokingSatusService(databaseManager, summaryService),
+      ProxyProvider<DatabaseManager, SmokingSatusService>(
+        update: (context, databaseManager, previous) =>
+            SmokingSatusService(databaseManager),
+      ),
+      ProxyProvider<SummaryService, NotificationService>(
+        update: (context, summaryService, previous) =>
+            NotificationService(summaryService),
       ),
     ],
     builder: (context, child) {
-      return const MyApp();
+      return MyApp();
     },
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 
-  // 這個 widget 是你的應用的根（起點）。
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Locale _locale =
+      AppSettingService.getLanguageLocale() ?? Locale('en', 'US');
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: _locale,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // 這是你應用的主題。
-        //
-        // 嘗試這個：用 "flutter run" 運行你的應用。你將看到應用有一個藍色的工具欄。
-        // 然後，在不退出應用的情況下，嘗試將下面的 seedColor 改為 Colors.green，
-        // 然後調用 "hot reload"（保存你的更改或在支持 Flutter 的 IDE 中按下 "hot reload" 按鈕，
-        // 或者如果你是用命令行來啟動應用的，則按 "r"）。
-        //
-        // 注意，計數器沒有重置為零；在重新加載期間，應用狀態並未丟失。
-        // 若要重置狀態，請使用熱重啟（hot restart）。
-        //
-        // 對於代碼也是如此，而不僅僅是值：大多數代碼更改都可以只使用熱重新加載（hot reload）來測試。
         primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
@@ -66,13 +77,23 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       localeResolutionCallback: (locale, supportedLocales) {
-        // 如果语言是英语
-        if (locale?.languageCode == 'en') {
-          //注意大小写，返回美国英语
-          return const Locale('en', 'US');
-        } else {
-          return locale;
+        // 如果 locale 已經設置，則優先使用它
+        if (AppSettingService.getLanguage() != null) {
+          return _locale;
         }
+
+        // 否則，根據手機的當前語言設置來選擇
+        if (locale?.languageCode == 'zh') {
+          AppSettingService.setLanguage('zh');
+          _locale = const Locale('zh', 'CN');
+        } else if (locale?.countryCode == 'TW') {
+          AppSettingService.setLanguage('zh_TW');
+          _locale = const Locale('zh', 'TW');
+        } else {
+          AppSettingService.setLanguage('en');
+          _locale = const Locale('en', 'US');
+        }
+        return _locale;
       },
       supportedLocales: S.delegate.supportedLocales,
       home: HomePage(),

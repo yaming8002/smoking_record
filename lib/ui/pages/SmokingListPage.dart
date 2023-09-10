@@ -6,7 +6,7 @@ import '../../generated/l10n.dart';
 import '../widgets/AppFrame.dart';
 
 class SmokingListPage extends StatefulWidget {
-  SmokingListPage({super.key});
+  const SmokingListPage({super.key});
 
   @override
   _SmokingListPageState createState() => _SmokingListPageState();
@@ -20,12 +20,12 @@ class _SmokingListPageState extends State<SmokingListPage> {
       child: Consumer<StatusListProvider>(
         builder: (context, provider, child) {
           return AppFrame(
-            appBarTitle: S.current.list,
+            appBarTitle: S.current.page_setting,
             body: Column(
               children: [
                 Row(
                   children: [
-                    Text(S.current.Date),
+                    Text(S.current.time_date),
                     Expanded(
                       child: Align(
                         alignment: Alignment.centerRight,
@@ -60,11 +60,14 @@ class _SmokingListPageState extends State<SmokingListPage> {
                       children: [
                         TableRow(
                           children: [
-                            Center(child: Text(S.current.edit)),
-                            Center(child: Text(S.current.smokeCount)),
-                            Center(child: Text(S.current.startTime)),
-                            Center(child: Text(S.current.endTime)),
-                            Center(child: Text(S.current.evaluate)),
+                            Center(child: Text(S.current.setting_edit)),
+                            Center(
+                                child:
+                                    Text(S.current.smokingStatus_smokeCount)),
+                            Center(child: Text(S.current.time_startTime)),
+                            Center(child: Text(S.current.time_endTime)),
+                            Center(
+                                child: Text(S.current.smokingStatus_evaluate)),
                           ],
                         ),
                         ...provider.smokingList.map((item) {
@@ -96,7 +99,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      child: Text(S.current.previousPage),
+                      child: Text(S.current.page_previous),
                       onPressed: provider.currentPage > 0
                           ? () {
                               if (provider.currentPage > 0) {
@@ -107,7 +110,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
                           : null,
                     ),
                     ElevatedButton(
-                      child: Text(S.current.nextPage),
+                      child: Text(S.current.page_next),
                       onPressed: provider.smokingList.length < 10
                           ? null
                           : () {

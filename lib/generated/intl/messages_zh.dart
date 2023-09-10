@@ -20,19 +20,59 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
+  static String m0(count, yesterday, dayBefore) =>
+      "恭喜！你${yesterday}比${dayBefore}少抽${count}根烟。";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "Date": MessageLookupByLibrary.simpleMessage("日期"),
-        "addPage": MessageLookupByLibrary.simpleMessage("新增紀錄"),
-        "edit": MessageLookupByLibrary.simpleMessage("編輯"),
-        "endTime": MessageLookupByLibrary.simpleMessage("結束時間"),
-        "evaluate": MessageLookupByLibrary.simpleMessage("感受評分"),
-        "home": MessageLookupByLibrary.simpleMessage("主頁"),
-        "list": MessageLookupByLibrary.simpleMessage("清單"),
-        "nextPage": MessageLookupByLibrary.simpleMessage("下一頁"),
-        "previousPage": MessageLookupByLibrary.simpleMessage("上一頁"),
-        "smokeCount": MessageLookupByLibrary.simpleMessage("菸數"),
-        "startTime": MessageLookupByLibrary.simpleMessage("開始時間"),
-        "title": MessageLookupByLibrary.simpleMessage("我是 17")
+        "about_app": MessageLookupByLibrary.simpleMessage("关于本程序"),
+        "contact_author": MessageLookupByLibrary.simpleMessage("联系作者"),
+        "msg_congratulationsReduced": m0,
+        "msg_endTimeFutureError":
+            MessageLookupByLibrary.simpleMessage("结束时间不能在未来！"),
+        "msg_keepItUp":
+            MessageLookupByLibrary.simpleMessage("我们再接再厉！慢慢减少吸烟数量。"),
+        "page_add": MessageLookupByLibrary.simpleMessage("新增"),
+        "page_home": MessageLookupByLibrary.simpleMessage("吸烟记录"),
+        "page_list": MessageLookupByLibrary.simpleMessage("清单"),
+        "page_next": MessageLookupByLibrary.simpleMessage("下一页"),
+        "page_previous": MessageLookupByLibrary.simpleMessage("上一页"),
+        "page_report": MessageLookupByLibrary.simpleMessage("报告"),
+        "page_setting": MessageLookupByLibrary.simpleMessage("设置"),
+        "page_title": MessageLookupByLibrary.simpleMessage("标题"),
+        "setting_changeDayNotification":
+            MessageLookupByLibrary.simpleMessage("换日通知"),
+        "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("换日时间"),
+        "setting_dataProcessing": MessageLookupByLibrary.simpleMessage("数据处理"),
+        "setting_edit": MessageLookupByLibrary.simpleMessage("编辑"),
+        "setting_edit_one": MessageLookupByLibrary.simpleMessage("单笔数据编辑"),
+        "setting_exportCsv": MessageLookupByLibrary.simpleMessage("数据导出CSV"),
+        "setting_importCsv": MessageLookupByLibrary.simpleMessage("导入CSV"),
+        "setting_importData": MessageLookupByLibrary.simpleMessage("数据导入"),
+        "setting_language": MessageLookupByLibrary.simpleMessage("语言设置"),
+        "setting_privacyAndServiceTerms":
+            MessageLookupByLibrary.simpleMessage("隐私与服务条款"),
+        "setting_recordNotification":
+            MessageLookupByLibrary.simpleMessage("记录通知"),
+        "setting_recordNotificationTime":
+            MessageLookupByLibrary.simpleMessage("记录通知的时间"),
+        "setting_save": MessageLookupByLibrary.simpleMessage("保存"),
+        "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依照数量保存"),
+        "setting_singleCigaretteTime":
+            MessageLookupByLibrary.simpleMessage("单根烟的时间"),
+        "smokingStatus_cumulativeTime":
+            MessageLookupByLibrary.simpleMessage("累计时间"),
+        "smokingStatus_evaluate": MessageLookupByLibrary.simpleMessage("感受评分"),
+        "smokingStatus_smokeCount": MessageLookupByLibrary.simpleMessage("烟数"),
+        "smokingStatus_spacing": MessageLookupByLibrary.simpleMessage("间隔时间"),
+        "smokingStatus_status": MessageLookupByLibrary.simpleMessage("吸烟状态"),
+        "time_by_day": MessageLookupByLibrary.simpleMessage("今日(昨日)"),
+        "time_by_week": MessageLookupByLibrary.simpleMessage("本周(上周)"),
+        "time_date": MessageLookupByLibrary.simpleMessage("日期"),
+        "time_end": MessageLookupByLibrary.simpleMessage("结束"),
+        "time_endTime": MessageLookupByLibrary.simpleMessage("结束时间"),
+        "time_spacingTime": MessageLookupByLibrary.simpleMessage("间隔时间"),
+        "time_start": MessageLookupByLibrary.simpleMessage("开始"),
+        "time_startTime": MessageLookupByLibrary.simpleMessage("开始时间")
       };
 }

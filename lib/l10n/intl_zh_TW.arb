@@ -1,1 +1,50 @@
-{}
+{
+    "page_add": "新增",
+    "page_home": "吸菸紀錄",
+    "page_list": "清單",
+    "page_previous": "上一頁",
+    "page_next": "下一頁",
+    "page_setting": "設定",
+    "page_report": "報告",
+    "page_title": "標題",
+
+    "smokingStatus_status": "吸煙狀態",
+    "smokingStatus_cumulativeTime": "累計時間",
+    "smokingStatus_evaluate": "感受評分",
+    "smokingStatus_smokeCount": "菸數",
+    "smokingStatus_spacing": "間隔時間",
+
+    "setting_edit_one": "單筆資料編輯",
+    "setting_edit": "編輯",
+    "setting_save": "保存",
+    "setting_saveByCount": "依照數量保存",
+    "setting_privacyAndServiceTerms": "隱私與服務條款",
+    "setting_importCsv": "導入CSV",
+    "setting_exportCsv": "資料匯出CSV",
+    "setting_importData": "資料匯入",
+    "setting_dataProcessing": "資料處裡",
+    "setting_language": "語言設定",
+    "setting_changeDayTime": "換日時間",
+    "setting_singleCigaretteTime": "單根菸的時間",
+    "setting_changeDayNotification": "換日通知",
+    "setting_recordNotification": "紀錄通知",
+    "setting_recordNotificationTime": "紀錄通知的時間",
+
+    "time_date": "日期",
+    "time_Time": "時間",
+    "time_startTime": "開始時間",
+    "time_endTime": "結束時間",
+    "time_start": "開始",
+    "time_end": "結束",
+    "time_by_day": "今日(昨日)",
+    "time_by_week": "本週(上週)",
+    "time_spacingTime": "間隔時間",
+
+    "msg_endTimeFutureError": "結束時間不能在未來！",
+    "msg_congratulationsReduced": "恭喜！你{yesterday}有比{dayBefore}減少{count}根菸。",
+    "msg_keepItUp": "我們再接再厲！慢慢減少吸菸數量。",
+
+    "about_app": "關於本程式",
+    "contact_author": "聯繫作者"
+
+}

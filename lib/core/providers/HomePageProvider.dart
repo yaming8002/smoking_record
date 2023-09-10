@@ -8,55 +8,64 @@ import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
 import '../models/summaryDay.dart';
 import '../services/AppSettingService.dart';
+import '../services/DayTimeManager.dart';
 import '../services/SmokingSatusService.dart';
+import '../services/SummaryService.dart';
+import '../services/notification_service.dart';
 
 class HomePageProvider with ChangeNotifier {
-  final SmokingSatusService service;
+  final SmokingSatusService satusService;
+  final SummaryService summaryService;
+  final NotificationService notion;
   Timer? _timer;
-  DateTime? _targetTime;
+  DateTime? _targetTime = AppSettingService.getLastEndTime();
   String timeDiff = "00:00:00";
   SummaryDay? today;
   SummaryDay? yesterday;
   SummaryDay? thisWeek;
   SummaryDay? beforeWeek;
   TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
+  String? changTimeStr = AppSettingService.getTimeChange();
 
   HomePageProvider(BuildContext context)
-      : service = Provider.of<SmokingSatusService>(context) {
+      : satusService = Provider.of<SmokingSatusService>(context),
+        summaryService = Provider.of<SummaryService>(context),
+        notion = Provider.of<NotificationService>(context) {
     loadData();
   }
 
   Future<void> loadData() async {
+    await _reloadTargetTime();
     await _getDayTotalNumFromService();
     await _getWeekTotalNumFromService();
+    timeDiff = "00:00:00";
     startTimer();
     notifyListeners();
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-      if (DateTimeUtil.compareTime(TimeOfDay.now(), changTime!)) {
-        _reloadTargetTime();
-      }
-
-      timeDiff = _targetTime == null
-          ? '00:00:00'
-          : DateTimeUtil.formatDuration(
-              DateTime.now().difference(_targetTime!));
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      timeDiff = DayTimeManager().isTimeWithin(_targetTime)
+          ? DateTimeUtil.formatDuration(DateTime.now().difference(_targetTime!))
+          : '00:00:00';
 
       notifyListeners();
     });
   }
 
   Future<void> _reloadTargetTime() async {
-    _targetTime = await service.getLastEndTime();
+    DateTime? sqlTime = await satusService.getLastEndTime();
+    _targetTime = AppSettingService.getLastEndTime() ?? sqlTime;
+    notifyListeners();
   }
 
   Future<void> _getDayTotalNumFromService() async {
-    String todayDate = DateTimeUtil.getDateWithDayChangeTime();
-    today = await service.getDayTotalNum(todayDate);
-    yesterday = await service.getDayTotalNum(
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: todayDate)));
+    DateTime todayDate = DateTimeUtil.getStartDateTime(
+        DateTimeUtil.getDateTime(), changTimeStr!);
+    String todayStr = DateTimeUtil.getDate(todayDate);
+    today = await summaryService.getDayTotalNum(todayStr);
+    yesterday = await summaryService.getDayTotalNum(
+        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: todayStr)));
 
     notifyListeners();
   }
@@ -64,9 +73,9 @@ class HomePageProvider with ChangeNotifier {
   Future<void> _getWeekTotalNumFromService() async {
     DateTime now = DateTime.now();
 
-    thisWeek = await service.getWeekTotalNum();
+    thisWeek = await summaryService.getWeekTotalNum(now!);
     beforeWeek =
-        await service.getWeekTotalNum(now!.subtract(Duration(days: 7)));
+        await summaryService.getWeekTotalNum(now!.subtract(Duration(days: 7)));
 
     notifyListeners();
   }
@@ -82,7 +91,13 @@ class HomePageProvider with ChangeNotifier {
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => AddPage(status: newStatus)));
-    await _getDayTotalNumFromService();
-    await _getWeekTotalNumFromService();
+
+    await loadData();
+    notifyListeners();
+  }
+
+  testnutton() {
+    print("測試打應");
+    notion.showNotifications();
   }
 }

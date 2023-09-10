@@ -4,38 +4,42 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smoking_record/utils/dateTimeUtil.dart';
 
+import '../../generated/l10n.dart';
 import '../models/SmokingStatus.dart';
 import '../services/AppSettingService.dart';
 import '../services/SmokingSatusService.dart';
+import '../services/SummaryService.dart';
 
 class AddPageProvider with ChangeNotifier {
   final SmokingSatusService service;
+  final SummaryService summaryService;
   final SmokingStatus status;
   double cardWidth = 200; // Adjust as needed
   double cardHeight = 100; // Adjust as needed
   List<int> ratings = [1, 2, 3, 4, 5];
   String timeDiff = "00:00:00";
   Timer? _timer;
-  Duration _duration = Duration.zero; // 初始的持續時間
 
   AddPageProvider(BuildContext context, this.status)
-      : service = Provider.of<SmokingSatusService>(context) {
+      : service = Provider.of<SmokingSatusService>(context),
+        summaryService = Provider.of<SummaryService>(context) {
     loadData();
   }
 
   Future<void> loadData() async {
-    notifyListeners();
     startTimer();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // 這裡可以安全地顯示對話框或進行其他UI操作
       // _showAdv();
     });
+    notifyListeners();
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      _duration = _duration + Duration(seconds: 1); // 增加1秒到持續時間
-      timeDiff = DateTimeUtil.formatDuration(_duration);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      Duration duration =
+          DateTime.now().difference(status!.startTime); // 增加1秒到持續時間
+      timeDiff = DateTimeUtil.formatDuration(duration);
       notifyListeners();
     });
   }
@@ -59,17 +63,20 @@ class AddPageProvider with ChangeNotifier {
     if (isByCount) {
       int totalSmokingTimeInSeconds =
           (status.count! * AppSettingService.getAverageSmokingTime());
-      status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
-      status.endTime = status.startTime.add(status.totalTime);
       if (status.endTime.isAfter(DateTime.now())) {
-        onError!('End time cannot be in the future!');
+        onError!(S.current.msg_endTimeFutureError);
         return;
       }
+      status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
+      status.endTime = status.startTime.add(status.totalTime);
     } else {
       status.endTime = DateTime.now();
-      status.totalTime = DateTime.now().difference(status.startTime);
+      status.totalTime = status.endTime.difference(status.startTime);
     }
 
-    service.insertSmokingStatus(status.toMap());
+    AppSettingService.setLastEndTime(status.endTime);
+    await service.insertSmokingStatus(status.toMap());
+    await summaryService
+        ?.updateSummaryDay(status.endTime.toIso8601String().substring(0, 10));
   }
 }

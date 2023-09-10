@@ -11,6 +11,7 @@ class DatabaseManager {
   static Database? _db;
   static const int databaseVersion = 2;
 
+  DatabaseManager._(); // 私有構造函數，避免創建類的實例
   DatabaseManager(Database db) {
     _db = db;
     initDB();
@@ -29,9 +30,9 @@ class DatabaseManager {
     String path = join(documentsDirectory.path, "MyDatabase.db");
     return await openDatabase(
       path,
-      version: databaseVersion, // 使用統一的版本控制
+      version: databaseVersion,
       onCreate: _onCreate,
-      onUpgrade: _onUpgrade, // 處理資料庫升級
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -135,74 +136,48 @@ class DatabaseManager {
   }
 
   Future<int> delete(String table, int id) async {
-    return await _db!.delete(table, where: 'id = ?', whereArgs: [id]);
+    return await _db?.delete(table, where: 'id = ?', whereArgs: [id]) ?? 0;
   }
 
-  // 插入操作
   Future<int> insert(String table, Map<String, dynamic> data) async {
-    if (_db == null) print("_db is null");
-    return await _db!.insert(table, data);
+    return await _db?.insert(table, data) ?? 0;
   }
 
   Future<int> insertorReplace(String table, Map<String, dynamic> data) async {
-    return await _db!
-        .insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
+    return await _db?.insert(table, data,
+            conflictAlgorithm: ConflictAlgorithm.replace) ??
+        0;
   }
 
-  // 查詢操作
   Future<List<Map<String, dynamic>>> select(String table) async {
-    return await _db!.query(table);
+    return await _db?.query(table) ?? [];
   }
 
   Future<List<Map<String, dynamic>>> rawQuery(String sql,
       [List<dynamic>? arguments]) async {
-    return await _db!.rawQuery(sql, arguments);
+    return await _db?.rawQuery(sql, arguments) ?? [];
   }
 
-  // 更新操作
   Future<int> update(String table, int id, Map<String, dynamic> data) async {
-    return await _db!.update(table, data, where: 'id = ?', whereArgs: [id]);
+    return await _db?.update(table, data, where: 'id = ?', whereArgs: [id]) ??
+        0;
   }
 
-  Future<void> insertOrUpdateSummaryDay(Database db, SummaryDay day) async {
-    await db.insert(
-      'summary_days',
+  Future<void> insertOrUpdateSummaryDay(SummaryDay day) async {
+    // Try to update the row first
+    int updatedRows = await _db!.update(
+      'SummaryDay',
       day.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'sDate = ?',
+      whereArgs: [
+        day.sDate
+      ], // assuming day.sDate is how you access the sDate of SummaryDay
     );
-  }
 
-  updateSummaryDay(String date) async {
-    String timeChange = AppSettingService.getTimeChange();
-    DateTime startDateTime = DateTime.parse('$date $timeChange');
-    DateTime endDateTime = startDateTime.add(Duration(days: 1));
-
-    String sql = '''SELECT
-      ? as sDate, 
-      SUM(count) as count, 
-      count(*) as frequency,
-      SUM(totalTime) as totalTime, 
-      CAST(avg(totalTime) AS INTEGER) as avgTime,
-      CAST(avg(spacing) AS INTEGER)  as spacing,
-      CAST(avg(evaluate) AS INTEGER)  as evaluate
-      FROM SmokingStatus 
-      WHERE endTime > ? and endTime < ?'''; // 注意這裡的結束括號
-
-    List<dynamic> arguments = [
-      date,
-      startDateTime.toString(),
-      endDateTime.toString()
-    ];
-
-    List<Map<String, dynamic>> records = await rawQuery(sql, arguments);
-    // summaryDay today = summaryDay.fromMap(records[0]);
-    await insertorReplace('summaryDay', records[0]);
-  }
-
-  insertSmokingStatus(Map<String, dynamic> map) async {
-    await insert('SmokingStatus', map);
-    // await DBHelper.insertSmokingStatus( map ) ;
-    await updateSummaryDay(map['endTime'].substring(0, 10));
+    // If no rows were updated, then insert the new row
+    if (updatedRows == 0) {
+      insert('SummaryDay', day.toMap());
+    }
   }
 
   updateSmokingStatus(Map<String, dynamic> map) async {

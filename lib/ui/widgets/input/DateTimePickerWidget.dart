@@ -53,7 +53,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   Future<void> _selectTime(TextEditingController controller) async {
     TimeOfDay initialTime =
-        DateTimeUtil.parseTime(controller.text) ?? TimeOfDay.now();
+        DateTimeUtil.parseTimeFromString(controller.text) ?? TimeOfDay.now();
 
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
