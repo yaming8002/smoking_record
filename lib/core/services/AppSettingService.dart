@@ -60,9 +60,16 @@ class AppSettingService {
 
   static bool getIsWeekStartMonday() {
     if (_prefs.getBool('isWeekStartMonday') == null) {
-      setisWeekStartMonday(false);
+      setIsWeekStartMonday(false);
     }
     return _prefs.getBool('isWeekStartMonday') ?? false;
+  }
+
+  static bool getisStopAd() {
+    if (_prefs.getBool('isStopAd') == null) {
+      setIsStopAd(false);
+    }
+    return _prefs.getBool('isStopAd') ?? false;
   }
 
   static bool getDayChangeNotification() {
@@ -88,8 +95,12 @@ class AppSettingService {
     await _prefs.setDouble('app_version', appVersion);
   }
 
-  static Future<void> setisWeekStartMonday(bool isWeekStartMonday) async {
+  static Future<void> setIsWeekStartMonday(bool isWeekStartMonday) async {
     await _prefs.setBool('isWeekStartMonday', isWeekStartMonday);
+  }
+
+  static Future<void> setIsStopAd(bool isStopAd) async {
+    await _prefs.setBool('isStopAd', isStopAd);
   }
 
   static void setDayChangeNotification(bool dayChangeNotification) async {

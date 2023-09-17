@@ -148,25 +148,30 @@ class DateTimeUtil {
     return list;
   }
 
-  static DateTime getStartDateTime(String date, String changTimeByStr) {
-    DateTime inputDateTime = DateTime.parse(date);
+  static String getNowDate({DateTime? now, String? changTimeByStr}) {
+    now = now ?? DateTime.now();
+    changTimeByStr = changTimeByStr ?? AppSettingService.getTimeChange();
+    DateTime startOfToday = DateTime(
+      now!.year,
+      now!.month,
+      now!.day,
+      int.parse(changTimeByStr!.split(':')[0]),
+      int.parse(changTimeByStr!.split(':')[1]),
+    );
 
-    // Ensure the date and time string is in the correct format
-    String formattedDate =
-        '${inputDateTime.toLocal().year}-${inputDateTime.toLocal().month.toString().padLeft(2, '0')}-${inputDateTime.toLocal().day.toString().padLeft(2, '0')}T$changTimeByStr';
-
-    DateTime changDateTime = DateTime.parse(formattedDate);
-
-    if (inputDateTime.isBefore(changDateTime)) {
-      return changDateTime.subtract(Duration(days: 1));
+    if (now.isBefore(startOfToday)) {
+      // 如果当前时间在今天7:00之前，返回昨天的日期
+      DateTime yesterday = DateTime(now.year, now.month, now.day - 1, 7);
+      return getDate(yesterday);
     } else {
-      return changDateTime;
+      // 否则返回今天的日期
+      return getDate(startOfToday);
     }
   }
 
   static List<String> updateSummaryDayArg(String date, String changTime) {
-    DateTime startDateTime = getStartDateTime(date, changTime);
-    DateTime endDateTime = startDateTime.add(Duration(days: 1));
+    DateTime startDateTime = DateTime.parse('$date $changTime');
+    DateTime endDateTime = startDateTime.add(const Duration(days: 1));
 
     String dateString = getDate(startDateTime);
     // "${startDateTime.toLocal().year}-${startDateTime.toLocal().month}-${startDateTime.toLocal().day}";

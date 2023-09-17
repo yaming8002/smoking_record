@@ -55,6 +55,10 @@ class SmokingSatusService {
     await databaseManager?.insert('SmokingStatus', map);
   }
 
+  deleteAll() async {
+    await databaseManager.deleteAll("SmokingStatus");
+  }
+
   updateSmokingStatus(Map<String, dynamic> map) async {
     if (map['id'] != null) {
       List<String> updates = [];

@@ -139,6 +139,10 @@ class DatabaseManager {
     return await _db?.delete(table, where: 'id = ?', whereArgs: [id]) ?? 0;
   }
 
+  Future<int> deleteAll(String table) async {
+    return await _db?.delete(table) ?? 0;
+  }
+
   Future<int> insert(String table, Map<String, dynamic> data) async {
     return await _db?.insert(table, data) ?? 0;
   }

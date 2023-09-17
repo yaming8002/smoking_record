@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../ui/pages/AddPage.dart';
+import '../../ui/widgets/input/InterstitialState.dart';
 import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
 import '../models/summaryDay.dart';
@@ -11,12 +12,10 @@ import '../services/AppSettingService.dart';
 import '../services/DayTimeManager.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
-import '../services/notification_service.dart';
 
 class HomePageProvider with ChangeNotifier {
   final SmokingSatusService satusService;
   final SummaryService summaryService;
-  final NotificationService notion;
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
   String timeDiff = "00:00:00";
@@ -29,8 +28,7 @@ class HomePageProvider with ChangeNotifier {
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
-        summaryService = Provider.of<SummaryService>(context),
-        notion = Provider.of<NotificationService>(context) {
+        summaryService = Provider.of<SummaryService>(context) {
     loadData();
   }
 
@@ -60,9 +58,8 @@ class HomePageProvider with ChangeNotifier {
   }
 
   Future<void> _getDayTotalNumFromService() async {
-    DateTime todayDate = DateTimeUtil.getStartDateTime(
-        DateTimeUtil.getDateTime(), changTimeStr!);
-    String todayStr = DateTimeUtil.getDate(todayDate);
+    String todayStr = DateTimeUtil.getNowDate();
+
     today = await summaryService.getDayTotalNum(todayStr);
     yesterday = await summaryService.getDayTotalNum(
         DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: todayStr)));
@@ -80,6 +77,14 @@ class HomePageProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> showAd(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => InterstitialAdWidget()),
+    );
+    // 如果需要在廣告後進行其他操作，您可以在此處進行
+  }
+
   void onNavigateToSecondPage(BuildContext context) async {
     SmokingStatus newStatus = SmokingStatus(
         null,
@@ -89,15 +94,11 @@ class HomePageProvider with ChangeNotifier {
         3,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
+    await showAd(context);
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => AddPage(status: newStatus)));
 
     await loadData();
     notifyListeners();
-  }
-
-  testnutton() {
-    print("測試打應");
-    notion.showNotifications();
   }
 }

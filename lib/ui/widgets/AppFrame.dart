@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/providers/SettingProvider.dart';
+import '../../core/services/AppSettingService.dart';
 import '../../generated/l10n.dart';
 import '../pages/settingPage.dart';
 import 'AdBanner.dart';
@@ -43,7 +44,7 @@ class AppFrame extends StatelessWidget {
         ],
       ),
       body: body,
-      bottomNavigationBar: const AdBanner(),
+      bottomNavigationBar: !AppSettingService.getisStopAd() ? AdBanner() : null,
     );
   }
 }

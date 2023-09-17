@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/models/summaryDay.dart';
 import '../../generated/l10n.dart';
-import '../../utils/dateTimeUtil.dart';
 import '../pages/reportPage.dart';
 import 'buildInfoSection.dart';
 
@@ -66,7 +65,7 @@ class InfoSection extends StatelessWidget {
                   child: InfoCard(
                     title: S.current.smokingStatus_smokeCount,
                     content:
-                        '${thisSummaryDay?.count ?? 0} (${beforeSummaryDay?.count ?? 0} )',
+                        '${thisSummaryDay?.count ?? 0} (${beforeSummaryDay?.count ?? 0})',
                   ),
                 ),
                 SizedBox(width: 8.0), // 這是一個間隔，您可以根據需要調整
@@ -74,7 +73,8 @@ class InfoSection extends StatelessWidget {
                   child: InfoCard(
                     title: S.current.smokingStatus_cumulativeTime,
                     content:
-                        '${DateTimeUtil.formatDurationMinutes(thisSummaryDay?.totalTime ?? Duration.zero)} (${DateTimeUtil.formatDurationMinutes(beforeSummaryDay?.totalTime ?? Duration.zero)} )',
+                        // '${DateTimeUtil.formatDurationMinutes(thisSummaryDay?.totalTime ?? Duration.zero)} (${DateTimeUtil.formatDurationMinutes(beforeSummaryDay?.totalTime ?? Duration.zero)} )',
+                        '${thisSummaryDay?.totalTime.inMinutes ?? 0} (${beforeSummaryDay?.totalTime.inMinutes ?? 0})',
                   ),
                 ),
               ],

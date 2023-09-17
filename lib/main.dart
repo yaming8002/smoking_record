@@ -9,7 +9,7 @@ import 'core/services/DatabaseManager.dart';
 import 'core/services/DayTimeManager.dart';
 import 'core/services/SmokingSatusService.dart';
 import 'core/services/SummaryService.dart';
-import 'core/services/notification_service.dart';
+import 'core/services/scheduleService.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -17,6 +17,9 @@ void main() async {
   await AppSettingService.init();
   DayTimeManager().initialize();
   Database db = await DatabaseManager.initDB();
+  ScheduleManager manager = ScheduleManager();
+  await manager.initialize();
+  await manager.scheduleTask();
 
   runApp(MultiProvider(
     providers: [
@@ -31,10 +34,10 @@ void main() async {
         update: (context, databaseManager, previous) =>
             SmokingSatusService(databaseManager),
       ),
-      ProxyProvider<SummaryService, NotificationService>(
-        update: (context, summaryService, previous) =>
-            NotificationService(summaryService),
-      ),
+      // ProxyProvider<SummaryService, NotificationService>(
+      //   update: (context, summaryService, previous) =>
+      //       NotificationService(summaryService),
+      // ),
     ],
     builder: (context, child) {
       return MyApp();
@@ -51,6 +54,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  // void initState() {
+  //   super.initState();
+  //   // Load ads.
+  // }
+
   late Locale _locale =
       AppSettingService.getLanguageLocale() ?? Locale('en', 'US');
 

@@ -6,6 +6,7 @@ import '../../core/providers/AddPageProvider.dart';
 import '../../generated/l10n.dart';
 import '../../utils/dateTimeUtil.dart';
 import '../widgets/AppFrame.dart';
+import '../widgets/input/InterstitialState.dart';
 import '../widgets/input/cigaretteAmountWidget.dart';
 
 class AddPage extends StatefulWidget {
@@ -18,6 +19,23 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
+  @override
+  void initState() {
+    // 假設您已有一個顯示廣告的方法，並且它是異步的
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   showAd();
+    // });
+    super.initState();
+  }
+
+  Future<void> showAd() async {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => InterstitialAdWidget()),
+    );
+    // 如果需要在廣告後進行其他操作，您可以在此處進行
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

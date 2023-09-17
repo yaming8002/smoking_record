@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smoking_record/utils/dateTimeUtil.dart';
 
 import '../../generated/l10n.dart';
+import '../../ui/widgets/input/InterstitialState.dart';
 import '../models/SmokingStatus.dart';
 import '../services/AppSettingService.dart';
 import '../services/SmokingSatusService.dart';
@@ -14,6 +15,9 @@ class AddPageProvider with ChangeNotifier {
   final SmokingSatusService service;
   final SummaryService summaryService;
   final SmokingStatus status;
+  final InterstitialAdWidget _interstitialAdWidget =
+      const InterstitialAdWidget();
+
   double cardWidth = 200; // Adjust as needed
   double cardHeight = 100; // Adjust as needed
   List<int> ratings = [1, 2, 3, 4, 5];
@@ -28,10 +32,7 @@ class AddPageProvider with ChangeNotifier {
 
   Future<void> loadData() async {
     startTimer();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // 這裡可以安全地顯示對話框或進行其他UI操作
-      // _showAdv();
-    });
+    _interstitialAdWidget;
     notifyListeners();
   }
 
@@ -76,7 +77,6 @@ class AddPageProvider with ChangeNotifier {
 
     AppSettingService.setLastEndTime(status.endTime);
     await service.insertSmokingStatus(status.toMap());
-    await summaryService
-        ?.updateSummaryDay(status.endTime.toIso8601String().substring(0, 10));
+    await summaryService?.updateSummaryDay(DateTimeUtil.getNowDate());
   }
 }

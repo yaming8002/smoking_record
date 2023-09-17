@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smoking_record/ui/widgets/input/PreferenceSettingsWidget.dart';
+import 'package:smoking_record/ui/widgets/PreferenceSettingsWidget.dart';
 
 import '../../core/providers/SettingProvider.dart';
 import '../../generated/l10n.dart';
+import '../widgets/AboutAppSettingsWidget.dart';
 import '../widgets/AppFrame.dart';
-import '../widgets/input/AboutAppSettingsWidget.dart';
-import '../widgets/input/DataProcessingSettingsWidget.dart';
+import '../widgets/DataProcessingSettingsWidget.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -35,6 +35,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   PreferenceSettingsWidget(provider),
                   DataProcessingSettingsWidget(provider),
                   AboutAppSettingsWidget(provider),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start, // 使标题靠左对齐
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await provider.testnutton();
+                            },
+                            child: Text("Test 訊息"),
+                          ),
+                        ),
+                      ])
                 ],
               ),
             ),

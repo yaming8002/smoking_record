@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/dateTimeUtil.dart';
-import '../models/SmokingStatus.dart';
 import '../models/summaryDay.dart';
 import 'AppSettingService.dart';
 import 'DatabaseManager.dart';
@@ -29,13 +28,12 @@ class SummaryService {
 
   Future<SummaryDay> getWeekTotalNum([DateTime? now]) async {
     now = now ?? DateTime.now();
-    print('getWeekTotalNum $now');
+
     String todayStart = DateTimeUtil.getDate();
     List<String> rangeDate = DateTimeUtil.getWeekDateRange(now);
     for (int i = 0; i < rangeDate.length; i++) {
       rangeDate[i] = rangeDate[i].substring(0, 10);
     }
-    print(rangeDate);
 
     String weekSelect = '''SELECT 
       '-' as sDate,
@@ -71,8 +69,7 @@ class SummaryService {
   }
 
   Future<void> updateSummaryDay(String date) async {
-    // DateTime startDateTime = DateTime.parse('$date $changTimeByStr');
-    // DateTime endDateTime = startDateTime.add(Duration(days: 1));
+    print(date);
     String sql = '''SELECT
       ? as sDate, 
       SUM(count) as count, 
@@ -90,101 +87,94 @@ class SummaryService {
     List<Map<String, dynamic>>? records =
         await databaseManager.rawQuery(sql, arguments);
     // SummaryDay today = SummaryDay.fromMap(records[0]);
-
     await databaseManager.insertorReplace('SummaryDay', records[0]);
   }
 
-  DateTime _getGroupDate(DateTime dateTime, String changeTime) {
-    final changeHour = int.parse(changeTime.split(':')[0]);
-    final changeMinute = int.parse(changeTime.split(':')[1]);
+  // DateTime _getGroupDate(DateTime dateTime, String changeTime) {
+  //   final changeHour = int.parse(changeTime.split(':')[0]);
+  //   final changeMinute = int.parse(changeTime.split(':')[1]);
+  //
+  //   final changeDateTime = DateTime(
+  //     dateTime.year,
+  //     dateTime.month,
+  //     dateTime.day,
+  //     changeHour,
+  //     changeMinute,
+  //   );
+  //
+  //   if (dateTime.isBefore(changeDateTime)) {
+  //     return dateTime.subtract(Duration(days: 1));
+  //   } else {
+  //     return dateTime;
+  //   }
+  // }
 
-    final changeDateTime = DateTime(
-      dateTime.year,
-      dateTime.month,
-      dateTime.day,
-      changeHour,
-      changeMinute,
-    );
+  // SummaryDay _generateSummary(List<SmokingStatus> records, DateTime groupDate) {
+  //   int totalCount = 0;
+  //   int totalFrequency = 0;
+  //   int totalTime = 0;
+  //   int totalEvaluate = 0;
+  //   List<int> spacings = [];
+  //
+  //   for (var record in records) {
+  //     totalCount += record.count;
+  //     totalTime += record.totalTime.inSeconds;
+  //     totalEvaluate += record.evaluate;
+  //     if (record.spacing != null) {
+  //       spacings.add(record.spacing!.inSeconds);
+  //     }
+  //   }
+  //
+  //   spacings.sort();
+  //   if (spacings.isNotEmpty) spacings.removeAt(0);
+  //
+  //   final avgSpacing = (spacings.isNotEmpty)
+  //       ? (spacings.reduce((a, b) => a + b) / spacings.length).toInt()
+  //       : null;
+  //
+  //   final avgTime = totalTime ~/ records.length;
+  //   final avgEvaluate = totalEvaluate ~/ records.length;
+  //
+  //   return SummaryDay(
+  //       groupDate.toIso8601String().substring(0, 10),
+  //       totalCount,
+  //       totalFrequency,
+  //       Duration(seconds: totalTime),
+  //       Duration(seconds: avgTime),
+  //       avgSpacing != null ? Duration(seconds: avgSpacing) : Duration.zero,
+  //       avgEvaluate.toDouble());
+  // }
 
-    if (dateTime.isBefore(changeDateTime)) {
-      return dateTime.subtract(Duration(days: 1));
-    } else {
-      return dateTime;
-    }
-  }
+  // Future<String> selectSmokingStatusAll() async {
+  //   List<Map<String, dynamic>> maps =
+  //       await databaseManager.select("SmokingStatus");
+  //   List<SmokingStatus> list =
+  //       maps.map((item) => SmokingStatus.fromMap(item)).toList();
+  //   // String data = await SmokingStatus.toCsv(list);
+  //   return SmokingStatus.toCsv(list);
+  // }
 
-  SummaryDay _generateSummary(List<SmokingStatus> records, DateTime groupDate) {
-    int totalCount = 0;
-    int totalFrequency = 0;
-    int totalTime = 0;
-    int totalEvaluate = 0;
-    List<int> spacings = [];
-
-    for (var record in records) {
-      totalCount += record.count;
-      totalTime += record.totalTime.inSeconds;
-      totalEvaluate += record.evaluate;
-      if (record.spacing != null) {
-        spacings.add(record.spacing!.inSeconds);
+  Future<void> generateSummaries(Set<String> dates) async {
+    // databaseManager.deleteAll("summaryDay");
+    if (dates.isNotEmpty) {
+      for (String sdate in dates) {
+        updateSummaryDay(sdate);
       }
     }
-
-    spacings.sort();
-    if (spacings.isNotEmpty) spacings.removeAt(0);
-
-    final avgSpacing = (spacings.isNotEmpty)
-        ? (spacings.reduce((a, b) => a + b) / spacings.length).toInt()
-        : null;
-
-    final avgTime = totalTime ~/ records.length;
-    final avgEvaluate = totalEvaluate ~/ records.length;
-
-    return SummaryDay(
-        groupDate.toIso8601String().substring(0, 10),
-        totalCount,
-        totalFrequency,
-        Duration(seconds: totalTime),
-        Duration(seconds: avgTime),
-        avgSpacing != null ? Duration(seconds: avgSpacing) : Duration.zero,
-        avgEvaluate.toDouble());
   }
 
-  Future<String> selectSmokingStatusAll() async {
-    List<Map<String, dynamic>> maps =
-        await databaseManager.select("SmokingStatus");
-    List<SmokingStatus> list =
-        maps.map((item) => SmokingStatus.fromMap(item)).toList();
-    // String data = await SmokingStatus.toCsv(list);
-    return SmokingStatus.toCsv(list);
-  }
-
-  Future<void> generateSummaries() async {
-    List<Map<String, dynamic>> maps =
-        await databaseManager.select("SmokingStatus");
-    List<SmokingStatus> records =
-        maps.map((item) => SmokingStatus.fromMap(item)).toList();
-    final groupedRecords = _groupByDate(records, changTimeByStr!);
-    List<SummaryDay> summaries = [];
-
-    groupedRecords.forEach((groupDate, groupRecords) {
-      SummaryDay tt = _generateSummary(groupRecords, groupDate);
-      print(tt);
-      insertOrUpdateSummaryDay(tt);
-    });
-  }
-
-  Map<DateTime, List<SmokingStatus>> _groupByDate(
-      List<SmokingStatus> records, String changeTime) {
-    Map<DateTime, List<SmokingStatus>> groupedRecords = {};
-
-    for (var record in records) {
-      final groupDate = _getGroupDate(record.startTime, changeTime);
-      if (!groupedRecords.containsKey(groupDate)) {
-        groupedRecords[groupDate] = [];
-      }
-      groupedRecords[groupDate]!.add(record);
-    }
-
-    return groupedRecords;
-  }
+  // Map<DateTime, List<SmokingStatus>> _groupByDate(
+  //     List<SmokingStatus> records, String changeTime) {
+  //   Map<DateTime, List<SmokingStatus>> groupedRecords = {};
+  //
+  //   for (var record in records) {
+  //     final groupDate = _getGroupDate(record.startTime, changeTime);
+  //     if (!groupedRecords.containsKey(groupDate)) {
+  //       groupedRecords[groupDate] = [];
+  //     }
+  //     groupedRecords[groupDate]!.add(record);
+  //   }
+  //
+  //   return groupedRecords;
+  // }
 }

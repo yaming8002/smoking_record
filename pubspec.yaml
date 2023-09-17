@@ -50,7 +50,11 @@ dependencies:
   share_plus: ^7.1.0
   file_picker: ^5.5.0
   flutter_local_notifications: any
-  workmanager: any
+  workmanager: ^0.5.1
+  permission_handler: any
+  share: any
+
+  google_mobile_ads: ^1.2.0
 
 
 dev_dependencies:

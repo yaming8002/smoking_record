@@ -80,7 +80,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
                               ),
                               Center(child: Text('${item.count}')),
                               Center(
-                                  child: Text(item.endTime
+                                  child: Text(item.startTime
                                       .toIso8601String()
                                       .substring(11, 19))),
                               Center(
