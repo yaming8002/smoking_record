@@ -4,9 +4,11 @@ import 'package:smoking_record/core/models/SmokingStatus.dart';
 import 'package:smoking_record/core/services/SmokingSatusService.dart';
 
 import '../../utils/dateTimeUtil.dart';
+import '../services/SummaryService.dart';
 
 class EditRecordProvider with ChangeNotifier {
   final SmokingSatusService service;
+  final SummaryService summaryService;
   final SmokingStatus status;
   TextEditingController? countController;
   TextEditingController? startDateController;
@@ -15,7 +17,8 @@ class EditRecordProvider with ChangeNotifier {
   TextEditingController? endTimeController;
 
   EditRecordProvider(BuildContext context, this.status)
-      : service = Provider.of<SmokingSatusService>(context) {
+      : service = Provider.of<SmokingSatusService>(context),
+        summaryService = Provider.of<SummaryService>(context) {
     loadData();
   }
 
@@ -36,5 +39,7 @@ class EditRecordProvider with ChangeNotifier {
   updateSmokingStatus() async {
     status.totalTime = status.endTime.difference(status.startTime);
     service.updateSmokingStatus(status.toMap());
+    await summaryService
+        ?.updateSummaryDay(DateTimeUtil.getNowDate(now: status.endTime));
   }
 }

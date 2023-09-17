@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   flutter_localizations:
     sdk: flutter
 
@@ -45,6 +46,16 @@ dependencies:
   fl_chart: ^0.63.0
   provider: any
   flutter_datetime_picker: any
+  csv: ^5.0.0
+  share_plus: ^7.1.0
+  file_picker: ^5.5.0
+  flutter_local_notifications: any
+  workmanager: ^0.5.1
+  permission_handler: any
+  share: any
+
+  google_mobile_ads: ^1.2.0
+
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +76,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - l10n/
+    - lib/l10n/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

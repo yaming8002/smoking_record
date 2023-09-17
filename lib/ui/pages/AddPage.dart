@@ -6,6 +6,7 @@ import '../../core/providers/AddPageProvider.dart';
 import '../../generated/l10n.dart';
 import '../../utils/dateTimeUtil.dart';
 import '../widgets/AppFrame.dart';
+import '../widgets/input/InterstitialState.dart';
 import '../widgets/input/cigaretteAmountWidget.dart';
 
 class AddPage extends StatefulWidget {
@@ -19,13 +20,30 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   @override
+  void initState() {
+    // 假設您已有一個顯示廣告的方法，並且它是異步的
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   showAd();
+    // });
+    super.initState();
+  }
+
+  Future<void> showAd() async {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => InterstitialAdWidget()),
+    );
+    // 如果需要在廣告後進行其他操作，您可以在此處進行
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AddPageProvider(context, widget.status),
       child: Consumer<AddPageProvider>(
         builder: (context, provider, child) {
           return AppFrame(
-            appBarTitle: S.current.addPage,
+            appBarTitle: S.current.page_add,
             body: Center(
               child: Column(
                 children: [
@@ -35,7 +53,7 @@ class _AddPageState extends State<AddPage> {
                     child: Card(
                       child: Column(
                         children: [
-                          Text('持續時間'),
+                          Text(S.current.smokingStatus_cumulativeTime),
                           ListTile(
                             subtitle: Text(provider.timeDiff),
                           ),
@@ -49,7 +67,7 @@ class _AddPageState extends State<AddPage> {
                     child: Card(
                       child: Column(
                         children: [
-                          Text('距離上一次'),
+                          Text(S.current.smokingStatus_spacing),
                           Text(DateTimeUtil.formatDuration(
                               provider.status.spacing ?? Duration.zero))
                         ],
@@ -62,7 +80,7 @@ class _AddPageState extends State<AddPage> {
                     child: Card(
                       child: Column(
                         children: [
-                          Text('抽菸數'),
+                          Text(S.current.smokingStatus_smokeCount),
                           CigaretteAmountWidget(
                             onAmountChanged: (newAmoun) {
                               provider.status.count = newAmoun;
@@ -78,7 +96,7 @@ class _AddPageState extends State<AddPage> {
                     child: Card(
                       child: Column(
                         children: [
-                          Text('心情評分'),
+                          Text(S.current.smokingStatus_evaluate),
                           SizedBox(
                             height: 50, // Adjust based on your requirements
                             child: Row(
@@ -105,7 +123,7 @@ class _AddPageState extends State<AddPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        child: Text('Save'),
+                        child: Text(S.current.setting_save),
                         onPressed: () async {
                           await provider.insertSmokingStatus(
                               isByCount: false, status: widget.status);
@@ -113,7 +131,7 @@ class _AddPageState extends State<AddPage> {
                         },
                       ),
                       ElevatedButton(
-                        child: Text('Save by count'),
+                        child: Text(S.current.setting_saveByCount),
                         onPressed: () async {
                           await provider.insertSmokingStatus(
                               isByCount: true,

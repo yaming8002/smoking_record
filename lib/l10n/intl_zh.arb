@@ -1,15 +1,50 @@
-{
-"home":"主頁",
-"title":"我是 17",
-"addPage":"新增紀錄",
-"Date":"日期",
-"list": "清單",
-"edit":"編輯",
-"smokeCount":"菸數",
-"startTime" :"開始時間",
-"endTime":"結束時間",
-"evaluate":"感受評分",
-"previousPage":"上一頁",
-"nextPage":"下一頁"
+ {
+        "page_add": "新增",
+        "page_home": "吸烟记录",
+        "page_list": "清单",
+        "page_previous": "上一页",
+        "page_next": "下一页",
+        "page_setting": "设置",
+        "page_report": "报告",
+        "page_title": "标题",
 
-}
+        "smokingStatus_status": "吸烟状态",
+        "smokingStatus_cumulativeTime": "累计时间",
+        "smokingStatus_evaluate": "感受评分",
+        "smokingStatus_smokeCount": "烟数",
+        "smokingStatus_spacing": "间隔时间",
+
+        "setting_edit_one": "单笔数据编辑",
+        "setting_edit": "编辑",
+        "setting_save": "保存",
+        "setting_saveByCount": "依照数量保存",
+        "setting_privacyAndServiceTerms": "隐私与服务条款",
+        "setting_importCsv": "导入CSV",
+        "setting_exportCsv": "数据导出CSV",
+        "setting_importData": "数据导入",
+        "setting_dataProcessing": "数据处理",
+        "setting_language": "语言设置",
+        "setting_changeDayTime": "换日时间",
+        "setting_singleCigaretteTime": "单根烟的时间",
+        "setting_changeDayNotification": "换日通知",
+        "setting_recordNotification": "记录通知",
+        "setting_recordNotificationTime": "记录通知的时间",
+
+        "time_date": "日期",
+        "time_startTime": "开始时间",
+        "time_endTime": "结束时间",
+        "time_start": "开始",
+        "time_end": "结束",
+        "time_by_day": "今日(昨日)",
+        "time_by_week": "本周(上周)",
+        "time_spacingTime": "间隔时间",
+
+        "msg_endTimeFutureError": "结束时间不能在未来！",
+        "msg_congratulationsReduced": "恭喜！你{yesterday}比{dayBefore}少抽{count}根烟。",
+        "msg_keepItUp": "我们再接再厉！慢慢减少吸烟数量。",
+
+        "about_app": "关于本程序",
+        "contact_author": "联系作者"
+
+
+    }

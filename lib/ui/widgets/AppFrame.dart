@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/providers/SettingProvider.dart';
+import '../../core/services/AppSettingService.dart';
 import '../../generated/l10n.dart';
 import '../pages/settingPage.dart';
 import 'AdBanner.dart';
@@ -23,7 +24,7 @@ class AppFrame extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(appBarTitle ?? S.current.home),
+        title: Text(appBarTitle ?? S.current.page_home),
         actions: <Widget>[
           if (appBarActions != null) ...appBarActions!,
           IconButton(
@@ -33,7 +34,7 @@ class AppFrame extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChangeNotifierProvider(
-                    create: (context) => SettingsProvider(),
+                    create: (context) => SettingsProvider(context),
                     child: SettingsPage(),
                   ),
                 ),
@@ -43,7 +44,7 @@ class AppFrame extends StatelessWidget {
         ],
       ),
       body: body,
-      bottomNavigationBar: const AdBanner(),
+      bottomNavigationBar: !AppSettingService.getisStopAd() ? AdBanner() : null,
     );
   }
 }

@@ -44,7 +44,7 @@ class _ReportChatWidget extends State<ReportChatWidget> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double calculatedWidth = widget.summaryDayList!.length * 40.0;
+    double calculatedWidth = widget.summaryDayList!.length * 80.0;
     double containerWidth =
         calculatedWidth < screenWidth ? screenWidth : calculatedWidth;
     return Expanded(

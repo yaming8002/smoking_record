@@ -1,29 +1,52 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../services/AppSettingService.dart';
+import '../services/CsvManager.dart';
+import '../services/SmokingSatusService.dart';
+import '../services/SummaryService.dart';
+import 'notification_service.dart';
 
 class SettingsProvider with ChangeNotifier {
-  // No need for the init method here since AppSettings is already initialized in main
+  final SmokingSatusService satusService;
+  final SummaryService summaryService;
+  NotificationService? notion;
+  CsvManager? csvManager;
+
+  SettingsProvider(BuildContext context)
+      : satusService = Provider.of<SmokingSatusService>(context, listen: false),
+        summaryService = Provider.of<SummaryService>(context, listen: false) {
+    csvManager = CsvManager(context);
+    init();
+  }
+
+  Future<void> init() async {
+    notion = await NotificationService.instance;
+  }
+
+  String get contactAuthor => ""; // 这里可以添加具体的实现
+  String get exportDataToCSV => ""; // 这里可以添加具体的实现
+  String get importDataFromCSV => ""; // 这里可以添加具体的实现
+  String get aboutApp => "null"; // 这里可以添加具体的实现
 
   String get language => AppSettingService.getLanguage();
-
-  get contactAuthor => "";
-
-  get exportDataToCSV => "";
-
-  get dayChangeNotification => true;
-
-  get recordNotification => true;
-
-  // String get aboutApp => null;
-
-  get importDataFromCSV => "";
-
-  get aboutApp => "null";
-
-  set recordNotificationTime(String recordNotificationTime) {}
   set language(String value) {
     AppSettingService.setLanguage(value);
+    notifyListeners();
+  }
+
+  bool get dayChangeNotification =>
+      AppSettingService.getDayChangeNotification();
+  set dayChangeNotification(bool value) {
+    AppSettingService.setDayChangeNotification(value);
+    notifyListeners();
+  }
+
+  bool get recordNotification =>
+      AppSettingService.getRecordNotificationTime(); // 这里可以添加具体的实现
+
+  set recordNotification(bool value) {
+    AppSettingService.setRecordNotificationTime(value);
     notifyListeners();
   }
 
@@ -43,5 +66,18 @@ class SettingsProvider with ChangeNotifier {
   set appVersion(double value) {
     AppSettingService.setAppVersion(value);
     notifyListeners();
+  }
+
+  void exportDataToCsv() {
+    csvManager?.exportDataToCsv();
+  }
+
+  void importDataToCsv() {
+    csvManager!.importCsvAndSaveToDatabase();
+  }
+
+  testnutton() {
+    print("測試打應");
+    notion?.showNotifications();
   }
 }
