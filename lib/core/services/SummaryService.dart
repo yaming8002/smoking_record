@@ -18,7 +18,7 @@ class SummaryService {
     String daySelect = '''SELECT * FROM SummaryDay WHERE sDate = ? ''';
     final dayTotalres =
         await databaseManager?.rawQuery(daySelect, [todayStart]);
-    SummaryDay first = dayTotalres?.isEmpty == false
+    SummaryDay first = dayTotalres!.isNotEmpty
         ? SummaryDay.fromMap(dayTotalres![0])
         : SummaryDay(
             todayStart, 0, 0, Duration.zero, Duration.zero, Duration.zero, 0);

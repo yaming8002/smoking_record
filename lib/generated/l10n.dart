@@ -460,6 +460,36 @@ class S {
       args: [],
     );
   }
+
+  /// `{date}'s smoking count is less than the previous day. Good job!`
+  String image_Smoking_Less(Object date) {
+    return Intl.message(
+      '$date\'s smoking count is less than the previous day. Good job!',
+      name: 'image_Smoking_Less',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `{date} had the same smoking count as the previous day. Keep it up!`
+  String image_Smoking_Equal(Object date) {
+    return Intl.message(
+      '$date had the same smoking count as the previous day. Keep it up!',
+      name: 'image_Smoking_Equal',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `{date}'s smoking count is more than the previous day. Stay strong and push on!`
+  String image_Smoking_More(Object date) {
+    return Intl.message(
+      '$date\'s smoking count is more than the previous day. Stay strong and push on!',
+      name: 'image_Smoking_More',
+      desc: '',
+      args: [date],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

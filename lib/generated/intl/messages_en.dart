@@ -20,7 +20,16 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(count, yesterday, dayBefore) =>
+  static String m0(date) =>
+      "${date} had the same smoking count as the previous day. Keep it up!";
+
+  static String m1(date) =>
+      "${date}\'s smoking count is less than the previous day. Good job!";
+
+  static String m2(date) =>
+      "${date}\'s smoking count is more than the previous day. Stay strong and push on!";
+
+  static String m3(count, yesterday, dayBefore) =>
       "Congratulations! You smoked ${count} fewer cigarettes on ${yesterday} than on ${dayBefore}.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -28,7 +37,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
-        "msg_congratulationsReduced": m0,
+        "image_Smoking_Equal": m0,
+        "image_Smoking_Less": m1,
+        "image_Smoking_More": m2,
+        "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
         "msg_keepItUp": MessageLookupByLibrary.simpleMessage(

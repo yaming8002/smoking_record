@@ -44,5 +44,8 @@
         "msg_keepItUp": "Keep it up! Gradually reduce your smoking.",
 
         "about_app": "About This App",
-        "contact_author": "Contact Author"
+        "contact_author": "Contact Author",
+        "image_Smoking_Less": "{date}'s smoking count is less than the previous day. Good job!",
+        "image_Smoking_Equal": "{date} had the same smoking count as the previous day. Keep it up!",
+        "image_Smoking_More":  "{date}'s smoking count is more than the previous day. Stay strong and push on!"
     }

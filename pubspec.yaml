@@ -53,6 +53,8 @@ dependencies:
   workmanager: ^0.5.1
   permission_handler: any
   share: any
+  flutter_image: any
+  image: any
 
   google_mobile_ads: ^1.2.0
 
@@ -77,6 +79,8 @@ flutter:
   generate: true
   assets:
     - lib/l10n/
+    - template/
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -114,3 +118,4 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:
   enabled: true
+

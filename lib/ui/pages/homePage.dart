@@ -49,16 +49,6 @@ class _MyHomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await provider.testnutton();
-                      },
-                      child: Text("Test 訊息"),
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
                   Expanded(
                     child: Column(
                       children: <Widget>[
@@ -66,12 +56,14 @@ class _MyHomePageState extends State<HomePage> {
                           title: S.current.time_by_day,
                           thisSummaryDay: provider.today,
                           beforeSummaryDay: provider.yesterday,
+                          provider: provider,
                         ),
                         SizedBox(height: 5.0),
                         InfoSection(
                           title: S.current.time_by_week,
                           thisSummaryDay: provider.thisWeek,
                           beforeSummaryDay: provider.beforeWeek,
+                          provider: provider,
                         ),
                       ],
                     ),

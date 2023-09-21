@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../core/models/summaryDay.dart';
+import '../../core/providers/HomePageProvider.dart';
 import '../../generated/l10n.dart';
+import '../pages/ImageDisplayPage.dart';
 import '../pages/reportPage.dart';
 import 'buildInfoSection.dart';
 
@@ -9,12 +11,14 @@ class InfoSection extends StatelessWidget {
   final String title;
   final SummaryDay? thisSummaryDay;
   final SummaryDay? beforeSummaryDay;
+  final HomePageProvider provider;
 
   InfoSection({
     super.key,
     required this.title,
     required this.thisSummaryDay,
     required this.beforeSummaryDay,
+    required this.provider,
   });
 
   @override
@@ -22,14 +26,6 @@ class InfoSection extends StatelessWidget {
     return InkWell(
       splashColor: Colors.blue.withOpacity(0.3),
       borderRadius: BorderRadius.circular(8.0),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ReportPage(),
-          ),
-        );
-      },
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
@@ -49,12 +45,49 @@ class InfoSection extends StatelessWidget {
                 color: Colors.blue, // 設置底色
                 borderRadius: BorderRadius.circular(8.0), // 設置圓角
               ),
-              child: Text(
-                title,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white), // 設置文字顏色為白色以與背景對比
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white), // 設置文字顏色為白色以與背景對比
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.share),
+                        onPressed: () {
+                          // First, perform the comparison and template generation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ImageDisplayPage(),
+                            ),
+                          );
+
+                          // TODO: Then, integrate with your sharing logic here
+                          // For instance, if you're using a package like 'share', it might look something like:
+                          // await Share.share('Your share message here');
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.report),
+                        onPressed: () {
+                          // TODO: Handle the report icon button's logic here
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReportPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 8.0), // 添加一些間距在Container和Row之間

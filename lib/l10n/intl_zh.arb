@@ -44,7 +44,10 @@
         "msg_keepItUp": "我们再接再厉！慢慢减少吸烟数量。",
 
         "about_app": "关于本程序",
-        "contact_author": "联系作者"
+        "contact_author": "联系作者",
+        "image_Smoking_Less": "{date} 的吸烟数量比前一日少，做得好！",
+        "image_Smoking_Equal": "{date} 与前一日的吸烟数量持平，继续加油！",
+        "image_Smoking_More": "{date} 的吸烟数量比前一日多，再接再厲！"
 
 
     }

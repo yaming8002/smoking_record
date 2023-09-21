@@ -25,6 +25,8 @@ class HomePageProvider with ChangeNotifier {
   SummaryDay? beforeWeek;
   TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
   String? changTimeStr = AppSettingService.getTimeChange();
+  String? imagePath;
+  String? message;
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
@@ -94,7 +96,9 @@ class HomePageProvider with ChangeNotifier {
         3,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
-    await showAd(context);
+    if (!AppSettingService.getisStopAd()) {
+      await showAd(context);
+    }
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => AddPage(status: newStatus)));
 

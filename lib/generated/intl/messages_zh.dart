@@ -20,14 +20,23 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
-  static String m0(count, yesterday, dayBefore) =>
+  static String m0(date) => "${date} 与前一日的吸烟数量持平，继续加油！";
+
+  static String m1(date) => "${date} 的吸烟数量比前一日少，做得好！";
+
+  static String m2(date) => "${date} 的吸烟数量比前一日多，再接再厲！";
+
+  static String m3(count, yesterday, dayBefore) =>
       "恭喜！你${yesterday}比${dayBefore}少抽${count}根烟。";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("关于本程序"),
         "contact_author": MessageLookupByLibrary.simpleMessage("联系作者"),
-        "msg_congratulationsReduced": m0,
+        "image_Smoking_Equal": m0,
+        "image_Smoking_Less": m1,
+        "image_Smoking_More": m2,
+        "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("结束时间不能在未来！"),
         "msg_keepItUp":
