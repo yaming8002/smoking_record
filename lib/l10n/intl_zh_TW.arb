@@ -6,6 +6,7 @@
     "page_next": "下一頁",
     "page_setting": "設定",
     "page_report": "報告",
+    "page_imageDisplayPage": "分享圖片",
     "page_title": "標題",
 
     "smokingStatus_status": "吸煙狀態",
@@ -39,6 +40,7 @@
     "time_by_day": "今日(昨日)",
     "time_by_week": "本週(上週)",
     "time_spacingTime": "間隔時間",
+    "time_unit": "(分鐘)",
 
     "msg_endTimeFutureError": "結束時間不能在未來！",
     "msg_congratulationsReduced": "恭喜！你{yesterday}有比{dayBefore}減少{count}根菸。",
@@ -46,7 +48,11 @@
 
     "about_app": "關於本程式",
     "contact_author": "聯繫作者",
+    "image_compare_this":"比較今日",
+    "image_compare_yesterday":"比較昨日",
     "image_Smoking_Less": "{date} 的吸菸數量比前一日少，做得好！",
     "image_Smoking_Equal": "{date} 與前一日的吸菸數量持平，繼續加油！",
-    "image_Smoking_More": "{date} 的吸菸數量比前一日多，再接再厲！"
+    "image_Smoking_More": "{date} 的吸菸數量比前一日多，再接再厲！",
+    "image_Share":"分享" ,
+    "image_Smoking_feel": "輸入感受"
 }

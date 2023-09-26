@@ -33,9 +33,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("關於本程式"),
         "contact_author": MessageLookupByLibrary.simpleMessage("聯繫作者"),
+        "image_Share": MessageLookupByLibrary.simpleMessage("分享"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
         "image_Smoking_More": m2,
+        "image_Smoking_feel": MessageLookupByLibrary.simpleMessage("輸入感受"),
+        "image_compare_this": MessageLookupByLibrary.simpleMessage("比較今日"),
+        "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比較昨日"),
         "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("結束時間不能在未來！"),
@@ -43,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("我們再接再厲！慢慢減少吸菸數量。"),
         "page_add": MessageLookupByLibrary.simpleMessage("新增"),
         "page_home": MessageLookupByLibrary.simpleMessage("吸菸紀錄"),
+        "page_imageDisplayPage": MessageLookupByLibrary.simpleMessage("分享圖片"),
         "page_list": MessageLookupByLibrary.simpleMessage("清單"),
         "page_next": MessageLookupByLibrary.simpleMessage("下一頁"),
         "page_previous": MessageLookupByLibrary.simpleMessage("上一頁"),
@@ -82,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_endTime": MessageLookupByLibrary.simpleMessage("結束時間"),
         "time_spacingTime": MessageLookupByLibrary.simpleMessage("間隔時間"),
         "time_start": MessageLookupByLibrary.simpleMessage("開始"),
-        "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間")
+        "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(分鐘)")
       };
 }

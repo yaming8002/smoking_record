@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,66 +15,75 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+  double? bodyWidth;
+  double? bodyHeight;
+
   @override
   Widget build(BuildContext context) {
     // 使用 ChangeNotifierProvider
     return ChangeNotifierProvider(
       create: (_) => HomePageProvider(context),
-      child: Consumer<HomePageProvider>(
-        builder: (context, provider, child) {
-          return AppFrame(
-            appBarTitle: S.current.page_home,
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        double radius =
-                            constraints.maxWidth < constraints.maxHeight
-                                ? constraints.maxWidth / 3
-                                : constraints.maxHeight / 3;
-                        return GestureDetector(
-                          onTap: () => provider.onNavigateToSecondPage(context),
-                          child: CircleAvatar(
-                            radius: radius,
-                            backgroundColor: Colors.red,
-                            child: Text(
-                              provider.timeDiff,
-                              style: TextStyle(fontSize: radius / 5),
-                            ),
-                          ),
-                        );
-                      },
+      child: Consumer<HomePageProvider>(builder: (context, provider, child) {
+        return AppFrame(
+          appBarTitle: S.current.page_home,
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              bodyWidth = constraints.maxWidth;
+              bodyHeight = constraints.maxHeight;
+
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          double radius = (bodyHeight! - 40) * 0.24;
+                          return GestureDetector(
+                            onTap: () =>
+                                provider.onNavigateToSecondPage(context),
+                            child: CircleAvatar(
+                                radius: radius,
+                                backgroundColor: Colors.red,
+                                child: AutoSizeText(
+                                  provider.timeDiff,
+                                  minFontSize: 10, // 這裡是最小的字體大小
+                                  maxFontSize: 100, // 這裡是最大的字體大小
+                                  style: const TextStyle(fontSize: 60),
+                                  maxLines: 1,
+                                )),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        InfoSection(
-                          title: S.current.time_by_day,
-                          thisSummaryDay: provider.today,
-                          beforeSummaryDay: provider.yesterday,
-                          provider: provider,
-                        ),
-                        SizedBox(height: 5.0),
-                        InfoSection(
-                          title: S.current.time_by_week,
-                          thisSummaryDay: provider.thisWeek,
-                          beforeSummaryDay: provider.beforeWeek,
-                          provider: provider,
-                        ),
-                      ],
+                    const SizedBox(height: 10.0),
+                    Expanded(
+                      flex: 22, // 這表示 InfoSection 將佔據 Column 中 25% 的空間
+                      child: InfoSection(
+                        title: S.current.time_by_day,
+                        thisSummaryDay: provider.today,
+                        beforeSummaryDay: provider.yesterday,
+                        provider: provider,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                    const SizedBox(height: 15.0),
+                    Expanded(
+                      flex: 22, // 這表示 InfoSection 將佔據 Column 中 25% 的空間
+                      child: InfoSection(
+                        title: S.current.time_by_week,
+                        thisSummaryDay: provider.thisWeek,
+                        beforeSummaryDay: provider.beforeWeek,
+                        provider: provider,
+                      ),
+                    ),
+                    const SizedBox(height: 15.0),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }

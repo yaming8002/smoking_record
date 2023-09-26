@@ -120,6 +120,16 @@ class S {
     );
   }
 
+  /// `Share Image`
+  String get page_imageDisplayPage {
+    return Intl.message(
+      'Share Image',
+      name: 'page_imageDisplayPage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Title`
   String get page_title {
     return Intl.message(
@@ -410,6 +420,16 @@ class S {
     );
   }
 
+  /// `(mins)`
+  String get time_unit {
+    return Intl.message(
+      '(mins)',
+      name: 'time_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `End time cannot be in the future!`
   String get msg_endTimeFutureError {
     return Intl.message(
@@ -461,6 +481,26 @@ class S {
     );
   }
 
+  /// `Compare Today`
+  String get image_compare_this {
+    return Intl.message(
+      'Compare Today',
+      name: 'image_compare_this',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Compare Yesterday`
+  String get image_compare_yesterday {
+    return Intl.message(
+      'Compare Yesterday',
+      name: 'image_compare_yesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{date}'s smoking count is less than the previous day. Good job!`
   String image_Smoking_Less(Object date) {
     return Intl.message(
@@ -488,6 +528,26 @@ class S {
       name: 'image_Smoking_More',
       desc: '',
       args: [date],
+    );
+  }
+
+  /// `Share`
+  String get image_Share {
+    return Intl.message(
+      'Share',
+      name: 'image_Share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `input feel`
+  String get image_Smoking_feel {
+    return Intl.message(
+      'input feel',
+      name: 'image_Smoking_feel',
+      desc: '',
+      args: [],
     );
   }
 }

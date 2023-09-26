@@ -6,6 +6,7 @@
         "page_next": "Next Page",
         "page_setting": "Settings",
         "page_report": "Report",
+        "page_imageDisplayPage": "Share Image",
         "page_title": "Title",
         
         "smokingStatus_status": "Smoking Status",
@@ -38,6 +39,7 @@
         "time_by_day": "Today (Yesterday)",
         "time_by_week": "This Week (Last Week)",
         "time_spacingTime": "Spacing Time",
+        "time_unit": "(mins)",
 
         "msg_endTimeFutureError": "End time cannot be in the future!",
         "msg_congratulationsReduced": "Congratulations! You smoked {count} fewer cigarettes on {yesterday} than on {dayBefore}.",
@@ -45,7 +47,11 @@
 
         "about_app": "About This App",
         "contact_author": "Contact Author",
+        "image_compare_this":"Compare Today",
+         "image_compare_yesterday":"Compare Yesterday",
         "image_Smoking_Less": "{date}'s smoking count is less than the previous day. Good job!",
         "image_Smoking_Equal": "{date} had the same smoking count as the previous day. Keep it up!",
-        "image_Smoking_More":  "{date}'s smoking count is more than the previous day. Stay strong and push on!"
+        "image_Smoking_More":  "{date}'s smoking count is more than the previous day. Stay strong and push on!",
+        "image_Share":"Share" ,
+        "image_Smoking_feel": "input feel"
     }

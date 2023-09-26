@@ -37,9 +37,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
+        "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
         "image_Smoking_More": m2,
+        "image_Smoking_feel":
+            MessageLookupByLibrary.simpleMessage("input feel"),
+        "image_compare_this":
+            MessageLookupByLibrary.simpleMessage("Compare Today"),
+        "image_compare_yesterday":
+            MessageLookupByLibrary.simpleMessage("Compare Yesterday"),
         "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
@@ -47,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Keep it up! Gradually reduce your smoking."),
         "page_add": MessageLookupByLibrary.simpleMessage("Add"),
         "page_home": MessageLookupByLibrary.simpleMessage("Smoking Record"),
+        "page_imageDisplayPage":
+            MessageLookupByLibrary.simpleMessage("Share Image"),
         "page_list": MessageLookupByLibrary.simpleMessage("List"),
         "page_next": MessageLookupByLibrary.simpleMessage("Next Page"),
         "page_previous": MessageLookupByLibrary.simpleMessage("Previous Page"),
@@ -100,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_spacingTime":
             MessageLookupByLibrary.simpleMessage("Spacing Time"),
         "time_start": MessageLookupByLibrary.simpleMessage("Start"),
-        "time_startTime": MessageLookupByLibrary.simpleMessage("Start Time")
+        "time_startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(mins)")
       };
 }
