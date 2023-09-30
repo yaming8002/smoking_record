@@ -41,11 +41,17 @@ class DateTimeUtil {
 
   /// 獲取格式化的時間
   static String getTime({DateTime? date, TimeOfDay? time, String? format}) {
-    date = date ?? DateTime.now();
-    time = time ?? TimeOfDay.fromDateTime(date);
-    DateTime combinedDateTime =
-        DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    return DateFormat(format ?? TimeFormat).format(combinedDateTime);
+    format = format ?? TimeFormat;
+    if (date != null) return DateFormat(format).format(date);
+
+    if (time != null) {
+      date = DateTime.now();
+      DateTime timeFromNow =
+          DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      return DateFormat(format).format(timeFromNow);
+    }
+    date = DateTime.now();
+    return DateFormat(format).format(date);
   }
 
   /// 根據日更換時間獲取格式化的日期

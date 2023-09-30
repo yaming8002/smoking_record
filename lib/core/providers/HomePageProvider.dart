@@ -18,7 +18,7 @@ class HomePageProvider with ChangeNotifier {
   final SummaryService summaryService;
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
-  String timeDiff = "00:00:00";
+  String timeDiff = "開始記錄";
   SummaryDay? today;
   SummaryDay? yesterday;
   SummaryDay? thisWeek;
@@ -38,7 +38,7 @@ class HomePageProvider with ChangeNotifier {
     await _reloadTargetTime();
     await _getDayTotalNumFromService();
     await _getWeekTotalNumFromService();
-    timeDiff = "00:00:00";
+    timeDiff = "開始記錄";
     startTimer();
     notifyListeners();
   }
@@ -93,7 +93,7 @@ class HomePageProvider with ChangeNotifier {
         1,
         DateTime.now(),
         DateTime.now(),
-        3,
+        0,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
     if (!AppSettingService.getisStopAd()) {

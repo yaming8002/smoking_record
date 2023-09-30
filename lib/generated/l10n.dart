@@ -160,20 +160,20 @@ class S {
     );
   }
 
-  /// `Feeling Rating`
+  /// `Evaluation Rating`
   String get smokingStatus_evaluate {
     return Intl.message(
-      'Feeling Rating',
+      'Evaluation Rating',
       name: 'smokingStatus_evaluate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cigarette Count`
+  /// `Number of Cigarettes`
   String get smokingStatus_smokeCount {
     return Intl.message(
-      'Cigarette Count',
+      'Number of Cigarettes',
       name: 'smokingStatus_smokeCount',
       desc: '',
       args: [],
@@ -220,20 +220,30 @@ class S {
     );
   }
 
-  /// `Save By Count`
+  /// `stop Ad`
+  String get setting_stopAd {
+    return Intl.message(
+      'stop Ad',
+      name: 'setting_stopAd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save by Count`
   String get setting_saveByCount {
     return Intl.message(
-      'Save By Count',
+      'Save by Count',
       name: 'setting_saveByCount',
       desc: '',
       args: [],
     );
   }
 
-  /// `Privacy & Service Terms`
+  /// `Privacy and Service Terms`
   String get setting_privacyAndServiceTerms {
     return Intl.message(
-      'Privacy & Service Terms',
+      'Privacy and Service Terms',
       name: 'setting_privacyAndServiceTerms',
       desc: '',
       args: [],
@@ -280,10 +290,10 @@ class S {
     );
   }
 
-  /// `Language Setting`
+  /// `Language Settings`
   String get setting_language {
     return Intl.message(
-      'Language Setting',
+      'Language Settings',
       name: 'setting_language',
       desc: '',
       args: [],
@@ -345,6 +355,16 @@ class S {
     return Intl.message(
       'Date',
       name: 'time_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get time_Time {
+    return Intl.message(
+      'Time',
+      name: 'time_Time',
       desc: '',
       args: [],
     );
@@ -420,10 +440,10 @@ class S {
     );
   }
 
-  /// `(mins)`
+  /// `(Minutes)`
   String get time_unit {
     return Intl.message(
-      '(mins)',
+      '(Minutes)',
       name: 'time_unit',
       desc: '',
       args: [],
@@ -451,10 +471,10 @@ class S {
     );
   }
 
-  /// `Keep it up! Gradually reduce your smoking.`
+  /// `Keep it up! Gradually reduce the number of cigarettes.`
   String get msg_keepItUp {
     return Intl.message(
-      'Keep it up! Gradually reduce your smoking.',
+      'Keep it up! Gradually reduce the number of cigarettes.',
       name: 'msg_keepItUp',
       desc: '',
       args: [],
@@ -501,30 +521,30 @@ class S {
     );
   }
 
-  /// `{date}'s smoking count is less than the previous day. Good job!`
+  /// `The number of cigarettes smoked on {date} is less than the previous day, well done!`
   String image_Smoking_Less(Object date) {
     return Intl.message(
-      '$date\'s smoking count is less than the previous day. Good job!',
+      'The number of cigarettes smoked on $date is less than the previous day, well done!',
       name: 'image_Smoking_Less',
       desc: '',
       args: [date],
     );
   }
 
-  /// `{date} had the same smoking count as the previous day. Keep it up!`
+  /// `{date} has the same number of cigarettes as the previous day, keep it up!`
   String image_Smoking_Equal(Object date) {
     return Intl.message(
-      '$date had the same smoking count as the previous day. Keep it up!',
+      '$date has the same number of cigarettes as the previous day, keep it up!',
       name: 'image_Smoking_Equal',
       desc: '',
       args: [date],
     );
   }
 
-  /// `{date}'s smoking count is more than the previous day. Stay strong and push on!`
+  /// `The number of cigarettes smoked on {date} is more than the previous day, keep going!`
   String image_Smoking_More(Object date) {
     return Intl.message(
-      '$date\'s smoking count is more than the previous day. Stay strong and push on!',
+      'The number of cigarettes smoked on $date is more than the previous day, keep going!',
       name: 'image_Smoking_More',
       desc: '',
       args: [date],
@@ -541,11 +561,141 @@ class S {
     );
   }
 
-  /// `input feel`
+  /// `Enter feelings`
   String get image_Smoking_feel {
     return Intl.message(
-      'input feel',
+      'Enter feelings',
       name: 'image_Smoking_feel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Policy`
+  String get privacyPolicy_title {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacyPolicy_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Data Collection`
+  String get privacyPolicy_section1_title {
+    return Intl.message(
+      '1. Data Collection',
+      name: 'privacyPolicy_section1_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information.`
+  String get privacyPolicy_section1_content {
+    return Intl.message(
+      'Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information.',
+      name: 'privacyPolicy_section1_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Use of Data`
+  String get privacyPolicy_section2_title {
+    return Intl.message(
+      '2. Use of Data',
+      name: 'privacyPolicy_section2_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.`
+  String get privacyPolicy_section2_content {
+    return Intl.message(
+      'The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.',
+      name: 'privacyPolicy_section2_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. Data Export and Import`
+  String get privacyPolicy_section3_title {
+    return Intl.message(
+      '3. Data Export and Import',
+      name: 'privacyPolicy_section3_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.`
+  String get privacyPolicy_section3_content {
+    return Intl.message(
+      'Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.',
+      name: 'privacyPolicy_section3_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `4. Sharing Function`
+  String get privacyPolicy_section4_title {
+    return Intl.message(
+      '4. Sharing Function',
+      name: 'privacyPolicy_section4_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information.`
+  String get privacyPolicy_section4_content {
+    return Intl.message(
+      'Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information.',
+      name: 'privacyPolicy_section4_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5. Data Protection`
+  String get privacyPolicy_section5_title {
+    return Intl.message(
+      '5. Data Protection',
+      name: 'privacyPolicy_section5_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.`
+  String get privacyPolicy_section5_content {
+    return Intl.message(
+      'We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.',
+      name: 'privacyPolicy_section5_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `6. Third-party Advertising Service`
+  String get privacyPolicy_section6_title {
+    return Intl.message(
+      '6. Third-party Advertising Service',
+      name: 'privacyPolicy_section6_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our App uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users.`
+  String get privacyPolicy_section6_content {
+    return Intl.message(
+      'Our App uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users.',
+      name: 'privacyPolicy_section6_content',
       desc: '',
       args: [],
     );

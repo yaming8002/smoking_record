@@ -6,7 +6,7 @@ import '../../core/providers/EditRecordProvider.dart';
 import '../../generated/l10n.dart';
 import '../widgets/AppFrame.dart';
 import '../widgets/input/DateTimePickerWidget.dart';
-import '../widgets/input/cigaretteAmountWidget.dart';
+import '../widgets/input/SmokingCounter.dart';
 
 class EditSomkingPage extends StatefulWidget {
   final SmokingStatus status;
@@ -36,8 +36,8 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                   children: [
                     _buildTextField(
                       'Count',
-                      CigaretteAmountWidget(
-                        onAmountChanged: (newAmoun) {
+                      SmokingCounter(
+                        onCountChanged: (newAmoun) {
                           provider.status.count = newAmoun;
                         },
                       ),

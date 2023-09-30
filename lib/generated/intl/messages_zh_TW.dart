@@ -54,6 +54,31 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_report": MessageLookupByLibrary.simpleMessage("報告"),
         "page_setting": MessageLookupByLibrary.simpleMessage("設定"),
         "page_title": MessageLookupByLibrary.simpleMessage("標題"),
+        "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
+            "我們的App專注於紀錄用戶的習慣。我們只蒐集與用戶習慣相關的資料，且這些資料完全匿名，不含任何能夠識別用戶身份的資訊。"),
+        "privacyPolicy_section1_title":
+            MessageLookupByLibrary.simpleMessage("1. 資料的蒐集"),
+        "privacyPolicy_section2_content": MessageLookupByLibrary.simpleMessage(
+            "蒐集到的資料僅用於幫助用戶追踪其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。"),
+        "privacyPolicy_section2_title":
+            MessageLookupByLibrary.simpleMessage("2. 資料的使用"),
+        "privacyPolicy_section3_content": MessageLookupByLibrary.simpleMessage(
+            "用戶可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含用戶的習慣，不包含其他任何可以識別用戶身份的資料。"),
+        "privacyPolicy_section3_title":
+            MessageLookupByLibrary.simpleMessage("3. 資料匯出及匯入"),
+        "privacyPolicy_section4_content": MessageLookupByLibrary.simpleMessage(
+            "我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。"),
+        "privacyPolicy_section4_title":
+            MessageLookupByLibrary.simpleMessage("4. 分享功能"),
+        "privacyPolicy_section5_content": MessageLookupByLibrary.simpleMessage(
+            "我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。"),
+        "privacyPolicy_section5_title":
+            MessageLookupByLibrary.simpleMessage("5. 資料的保護"),
+        "privacyPolicy_section6_content": MessageLookupByLibrary.simpleMessage(
+            "我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別用戶身份。"),
+        "privacyPolicy_section6_title":
+            MessageLookupByLibrary.simpleMessage("6. 第三方廣告服務"),
+        "privacyPolicy_title": MessageLookupByLibrary.simpleMessage("隱私權說明"),
         "setting_changeDayNotification":
             MessageLookupByLibrary.simpleMessage("換日通知"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("換日時間"),
@@ -74,12 +99,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依照數量保存"),
         "setting_singleCigaretteTime":
             MessageLookupByLibrary.simpleMessage("單根菸的時間"),
+        "setting_stopAd": MessageLookupByLibrary.simpleMessage("停用廣告"),
         "smokingStatus_cumulativeTime":
             MessageLookupByLibrary.simpleMessage("累計時間"),
         "smokingStatus_evaluate": MessageLookupByLibrary.simpleMessage("感受評分"),
         "smokingStatus_smokeCount": MessageLookupByLibrary.simpleMessage("菸數"),
         "smokingStatus_spacing": MessageLookupByLibrary.simpleMessage("間隔時間"),
         "smokingStatus_status": MessageLookupByLibrary.simpleMessage("吸煙狀態"),
+        "time_Time": MessageLookupByLibrary.simpleMessage("時間"),
         "time_by_day": MessageLookupByLibrary.simpleMessage("今日(昨日)"),
         "time_by_week": MessageLookupByLibrary.simpleMessage("本週(上週)"),
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
