@@ -59,24 +59,31 @@ class _SmokingCounterState extends State<SmokingCounter> {
 
   @override
   Widget build(BuildContext context) {
+    double formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
     return Row(
       children: <Widget>[
         TextButton(
           onPressed: () {},
           child: AutoSizeText(
             count.toString(),
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: formatDefault),
             minFontSize: 10,
             maxFontSize: 30,
           ),
         ),
         const Spacer(),
         IconButton(
-          icon: Icon(Icons.remove),
+          icon: Icon(
+            Icons.remove,
+            size: formatDefault,
+          ),
           onPressed: decrement,
         ),
         IconButton(
-          icon: Icon(Icons.add),
+          icon: Icon(
+            Icons.add,
+            size: formatDefault,
+          ),
           onPressed: increment,
         ),
       ],

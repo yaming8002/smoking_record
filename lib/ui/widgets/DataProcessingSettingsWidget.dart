@@ -34,9 +34,11 @@ class DataProcessingSettingsWidget extends StatelessWidget {
           children: [
             _buildEditDataSetting(context),
             const Divider(),
-            _buildImportDataSetting(provider),
+            _buildImportDataSetting(provider, context),
             const Divider(),
             _buildExportDataSetting(provider),
+            const Divider(),
+            _buildDataRecount(provider, context),
             const Divider(),
           ],
         ),
@@ -71,12 +73,54 @@ Widget _buildExportDataSetting(SettingsProvider provider) {
   );
 }
 
-Widget _buildImportDataSetting(SettingsProvider provider) {
+Widget _buildDataRecount(SettingsProvider provider, BuildContext context) {
+  return SettingsTile(
+    title: '資料重新計算',
+    trailing: ElevatedButton(
+      onPressed: () => _showProcessingDialog(context, provider.dataRecount),
+      child: Text('資料重新計算'),
+    ),
+  );
+}
+
+Widget _buildImportDataSetting(
+    SettingsProvider provider, BuildContext context) {
   return SettingsTile(
     title: '資料匯入',
     trailing: ElevatedButton(
-      onPressed: () => provider.importDataToCsv(),
+      onPressed: () => _showProcessingDialog(context, provider.importDataToCsv),
       child: Text("Import CSV"),
     ),
+  );
+}
+
+void _showProcessingDialog(
+    BuildContext context, Future<void> Function() processFunction) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return FutureBuilder(
+        future: processFunction(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return AlertDialog(
+              content: Row(
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(width: 20),
+                  Text('資料處理中...'),
+                ],
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            Navigator.of(context).pop();
+            return SizedBox.shrink();
+          } else {
+            return SizedBox.shrink();
+          }
+        },
+      );
+    },
   );
 }

@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage> {
   double? bodyWidth;
   double? bodyHeight;
+  double? formatH1;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<HomePage> {
             builder: (context, constraints) {
               bodyWidth = constraints.maxWidth;
               bodyHeight = constraints.maxHeight;
-
+              formatH1 = Theme.of(context).textTheme.headlineLarge!.fontSize!;
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<HomePage> {
                                   provider.timeDiff,
                                   minFontSize: 10, // 這裡是最小的字體大小
                                   maxFontSize: 100, // 這裡是最大的字體大小
-                                  style: const TextStyle(fontSize: 60),
+                                  style: TextStyle(fontSize: formatH1 ?? 30),
                                   maxLines: 1,
                                 )),
                           );
@@ -74,6 +75,7 @@ class _MyHomePageState extends State<HomePage> {
                         thisSummaryDay: provider.thisWeek,
                         beforeSummaryDay: provider.beforeWeek,
                         provider: provider,
+                        isWeekly: true,
                       ),
                     ),
                     const SizedBox(height: 15.0),

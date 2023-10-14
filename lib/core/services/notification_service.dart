@@ -1,9 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../generated/l10n.dart';
-import '../../utils/dateTimeUtil.dart';
 import '../models/ReceivedNotification.dart';
-import '../models/summaryDay.dart';
+import '../models/Summary.dart';
 import 'AppSettingService.dart';
 import 'SummaryService.dart';
 
@@ -39,13 +38,12 @@ class NotificationService {
   }
 
   Future<ReceivedNotification?> _getDataFromDatabase() async {
-    String yesterday = DateTimeUtil.getDate(DateTimeUtil.getYesterday());
-    SummaryDay summaryForYesterday = await service.getDayTotalNum(yesterday);
-
-    String dayBeforeYesterday =
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: yesterday));
-    SummaryDay summaryForDayBeforeYesterday =
-        await service.getDayTotalNum(dayBeforeYesterday);
+    DateTime now = DateTime.now();
+    DateTime yesterday = now.subtract(const Duration(days: 1));
+    Summary summaryForYesterday = await service.getSummary(yesterday);
+    DateTime dayBeforeYesterday = yesterday.subtract(const Duration(days: 1));
+    Summary summaryForDayBeforeYesterday =
+        await service.getSummary(dayBeforeYesterday);
 
     int count = summaryForYesterday.count - summaryForDayBeforeYesterday.count;
     String text = "";

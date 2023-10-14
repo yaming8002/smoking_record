@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smoking_record/core/models/summaryDay.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'AppSettingService.dart';
@@ -56,6 +55,22 @@ class DatabaseManager {
     await db.execute('''
       CREATE TABLE SummaryDay (
           sDate TEXT PRIMARY KEY,  -- 將 sDate 設定為主鍵
+          startTime TEXT,
+          endTime TEXT,
+          count INTEGER NOT NULL,
+          frequency INTEGER NOT NULL,
+          totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          avgTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          spacing INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          evaluate REAL  NOT NULL
+      );
+    ''');
+
+    await db.execute('''
+      CREATE TABLE SummaryWeek (
+          sDate TEXT PRIMARY KEY,  -- 將 sDate 設定為主鍵
+          startTime TEXT,
+          endTime TEXT,
           count INTEGER NOT NULL,
           frequency INTEGER NOT NULL,
           totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
@@ -165,44 +180,6 @@ class DatabaseManager {
   Future<int> update(String table, int id, Map<String, dynamic> data) async {
     return await _db?.update(table, data, where: 'id = ?', whereArgs: [id]) ??
         0;
-  }
-
-  Future<void> insertOrUpdateSummaryDay(SummaryDay day) async {
-    // Try to update the row first
-    int updatedRows = await _db!.update(
-      'SummaryDay',
-      day.toMap(),
-      where: 'sDate = ?',
-      whereArgs: [
-        day.sDate
-      ], // assuming day.sDate is how you access the sDate of SummaryDay
-    );
-
-    // If no rows were updated, then insert the new row
-    if (updatedRows == 0) {
-      insert('SummaryDay', day.toMap());
-    }
-  }
-
-  updateSmokingStatus(Map<String, dynamic> map) async {
-    if (map['id'] != null) {
-      List<String> updates = [];
-      map.forEach((key, value) {
-        if (value is String) {
-          updates.add('$key = "$value"');
-        } else {
-          updates.add('$key = $value');
-        }
-      });
-
-      String sql =
-          'UPDATE SmokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
-      print(sql); // 這將打印生成的SQL語句
-
-      await _db?.execute(sql);
-    } else {
-      print('Error: SmokingStatus does not have an id.');
-    }
   }
 
   execute(String sql, [List<dynamic>? arguments]) {

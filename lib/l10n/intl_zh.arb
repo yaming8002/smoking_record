@@ -9,10 +9,21 @@
     "page_imageDisplayPage": "分享图片",
     "page_title": "标题",
 
+    "query": "查询",
+    "query_criteria": "查询条件",
+    "item": "项目",
+    "weekly": "单周",
+    "daily": "单日",
+    "date_range": "日期范围",
+    "cancel": "取消",
+    "submit": "提交",
+    "all": "全部",
+
+    "add_Estimate": "估算",
     "smokingStatus_status": "吸烟状态",
-    "smokingStatus_cumulativeTime": "累计时间",
+    "smokingStatus_total_time": "总时间",
     "smokingStatus_evaluate": "感受评分",
-    "smokingStatus_smokeCount": "烟数",
+    "smokingStatus_smokeCount": "吸烟数量",
     "smokingStatus_spacing": "间隔时间",
 
     "setting_edit_one": "单笔资料编辑",
@@ -49,13 +60,14 @@
 
     "about_app": "关于本程式",
     "contact_author": "联系作者",
-    "image_compare_this":"比较今日",
-    "image_compare_yesterday":"比较昨日",
+    "image_compare_this": "比较今日",
+    "image_compare_yesterday": "比较昨日",
     "image_Smoking_Less": "{date} 的吸烟数量比前一日少，做得好！",
     "image_Smoking_Equal": "{date} 与前一日的吸烟数量持平，继续加油！",
     "image_Smoking_More": "{date} 的吸烟数量比前一日多，再接再厉！",
-    "image_Share":"分享" ,
+    "image_Share": "分享",
     "image_Smoking_feel": "输入感受",
+
 
      "privacyPolicy_title": "隐私权说明",
       "privacyPolicy_section1_title": "1. 资料的搜集",

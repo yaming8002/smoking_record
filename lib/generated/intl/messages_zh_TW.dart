@@ -32,7 +32,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("關於本程式"),
+        "add_Estimate": MessageLookupByLibrary.simpleMessage("估算"),
+        "all": MessageLookupByLibrary.simpleMessage("全部"),
+        "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "contact_author": MessageLookupByLibrary.simpleMessage("聯繫作者"),
+        "daily": MessageLookupByLibrary.simpleMessage("單日"),
+        "date_range": MessageLookupByLibrary.simpleMessage("日期範圍"),
         "image_Share": MessageLookupByLibrary.simpleMessage("分享"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
@@ -40,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_Smoking_feel": MessageLookupByLibrary.simpleMessage("輸入感受"),
         "image_compare_this": MessageLookupByLibrary.simpleMessage("比較今日"),
         "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比較昨日"),
+        "item": MessageLookupByLibrary.simpleMessage("項目"),
         "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("結束時間不能在未來！"),
@@ -79,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy_section6_title":
             MessageLookupByLibrary.simpleMessage("6. 第三方廣告服務"),
         "privacyPolicy_title": MessageLookupByLibrary.simpleMessage("隱私權說明"),
+        "query": MessageLookupByLibrary.simpleMessage("查詢"),
+        "query_criteria": MessageLookupByLibrary.simpleMessage("查詢條件"),
         "setting_changeDayNotification":
             MessageLookupByLibrary.simpleMessage("換日通知"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("換日時間"),
@@ -100,12 +108,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_singleCigaretteTime":
             MessageLookupByLibrary.simpleMessage("單根菸的時間"),
         "setting_stopAd": MessageLookupByLibrary.simpleMessage("停用廣告"),
-        "smokingStatus_cumulativeTime":
-            MessageLookupByLibrary.simpleMessage("累計時間"),
         "smokingStatus_evaluate": MessageLookupByLibrary.simpleMessage("感受評分"),
-        "smokingStatus_smokeCount": MessageLookupByLibrary.simpleMessage("菸數"),
+        "smokingStatus_smokeCount":
+            MessageLookupByLibrary.simpleMessage("吸菸數量"),
         "smokingStatus_spacing": MessageLookupByLibrary.simpleMessage("間隔時間"),
         "smokingStatus_status": MessageLookupByLibrary.simpleMessage("吸煙狀態"),
+        "smokingStatus_total_time": MessageLookupByLibrary.simpleMessage("總時間"),
+        "submit": MessageLookupByLibrary.simpleMessage("提交"),
         "time_Time": MessageLookupByLibrary.simpleMessage("時間"),
         "time_by_day": MessageLookupByLibrary.simpleMessage("今日(昨日)"),
         "time_by_week": MessageLookupByLibrary.simpleMessage("本週(上週)"),
@@ -115,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_spacingTime": MessageLookupByLibrary.simpleMessage("間隔時間"),
         "time_start": MessageLookupByLibrary.simpleMessage("開始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(分鐘)")
+        "time_unit": MessageLookupByLibrary.simpleMessage("(分鐘)"),
+        "weekly": MessageLookupByLibrary.simpleMessage("單周")
       };
 }

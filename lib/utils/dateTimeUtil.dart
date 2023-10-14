@@ -8,6 +8,7 @@ class DateTimeUtil {
   static const String TimeFormat = "HH:mm:ss";
   static const String MinuteFormat = "HH:mm";
   static const String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+  static const String dateTimeFormatTotal = "yyyy-MM-dd HH:mm:ss.SSS";
 
   /// 格式化Duration為時:分:秒
   static String formatDuration(Duration d) {
@@ -24,6 +25,13 @@ class DateTimeUtil {
     // String seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
     // return '$hours:$minutes:$seconds';
     return '$hours:$minutes';
+  }
+
+  /// 獲取格式化的時間
+  static String getDateTimeTotal([DateTime? date]) {
+    date = date ?? DateTime.now();
+
+    return DateFormat(dateTimeFormatTotal).format(date);
   }
 
   /// 獲取格式化的時間
@@ -75,7 +83,7 @@ class DateTimeUtil {
   }
 
   /// 獲取昨天的日期
-  static DateTime getYesterday({String? today, String? format}) {
+  static DateTime getYesterday([String? today, String? format]) {
     DateTime todayDateTime =
         today == null ? DateTime.now() : DateTime.parse(today);
     return todayDateTime.subtract(const Duration(days: 1));
@@ -109,7 +117,43 @@ class DateTimeUtil {
     return DateFormat(dateTimeFormat).format(parsedDate);
   }
 
-  static List<String> getOneDateRange(DateTime now) {
+  static List<DateTime> getOneDateRange(DateTime now) {
+    String timeChange = AppSettingService.getTimeChange();
+
+    DateTime startDateTime = DateTime.parse('${getDate(now)} $timeChange');
+    DateTime endDateTime = startDateTime.add(Duration(days: 1));
+
+    return [startDateTime, endDateTime];
+  }
+
+  static List<DateTime> getWeekRange(DateTime now) {
+    bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
+    DateTime startDate;
+    DateTime endDate;
+
+    if (isWeekStartMonday) {
+      // 找到最近的星期一
+      startDate = now.subtract(Duration(days: now.weekday - 1));
+      // 找到最近的星期日
+      endDate = startDate.add(Duration(days: 6));
+    } else {
+      // 找到最近的星期日
+      startDate = now.subtract(Duration(days: now.weekday % 7));
+      // 找到最近的星期六
+      endDate = startDate.add(Duration(days: 6));
+    }
+
+    String timeChange = AppSettingService.getTimeChange();
+
+    DateTime startDateTime = DateTime.parse(
+        '${DateFormat(dateFormat).format(startDate)} $timeChange');
+    DateTime endDateTime =
+        DateTime.parse('${DateFormat(dateFormat).format(endDate)} $timeChange');
+
+    return [startDateTime, endDateTime];
+  }
+
+  static List<String> getOneDateRangeByNow(DateTime now) {
     String timeChange = AppSettingService.getTimeChange();
 
     DateTime startDateTime =
@@ -122,7 +166,7 @@ class DateTimeUtil {
     ];
   }
 
-  static List<String> getWeekDateRange(DateTime now) {
+  static List<String> getWeekRangeByNow(DateTime now) {
     bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
     DateTime startDate;
     DateTime endDate;
@@ -175,7 +219,8 @@ class DateTimeUtil {
     }
   }
 
-  static List<String> updateSummaryDayArg(String date, String changTime) {
+  static List<String> updateSummaryDayArg(
+      String date, String changTime, String dateTime) {
     DateTime startDateTime = DateTime.parse('$date $changTime');
     DateTime endDateTime = startDateTime.add(const Duration(days: 1));
 

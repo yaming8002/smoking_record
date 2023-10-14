@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../utils/dateTimeUtil.dart';
 
 /// `DateTimePicker` 是一個小部件，允許用戶觀看或修改日期和時間。
@@ -28,9 +29,9 @@ class DateTimePicker extends StatefulWidget {
 
 class _DateTimePickerState extends State<DateTimePicker> {
   DateTime selectedDateTime = DateTime.now();
-  String selectedDate = "";
-  String selectedTime = "";
-  double fontSize = 14.0;
+  String selectedDate = DateTimeUtil.getDate();
+  String selectedTime = DateTimeUtil.getTime();
+  double? formatDefault;
 
   @override
   void didUpdateWidget(DateTimePicker oldWidget) {
@@ -44,41 +45,43 @@ class _DateTimePickerState extends State<DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: [
-        TextButton(
-          onPressed: widget.isAdd
-              ? null
-              : () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: selectedDateTime,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2101),
-                  );
-                  if (pickedDate != null && pickedDate != selectedDateTime) {
-                    setState(() {
-                      selectedDateTime = DateTime(
-                        pickedDate.year,
-                        pickedDate.month,
-                        pickedDate.day,
-                        selectedDateTime.hour,
-                        selectedDateTime.minute,
-                        selectedDateTime.second,
-                      );
-                    });
-                    widget.onDateTimeChanged(selectedDateTime);
-                  }
-                },
-          child: AutoSizeText(
-            selectedDate,
-            style: TextStyle(fontSize: 18),
-            minFontSize: 10,
-            maxFontSize: 30,
+        if (!widget.isAdd)
+          TextButton(
+            onPressed: widget.isAdd
+                ? null
+                : () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDateTime,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    );
+                    if (pickedDate != null && pickedDate != selectedDateTime) {
+                      setState(() {
+                        selectedDateTime = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          selectedDateTime.hour,
+                          selectedDateTime.minute,
+                          selectedDateTime.second,
+                        );
+                      });
+                      widget.onDateTimeChanged(selectedDateTime);
+                    }
+                  },
+            child: AutoSizeText(
+              selectedDate,
+              style: TextStyle(fontSize: formatDefault),
+              minFontSize: 8,
+              maxFontSize: 30,
+            ),
           ),
-        ),
-        const SizedBox(width: 3.0),
+        if (!widget.isAdd) const SizedBox(width: 3.0),
         TextButton(
           onPressed: widget.isAdd
               ? null
@@ -103,16 +106,16 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 },
           child: AutoSizeText(
             selectedTime,
-            style: TextStyle(fontSize: 18),
-            minFontSize: 10,
+            style: TextStyle(fontSize: formatDefault),
+            minFontSize: 8,
             maxFontSize: 30,
           ),
         ),
         if (widget.isAdd) const Spacer(),
         if (widget.isAdd)
-          const AutoSizeText(
-            '估算基準',
-            style: TextStyle(fontSize: 18),
+          AutoSizeText(
+            S.current.add_Estimate,
+            style: TextStyle(fontSize: formatDefault),
             minFontSize: 10,
             maxFontSize: 30,
           ),

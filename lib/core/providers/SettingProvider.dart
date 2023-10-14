@@ -72,8 +72,13 @@ class SettingsProvider with ChangeNotifier {
     csvManager?.exportDataToCsv();
   }
 
-  void importDataToCsv() {
-    csvManager!.importCsvAndSaveToDatabase();
+  Future<void> importDataToCsv() async {
+    await csvManager!.importCsvAndSaveToDatabase();
+    await summaryService.cleanAll();
+  }
+
+  Future<void> dataRecount() async {
+    await summaryService.cleanAll();
   }
 
   testnutton() {

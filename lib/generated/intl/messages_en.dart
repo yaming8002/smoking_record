@@ -35,8 +35,13 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
+        "add_Estimate": MessageLookupByLibrary.simpleMessage("Estimate"),
+        "all": MessageLookupByLibrary.simpleMessage("all"),
+        "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
+        "daily": MessageLookupByLibrary.simpleMessage("single day"),
+        "date_range": MessageLookupByLibrary.simpleMessage("date range"),
         "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
@@ -47,21 +52,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Compare Today"),
         "image_compare_yesterday":
             MessageLookupByLibrary.simpleMessage("Compare Yesterday"),
+        "item": MessageLookupByLibrary.simpleMessage("item"),
         "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
         "msg_keepItUp": MessageLookupByLibrary.simpleMessage(
             "Keep it up! Gradually reduce the number of cigarettes."),
-        "page_add": MessageLookupByLibrary.simpleMessage("Add"),
+        "page_add": MessageLookupByLibrary.simpleMessage("New"),
         "page_home": MessageLookupByLibrary.simpleMessage("Smoking Record"),
         "page_imageDisplayPage":
-            MessageLookupByLibrary.simpleMessage("Share Image"),
-        "page_list": MessageLookupByLibrary.simpleMessage("List"),
-        "page_next": MessageLookupByLibrary.simpleMessage("Next Page"),
-        "page_previous": MessageLookupByLibrary.simpleMessage("Previous Page"),
-        "page_report": MessageLookupByLibrary.simpleMessage("Report"),
-        "page_setting": MessageLookupByLibrary.simpleMessage("Settings"),
-        "page_title": MessageLookupByLibrary.simpleMessage("Title"),
+            MessageLookupByLibrary.simpleMessage("Share pictures"),
+        "page_list": MessageLookupByLibrary.simpleMessage("list"),
+        "page_next": MessageLookupByLibrary.simpleMessage("Next page"),
+        "page_previous": MessageLookupByLibrary.simpleMessage("Previous page"),
+        "page_report": MessageLookupByLibrary.simpleMessage("report"),
+        "page_setting": MessageLookupByLibrary.simpleMessage("setting"),
+        "page_title": MessageLookupByLibrary.simpleMessage("title"),
         "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
             "Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information."),
         "privacyPolicy_section1_title":
@@ -88,56 +94,61 @@ class MessageLookup extends MessageLookupByLibrary {
             "6. Third-party Advertising Service"),
         "privacyPolicy_title":
             MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+        "query": MessageLookupByLibrary.simpleMessage("query"),
+        "query_criteria":
+            MessageLookupByLibrary.simpleMessage("query criteria"),
         "setting_changeDayNotification":
-            MessageLookupByLibrary.simpleMessage("Change Day Notification"),
+            MessageLookupByLibrary.simpleMessage("Day change notification"),
         "setting_changeDayTime":
-            MessageLookupByLibrary.simpleMessage("Change Day Time"),
+            MessageLookupByLibrary.simpleMessage("Change day time"),
         "setting_dataProcessing":
             MessageLookupByLibrary.simpleMessage("Data Processing"),
-        "setting_edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "setting_edit": MessageLookupByLibrary.simpleMessage("edit"),
         "setting_edit_one":
-            MessageLookupByLibrary.simpleMessage("Edit Single Data"),
+            MessageLookupByLibrary.simpleMessage("Single data editing"),
         "setting_exportCsv":
-            MessageLookupByLibrary.simpleMessage("Export Data to CSV"),
+            MessageLookupByLibrary.simpleMessage("Data export CSV"),
         "setting_importCsv": MessageLookupByLibrary.simpleMessage("Import CSV"),
         "setting_importData":
-            MessageLookupByLibrary.simpleMessage("Data Import"),
+            MessageLookupByLibrary.simpleMessage("Data import"),
         "setting_language":
-            MessageLookupByLibrary.simpleMessage("Language Settings"),
+            MessageLookupByLibrary.simpleMessage("Language setting"),
         "setting_privacyAndServiceTerms":
             MessageLookupByLibrary.simpleMessage("Privacy and Service Terms"),
         "setting_recordNotification":
             MessageLookupByLibrary.simpleMessage("Record Notification"),
         "setting_recordNotificationTime":
-            MessageLookupByLibrary.simpleMessage("Record Notification Time"),
-        "setting_save": MessageLookupByLibrary.simpleMessage("Save"),
+            MessageLookupByLibrary.simpleMessage("Record notification time"),
+        "setting_save": MessageLookupByLibrary.simpleMessage("save"),
         "setting_saveByCount":
-            MessageLookupByLibrary.simpleMessage("Save by Count"),
+            MessageLookupByLibrary.simpleMessage("Save by quantity"),
         "setting_singleCigaretteTime":
-            MessageLookupByLibrary.simpleMessage("Single Cigarette Time"),
-        "setting_stopAd": MessageLookupByLibrary.simpleMessage("stop Ad"),
-        "smokingStatus_cumulativeTime":
-            MessageLookupByLibrary.simpleMessage("Cumulative Time"),
+            MessageLookupByLibrary.simpleMessage("Single cigarette time"),
+        "setting_stopAd": MessageLookupByLibrary.simpleMessage("Disable ads"),
         "smokingStatus_evaluate":
-            MessageLookupByLibrary.simpleMessage("Evaluation Rating"),
+            MessageLookupByLibrary.simpleMessage("SmokingStatus_evaluate"),
         "smokingStatus_smokeCount":
-            MessageLookupByLibrary.simpleMessage("Number of Cigarettes"),
+            MessageLookupByLibrary.simpleMessage("Smoking count"),
         "smokingStatus_spacing":
-            MessageLookupByLibrary.simpleMessage("Spacing Time"),
+            MessageLookupByLibrary.simpleMessage("spacing time"),
         "smokingStatus_status":
-            MessageLookupByLibrary.simpleMessage("Smoking Status"),
-        "time_Time": MessageLookupByLibrary.simpleMessage("Time"),
+            MessageLookupByLibrary.simpleMessage("SmokingStatus"),
+        "smokingStatus_total_time":
+            MessageLookupByLibrary.simpleMessage("Total time"),
+        "submit": MessageLookupByLibrary.simpleMessage("submit"),
+        "time_Time": MessageLookupByLibrary.simpleMessage("time"),
         "time_by_day":
-            MessageLookupByLibrary.simpleMessage("Today (Yesterday)"),
+            MessageLookupByLibrary.simpleMessage("Today (yesterday)"),
         "time_by_week":
-            MessageLookupByLibrary.simpleMessage("This Week (Last Week)"),
-        "time_date": MessageLookupByLibrary.simpleMessage("Date"),
+            MessageLookupByLibrary.simpleMessage("This week (last week)"),
+        "time_date": MessageLookupByLibrary.simpleMessage("date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
-        "time_endTime": MessageLookupByLibrary.simpleMessage("End Time"),
+        "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
         "time_spacingTime":
-            MessageLookupByLibrary.simpleMessage("Spacing Time"),
-        "time_start": MessageLookupByLibrary.simpleMessage("Start"),
-        "time_startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(Minutes)")
+            MessageLookupByLibrary.simpleMessage("Interval time"),
+        "time_start": MessageLookupByLibrary.simpleMessage("start"),
+        "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(minute)"),
+        "weekly": MessageLookupByLibrary.simpleMessage("single week")
       };
 }

@@ -33,11 +33,13 @@ class SetSmokStatusWidget extends StatefulWidget {
 class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
   @override
   Widget build(BuildContext context) {
+    double? formatH1 = Theme.of(context).textTheme.titleLarge!.fontSize!;
     return ListView(
       children: <Widget>[
         ListTile(
           title: AutoSizeText(
             S.current.time_startTime,
+            style: TextStyle(fontSize: formatH1),
             minFontSize: 10,
             maxFontSize: 60,
           ),
@@ -57,6 +59,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
         ListTile(
           title: AutoSizeText(
             S.current.time_endTime,
+            style: TextStyle(fontSize: formatH1),
             minFontSize: 10,
             maxFontSize: 60,
           ),
@@ -74,7 +77,12 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
         ),
         const Divider(),
         ListTile(
-          title: Text(S.current.smokingStatus_cumulativeTime),
+          title: AutoSizeText(
+            S.current.smokingStatus_total_time,
+            style: TextStyle(fontSize: formatH1),
+            minFontSize: 10,
+            maxFontSize: 60,
+          ),
           subtitle: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -83,7 +91,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
                 child: AutoSizeText(
                   DateTimeUtil.formatDuration(widget.status!.endTime
                       .difference(widget.status!.startTime)),
-                  style: const TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: formatH1),
                   minFontSize: 10,
                   maxFontSize: 60,
                 ),
@@ -93,7 +101,12 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
         ),
         const Divider(),
         ListTile(
-          title: Text(S.current.smokingStatus_smokeCount),
+          title: AutoSizeText(
+            S.current.smokingStatus_smokeCount,
+            style: TextStyle(fontSize: formatH1),
+            minFontSize: 10,
+            maxFontSize: 60,
+          ),
           subtitle: SmokingCounter(
             onCountChanged: (newAmoun) {
               widget.status!.count = newAmoun;
@@ -105,7 +118,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
           title: ElevatedButton(
             child: AutoSizeText(
               S.current.setting_save,
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: formatH1),
               minFontSize: 10,
               maxFontSize: 60,
             ),

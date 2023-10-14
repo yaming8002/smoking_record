@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smoking_record/utils/dateTimeUtil.dart';
 
 import '../../generated/l10n.dart';
 import '../../utils/ReferenceBool.dart';
@@ -84,6 +83,7 @@ class AddPageProvider with ChangeNotifier {
 
     AppSettingService.setLastEndTime(status.endTime);
     await service.insertSmokingStatus(status.toMap());
-    await summaryService?.updateSummaryDay(DateTimeUtil.getNowDate());
+    await summaryService?.updateSummaryDay();
+    await summaryService?.updateSummaryWeek();
   }
 }

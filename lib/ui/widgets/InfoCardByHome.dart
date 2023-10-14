@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/models/summaryDay.dart';
+import '../../core/models/Summary.dart';
 import '../../core/providers/HomePageProvider.dart';
 import '../../generated/l10n.dart';
 import '../pages/ImageDisplayPage.dart';
@@ -9,9 +9,10 @@ import '../pages/reportPage.dart';
 
 class InfoSection extends StatelessWidget {
   final String title;
-  final SummaryDay? thisSummaryDay;
-  final SummaryDay? beforeSummaryDay;
+  final Summary? thisSummaryDay;
+  final Summary? beforeSummaryDay;
   final HomePageProvider provider;
+  final bool isWeekly;
 
   const InfoSection({
     Key? key,
@@ -19,6 +20,7 @@ class InfoSection extends StatelessWidget {
     required this.thisSummaryDay,
     required this.beforeSummaryDay,
     required this.provider,
+    this.isWeekly = false,
   }) : super(key: key);
 
   @override
@@ -39,11 +41,15 @@ class InfoSection extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                    child: _buildInfoCard(S.current.smokingStatus_smokeCount,
+                    child: _buildInfoCard(
+                        context,
+                        S.current.smokingStatus_smokeCount,
                         '${thisSummaryDay?.count ?? 0} (${beforeSummaryDay?.count ?? 0})')),
                 const SizedBox(width: 8.0),
                 Expanded(
-                  child: _buildInfoCard(S.current.smokingStatus_cumulativeTime,
+                  child: _buildInfoCard(
+                      context,
+                      S.current.smokingStatus_total_time,
                       '${thisSummaryDay?.totalTime.inMinutes ?? 0} (${beforeSummaryDay?.totalTime.inMinutes ?? 0})',
                       helpStr: S.current.time_unit),
                 ),
@@ -56,6 +62,8 @@ class InfoSection extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    double formatH2 = Theme.of(context).textTheme.headlineSmall!.fontSize!;
+
     return Container(
       width: double.infinity,
       // padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -69,22 +77,27 @@ class InfoSection extends StatelessWidget {
         children: <Widget>[
           Text(
             title,
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: formatH2,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
           ),
           Row(
             children: [
               IconButton(
-                icon: Icon(Icons.share),
+                icon: const Icon(Icons.share),
                 onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ImageDisplayPage())),
+                  context,
+                  MaterialPageRoute(builder: (context) => ImageDisplayPage()),
+                ),
               ),
               IconButton(
-                icon: Icon(Icons.report),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ReportPage())),
+                icon: const Icon(Icons.bar_chart),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReportPage(isWeekly: isWeekly)),
+                ),
               ),
             ],
           ),
@@ -93,7 +106,10 @@ class InfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(String title, String content, {String? helpStr}) {
+  Widget _buildInfoCard(BuildContext context, String title, String content,
+      {String? helpStr}) {
+    double formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    double iconformat = Theme.of(context).textTheme.bodyLarge!.fontSize!;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -111,7 +127,7 @@ class InfoSection extends StatelessWidget {
         children: [
           // Title 配置3的部分
           Flexible(
-            flex: 3,
+            flex: 4,
             child: Stack(
               children: [
                 Center(
@@ -119,7 +135,7 @@ class InfoSection extends StatelessWidget {
                     title,
                     minFontSize: 10,
                     maxFontSize: 100,
-                    style: const TextStyle(fontSize: 40),
+                    style: TextStyle(fontSize: formatDefault),
                     maxLines: 1,
                   ),
                 ),
@@ -128,7 +144,9 @@ class InfoSection extends StatelessWidget {
                     right: 8,
                     child: Tooltip(
                       message: helpStr,
-                      child: const Icon(Icons.help_outline, size: 20.0),
+                      waitDuration: const Duration(milliseconds: 50),
+                      showDuration: const Duration(milliseconds: 500),
+                      child: Icon(Icons.help_outline, size: iconformat),
                     ),
                   ),
               ],
@@ -137,13 +155,13 @@ class InfoSection extends StatelessWidget {
 
           // Content 配置7的部分
           Flexible(
-            flex: 7,
+            flex: 6,
             child: Center(
               child: AutoSizeText(
                 content,
                 minFontSize: 10,
                 maxFontSize: 100,
-                style: const TextStyle(fontSize: 50),
+                style: TextStyle(fontSize: formatDefault),
                 maxLines: 1,
                 textAlign: TextAlign.center,
               ),

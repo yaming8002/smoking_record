@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smoking_record/core/services/AppSettingService.dart';
 
 import '../../ui/pages/editRecordPage.dart';
 import '../../utils/dateTimeUtil.dart';
-import '../models/summaryDay.dart';
+import '../models/Summary.dart';
 import '../services/SummaryService.dart';
 
 class ReportProvider with ChangeNotifier {
@@ -11,44 +12,79 @@ class ReportProvider with ChangeNotifier {
   String? dateShow;
   DateTimeRange? dateRange;
   String? chatControl;
-  List<String> columns = ['count', 'evaluate', 'avgTime', 'spacing'];
+  // List<String> columns = ['count', 'totalTime',  'spacing'];
   String column = 'count';
+  bool isWeekly;
 
-  List<SummaryDay> summaryDayList = [];
-  double maxBarValue = 0.0;
+  List<Summary> summaryDayList = [];
+  Map<String, double> maxBarValue = {
+    'count': 0.0,
+    'totalTime': 0.0,
+    'spacing': 0.0,
+  };
 
-  ReportProvider(BuildContext context)
+  // void setIsWeekly(bool value) {
+  //   print(value) ;
+  //   isWeekly = value;
+  // }
+
+  ReportProvider({required this.isWeekly, required BuildContext context})
       : summaryService = Provider.of<SummaryService>(context) {
-    loadData();
+    loadData(Week: isWeekly);
   }
 
-  Future<void> loadData([DateTimeRange? picked]) async {
-    if (picked != null) {
-      dateRange = picked;
-    } else {
-      dateRange = DateTimeRange(
-        start: DateTime.now().subtract(const Duration(days: 10)), // 星期一
-        end: DateTime.now(), // 星期日
-      );
-    }
-    summaryDayList = await summaryService.getSummaryDayList(dateRange!);
-    dateShow =
-        '${DateTimeUtil.getDate(dateRange!.start)} ~ ${DateTimeUtil.getDate(dateRange!.end)}';
-    _calculateMaxBarValue();
+  void setIsWeekly(bool value) {
+    isWeekly = value;
     notifyListeners();
   }
 
-  void _calculateMaxBarValue() {
-    maxBarValue = 0.0;
-    for (int i = 0; i < summaryDayList!.length; i++) {
-      final data = summaryDayList![i].toMap();
-      maxBarValue = maxBarValue > data[column].toDouble()
-          ? maxBarValue
-          : data[column].toDouble();
+  Future<void> loadData({DateTimeRange? picked, bool? Week}) async {
+    Week = Week ?? false;
+    DateTime now = DateTime.now();
+    if (picked != null) {
+      dateRange = picked;
+    } else if (Week) {
+      DateTime weekend =
+          now.add(Duration(days: DateTime.sunday - now.weekday)); // 這週的週日
+      weekend = AppSettingService.getIsWeekStartMonday()
+          ? weekend.subtract(Duration(days: 1))
+          : weekend;
+      dateRange = DateTimeRange(
+          start: weekend
+              .subtract(Duration(days: 7 * 10))
+              .subtract(Duration(days: 6)),
+          end: weekend);
+    } else {
+      dateRange = DateTimeRange(
+        start: now.subtract(const Duration(days: 9)), //
+        end: now, //
+      );
     }
-    maxBarValue = (maxBarValue / 10) < 1
-        ? 15
-        : (maxBarValue / 10).ceilToDouble() * 10 + 10;
+    print("dateRange  $dateRange");
+
+    summaryDayList = await summaryService.getSummaryList(
+        dateRange!, Week ? "SummaryWeek" : "SummaryDay");
+
+    _calculateMaxBarValue();
+    dateShow =
+        '${DateTimeUtil.getDate(dateRange!.start)} ~ ${DateTimeUtil.getDate(dateRange!.end)}';
+
+    notifyListeners();
+    isWeekly = Week ?? false;
+  }
+
+  void _calculateMaxBarValue() {
+    for (String column in maxBarValue.keys) {
+      for (int i = 0; i < summaryDayList!.length; i++) {
+        final data = summaryDayList![i].toMinuteMap();
+        maxBarValue[column] = maxBarValue[column]! > data[column].toDouble()
+            ? maxBarValue[column]
+            : data[column].toDouble();
+      }
+      maxBarValue[column] = (maxBarValue[column]! / 10) < 1
+          ? 15
+          : (maxBarValue[column]! / 10).ceilToDouble() * 10 + 10;
+    }
   }
 
   void changColumn(String? newValue) {

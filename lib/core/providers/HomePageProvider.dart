@@ -7,7 +7,7 @@ import '../../ui/pages/AddPage.dart';
 import '../../ui/widgets/input/InterstitialState.dart';
 import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
-import '../models/summaryDay.dart';
+import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
 import '../services/DayTimeManager.dart';
 import '../services/SmokingSatusService.dart';
@@ -19,10 +19,10 @@ class HomePageProvider with ChangeNotifier {
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
   String timeDiff = "開始記錄";
-  SummaryDay? today;
-  SummaryDay? yesterday;
-  SummaryDay? thisWeek;
-  SummaryDay? beforeWeek;
+  Summary? today;
+  Summary? yesterday;
+  Summary? thisWeek;
+  Summary? beforeWeek;
   TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
   String? changTimeStr = AppSettingService.getTimeChange();
   String? imagePath;
@@ -36,8 +36,8 @@ class HomePageProvider with ChangeNotifier {
 
   Future<void> loadData() async {
     await _reloadTargetTime();
-    await _getDayTotalNumFromService();
-    await _getWeekTotalNumFromService();
+    await _getSummaryDayFromService();
+    await _getSummaryWeekFromService();
     timeDiff = "開始記錄";
     startTimer();
     notifyListeners();
@@ -59,23 +59,24 @@ class HomePageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _getDayTotalNumFromService() async {
-    String todayStr = DateTimeUtil.getNowDate();
+  Future<void> _getSummaryDayFromService() async {
+    DateTime now = DateTime.now();
 
-    today = await summaryService.getDayTotalNum(todayStr);
-    yesterday = await summaryService.getDayTotalNum(
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: todayStr)));
+    today = await summaryService.getSummary(now);
+    yesterday =
+        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
 
     notifyListeners();
   }
 
-  Future<void> _getWeekTotalNumFromService() async {
+  Future<void> _getSummaryWeekFromService() async {
     DateTime now = DateTime.now();
 
-    thisWeek = await summaryService.getWeekTotalNum(now!);
-    beforeWeek =
-        await summaryService.getWeekTotalNum(now!.subtract(Duration(days: 7)));
-
+    thisWeek = await summaryService.getSummary(now!, 'SummaryWeek');
+    print(thisWeek);
+    beforeWeek = await summaryService.getSummary(
+        now!.subtract(const Duration(days: 7)), 'SummaryWeek');
+    print(beforeWeek);
     notifyListeners();
   }
 

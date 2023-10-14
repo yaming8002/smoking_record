@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Add`
+  /// `New`
   String get page_add {
     return Intl.message(
-      'Add',
+      'New',
       name: 'page_add',
       desc: '',
       args: [],
@@ -70,170 +70,270 @@ class S {
     );
   }
 
-  /// `List`
+  /// `list`
   String get page_list {
     return Intl.message(
-      'List',
+      'list',
       name: 'page_list',
       desc: '',
       args: [],
     );
   }
 
-  /// `Previous Page`
+  /// `Previous page`
   String get page_previous {
     return Intl.message(
-      'Previous Page',
+      'Previous page',
       name: 'page_previous',
       desc: '',
       args: [],
     );
   }
 
-  /// `Next Page`
+  /// `Next page`
   String get page_next {
     return Intl.message(
-      'Next Page',
+      'Next page',
       name: 'page_next',
       desc: '',
       args: [],
     );
   }
 
-  /// `Settings`
+  /// `setting`
   String get page_setting {
     return Intl.message(
-      'Settings',
+      'setting',
       name: 'page_setting',
       desc: '',
       args: [],
     );
   }
 
-  /// `Report`
+  /// `report`
   String get page_report {
     return Intl.message(
-      'Report',
+      'report',
       name: 'page_report',
       desc: '',
       args: [],
     );
   }
 
-  /// `Share Image`
+  /// `Share pictures`
   String get page_imageDisplayPage {
     return Intl.message(
-      'Share Image',
+      'Share pictures',
       name: 'page_imageDisplayPage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Title`
+  /// `title`
   String get page_title {
     return Intl.message(
-      'Title',
+      'title',
       name: 'page_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Smoking Status`
+  /// `query`
+  String get query {
+    return Intl.message(
+      'query',
+      name: 'query',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `query criteria`
+  String get query_criteria {
+    return Intl.message(
+      'query criteria',
+      name: 'query_criteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `item`
+  String get item {
+    return Intl.message(
+      'item',
+      name: 'item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `single week`
+  String get weekly {
+    return Intl.message(
+      'single week',
+      name: 'weekly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `single day`
+  String get daily {
+    return Intl.message(
+      'single day',
+      name: 'daily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `date range`
+  String get date_range {
+    return Intl.message(
+      'date range',
+      name: 'date_range',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cancel`
+  String get cancel {
+    return Intl.message(
+      'cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `submit`
+  String get submit {
+    return Intl.message(
+      'submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `all`
+  String get all {
+    return Intl.message(
+      'all',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimate`
+  String get add_Estimate {
+    return Intl.message(
+      'Estimate',
+      name: 'add_Estimate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SmokingStatus`
   String get smokingStatus_status {
     return Intl.message(
-      'Smoking Status',
+      'SmokingStatus',
       name: 'smokingStatus_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cumulative Time`
-  String get smokingStatus_cumulativeTime {
+  /// `Total time`
+  String get smokingStatus_total_time {
     return Intl.message(
-      'Cumulative Time',
-      name: 'smokingStatus_cumulativeTime',
+      'Total time',
+      name: 'smokingStatus_total_time',
       desc: '',
       args: [],
     );
   }
 
-  /// `Evaluation Rating`
+  /// `SmokingStatus_evaluate`
   String get smokingStatus_evaluate {
     return Intl.message(
-      'Evaluation Rating',
+      'SmokingStatus_evaluate',
       name: 'smokingStatus_evaluate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Number of Cigarettes`
+  /// `Smoking count`
   String get smokingStatus_smokeCount {
     return Intl.message(
-      'Number of Cigarettes',
+      'Smoking count',
       name: 'smokingStatus_smokeCount',
       desc: '',
       args: [],
     );
   }
 
-  /// `Spacing Time`
+  /// `spacing time`
   String get smokingStatus_spacing {
     return Intl.message(
-      'Spacing Time',
+      'spacing time',
       name: 'smokingStatus_spacing',
       desc: '',
       args: [],
     );
   }
 
-  /// `Edit Single Data`
+  /// `Single data editing`
   String get setting_edit_one {
     return Intl.message(
-      'Edit Single Data',
+      'Single data editing',
       name: 'setting_edit_one',
       desc: '',
       args: [],
     );
   }
 
-  /// `Edit`
+  /// `edit`
   String get setting_edit {
     return Intl.message(
-      'Edit',
+      'edit',
       name: 'setting_edit',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save`
+  /// `save`
   String get setting_save {
     return Intl.message(
-      'Save',
+      'save',
       name: 'setting_save',
       desc: '',
       args: [],
     );
   }
 
-  /// `stop Ad`
+  /// `Disable ads`
   String get setting_stopAd {
     return Intl.message(
-      'stop Ad',
+      'Disable ads',
       name: 'setting_stopAd',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save by Count`
+  /// `Save by quantity`
   String get setting_saveByCount {
     return Intl.message(
-      'Save by Count',
+      'Save by quantity',
       name: 'setting_saveByCount',
       desc: '',
       args: [],
@@ -260,20 +360,20 @@ class S {
     );
   }
 
-  /// `Export Data to CSV`
+  /// `Data export CSV`
   String get setting_exportCsv {
     return Intl.message(
-      'Export Data to CSV',
+      'Data export CSV',
       name: 'setting_exportCsv',
       desc: '',
       args: [],
     );
   }
 
-  /// `Data Import`
+  /// `Data import`
   String get setting_importData {
     return Intl.message(
-      'Data Import',
+      'Data import',
       name: 'setting_importData',
       desc: '',
       args: [],
@@ -290,40 +390,40 @@ class S {
     );
   }
 
-  /// `Language Settings`
+  /// `Language setting`
   String get setting_language {
     return Intl.message(
-      'Language Settings',
+      'Language setting',
       name: 'setting_language',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change Day Time`
+  /// `Change day time`
   String get setting_changeDayTime {
     return Intl.message(
-      'Change Day Time',
+      'Change day time',
       name: 'setting_changeDayTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Single Cigarette Time`
+  /// `Single cigarette time`
   String get setting_singleCigaretteTime {
     return Intl.message(
-      'Single Cigarette Time',
+      'Single cigarette time',
       name: 'setting_singleCigaretteTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change Day Notification`
+  /// `Day change notification`
   String get setting_changeDayNotification {
     return Intl.message(
-      'Change Day Notification',
+      'Day change notification',
       name: 'setting_changeDayNotification',
       desc: '',
       args: [],
@@ -340,60 +440,60 @@ class S {
     );
   }
 
-  /// `Record Notification Time`
+  /// `Record notification time`
   String get setting_recordNotificationTime {
     return Intl.message(
-      'Record Notification Time',
+      'Record notification time',
       name: 'setting_recordNotificationTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Date`
+  /// `date`
   String get time_date {
     return Intl.message(
-      'Date',
+      'date',
       name: 'time_date',
       desc: '',
       args: [],
     );
   }
 
-  /// `Time`
+  /// `time`
   String get time_Time {
     return Intl.message(
-      'Time',
+      'time',
       name: 'time_Time',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start Time`
+  /// `Start time`
   String get time_startTime {
     return Intl.message(
-      'Start Time',
+      'Start time',
       name: 'time_startTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `End Time`
+  /// `End time`
   String get time_endTime {
     return Intl.message(
-      'End Time',
+      'End time',
       name: 'time_endTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start`
+  /// `start`
   String get time_start {
     return Intl.message(
-      'Start',
+      'start',
       name: 'time_start',
       desc: '',
       args: [],
@@ -410,40 +510,40 @@ class S {
     );
   }
 
-  /// `Today (Yesterday)`
+  /// `Today (yesterday)`
   String get time_by_day {
     return Intl.message(
-      'Today (Yesterday)',
+      'Today (yesterday)',
       name: 'time_by_day',
       desc: '',
       args: [],
     );
   }
 
-  /// `This Week (Last Week)`
+  /// `This week (last week)`
   String get time_by_week {
     return Intl.message(
-      'This Week (Last Week)',
+      'This week (last week)',
       name: 'time_by_week',
       desc: '',
       args: [],
     );
   }
 
-  /// `Spacing Time`
+  /// `Interval time`
   String get time_spacingTime {
     return Intl.message(
-      'Spacing Time',
+      'Interval time',
       name: 'time_spacingTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `(Minutes)`
+  /// `(minute)`
   String get time_unit {
     return Intl.message(
-      '(Minutes)',
+      '(minute)',
       name: 'time_unit',
       desc: '',
       args: [],

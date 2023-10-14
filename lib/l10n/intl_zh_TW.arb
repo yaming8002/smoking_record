@@ -9,10 +9,21 @@
     "page_imageDisplayPage": "分享圖片",
     "page_title": "標題",
 
+    "query": "查詢",
+    "query_criteria": "查詢條件",
+    "item": "項目",
+    "weekly": "單周",
+    "daily": "單日",
+    "date_range": "日期範圍",
+    "cancel": "取消",
+    "submit": "提交",
+    "all": "全部",
+
+    "add_Estimate": "估算",
     "smokingStatus_status": "吸煙狀態",
-    "smokingStatus_cumulativeTime": "累計時間",
+    "smokingStatus_total_time": "總時間",
     "smokingStatus_evaluate": "感受評分",
-    "smokingStatus_smokeCount": "菸數",
+    "smokingStatus_smokeCount": "吸菸數量",
     "smokingStatus_spacing": "間隔時間",
 
     "setting_edit_one": "單筆資料編輯",
@@ -49,13 +60,14 @@
 
     "about_app": "關於本程式",
     "contact_author": "聯繫作者",
-    "image_compare_this":"比較今日",
-    "image_compare_yesterday":"比較昨日",
+    "image_compare_this": "比較今日",
+    "image_compare_yesterday": "比較昨日",
     "image_Smoking_Less": "{date} 的吸菸數量比前一日少，做得好！",
     "image_Smoking_Equal": "{date} 與前一日的吸菸數量持平，繼續加油！",
     "image_Smoking_More": "{date} 的吸菸數量比前一日多，再接再厲！",
-    "image_Share":"分享" ,
+    "image_Share": "分享",
     "image_Smoking_feel": "輸入感受",
+
 
      "privacyPolicy_title": "隱私權說明",
       "privacyPolicy_section1_title": "1. 資料的蒐集",
