@@ -55,9 +55,9 @@ dependencies:
   share: any
   flutter_image: any
   image: any
-
+  auto_size_text: any
   google_mobile_ads: ^1.2.0
-
+  flutter_staggered_grid_view: any
 
 dev_dependencies:
   flutter_test:

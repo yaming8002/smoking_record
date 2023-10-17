@@ -26,8 +26,12 @@ class StatusListProvider with ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    smokingList = await service.selectByRang(currentPage, itemsPerPage,
-        DateTimeUtil.getOneDateRange(DateTime.parse(dateController.text)));
+    final range =
+        DateTimeUtil.getOneDateRange(DateTime.parse(dateController.text));
+    smokingList = await service.selectByRang(currentPage, itemsPerPage, [
+      DateTimeUtil.getDateTime(range[0]),
+      DateTimeUtil.getDateTime(range[1])
+    ]);
     notifyListeners();
   }
 

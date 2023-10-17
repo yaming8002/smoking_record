@@ -39,7 +39,7 @@ class EditRecordProvider with ChangeNotifier {
   updateSmokingStatus() async {
     status.totalTime = status.endTime.difference(status.startTime);
     service.updateSmokingStatus(status.toMap());
-    await summaryService
-        ?.updateSummaryDay(DateTimeUtil.getNowDate(now: status.endTime));
+    await summaryService?.updateSummaryDay(status.endTime);
+    await summaryService?.updateSummaryWeek(status.endTime);
   }
 }

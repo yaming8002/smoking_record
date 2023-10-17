@@ -51,6 +51,7 @@ class SettingsProvider with ChangeNotifier {
   }
 
   String get timeChange => AppSettingService.getTimeChange();
+
   set timeChange(String value) {
     AppSettingService.setTimeChange(value);
     notifyListeners();
@@ -72,8 +73,13 @@ class SettingsProvider with ChangeNotifier {
     csvManager?.exportDataToCsv();
   }
 
-  void importDataToCsv() {
-    csvManager!.importCsvAndSaveToDatabase();
+  Future<void> importDataToCsv() async {
+    await csvManager!.importCsvAndSaveToDatabase();
+    await summaryService.cleanAll();
+  }
+
+  Future<void> dataRecount() async {
+    await summaryService.cleanAll();
   }
 
   testnutton() {

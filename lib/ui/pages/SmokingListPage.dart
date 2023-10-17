@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smoking_record/utils/dateTimeUtil.dart';
 
 import '../../core/providers/StatusListProvider.dart';
 import '../../generated/l10n.dart';
@@ -67,7 +68,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
                             Center(child: Text(S.current.time_startTime)),
                             Center(child: Text(S.current.time_endTime)),
                             Center(
-                                child: Text(S.current.smokingStatus_evaluate)),
+                                child: Text(S.current.smokingStatus_spacing)),
                           ],
                         ),
                         ...provider.smokingList.map((item) {
@@ -87,7 +88,9 @@ class _SmokingListPageState extends State<SmokingListPage> {
                                   child: Text(item.endTime
                                       .toIso8601String()
                                       .substring(11, 19))),
-                              Center(child: Text('${item.evaluate}')),
+                              Center(
+                                  child: Text(DateTimeUtil.formatDuration(
+                                      item.spacing ?? const Duration()))),
                             ],
                           );
                         }).toList(),
@@ -99,7 +102,6 @@ class _SmokingListPageState extends State<SmokingListPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      child: Text(S.current.page_previous),
                       onPressed: provider.currentPage > 0
                           ? () {
                               if (provider.currentPage > 0) {
@@ -108,15 +110,16 @@ class _SmokingListPageState extends State<SmokingListPage> {
                               }
                             }
                           : null,
+                      child: Text(S.current.page_previous),
                     ),
                     ElevatedButton(
-                      child: Text(S.current.page_next),
                       onPressed: provider.smokingList.length < 10
                           ? null
                           : () {
                               provider.currentPage++; // Fixed here
                               provider.loadData();
                             },
+                      child: Text(S.current.page_next),
                     ),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/providers/ImageDisplayRovider.dart';
+import '../../generated/l10n.dart';
 import '../widgets/AppFrame.dart';
 
 class ImageDisplayPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _ImageDisplayPage extends State<ImageDisplayPage> {
       child: Consumer<ImageDisplayProvider>(
         builder: (context, provider, child) {
           return AppFrame(
-            appBarTitle: 'Image Display',
+            appBarTitle: S.current.page_imageDisplayPage,
             body: Column(
               children: <Widget>[
                 ElevatedButton(
@@ -28,8 +29,8 @@ class _ImageDisplayPage extends State<ImageDisplayPage> {
                     // 你可以在這裡添加邏輯以決定如何更新 _textOnImage，或者在 ImageDisplayProvider 的 toggleComparison 方法中添加
                   },
                   child: Text(provider.compareTodayAndYesterday
-                      ? 'Compare Today and Yesterday'
-                      : 'Compare Yesterday and Day Before'),
+                      ? S.current.image_compare_this
+                      : S.current.image_compare_yesterday),
                 ),
                 TextFormField(
                   maxLines: null, // null makes it grow automatically
@@ -37,16 +38,16 @@ class _ImageDisplayPage extends State<ImageDisplayPage> {
                   onChanged: (text) {
                     provider.updateText(text);
                   },
-                  decoration: const InputDecoration(
-                    hintText: "輸入感受",
+                  decoration: InputDecoration(
+                    hintText: S.current.image_Smoking_feel,
                     border:
-                        OutlineInputBorder(), // adds a border around the TextFormField
+                        const OutlineInputBorder(), // adds a border around the TextFormField
                   ),
                 ),
                 provider.imageWithText,
                 ElevatedButton(
                   onPressed: provider.shareImage,
-                  child: const Text('Share Image'),
+                  child: Text(S.current.image_Share),
                 ),
               ],
             ),

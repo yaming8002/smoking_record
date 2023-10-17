@@ -21,13 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   static String m0(date) =>
-      "${date} had the same smoking count as the previous day. Keep it up!";
+      "${date} has the same number of cigarettes as the previous day, keep it up!";
 
   static String m1(date) =>
-      "${date}\'s smoking count is less than the previous day. Good job!";
+      "The number of cigarettes smoked on ${date} is less than the previous day, well done!";
 
   static String m2(date) =>
-      "${date}\'s smoking count is more than the previous day. Stay strong and push on!";
+      "The number of cigarettes smoked on ${date} is more than the previous day, keep going!";
 
   static String m3(count, yesterday, dayBefore) =>
       "Congratulations! You smoked ${count} fewer cigarettes on ${yesterday} than on ${dayBefore}.";
@@ -35,71 +35,136 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
+        "add_Estimate": MessageLookupByLibrary.simpleMessage("Estimate"),
+        "all": MessageLookupByLibrary.simpleMessage("all"),
+        "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
+        "daily": MessageLookupByLibrary.simpleMessage("single day"),
+        "date_range": MessageLookupByLibrary.simpleMessage("date range"),
+        "home_start": MessageLookupByLibrary.simpleMessage("Start Recording"),
+        "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
         "image_Smoking_More": m2,
+        "image_Smoking_feel":
+            MessageLookupByLibrary.simpleMessage("Enter feelings"),
+        "image_compare_this":
+            MessageLookupByLibrary.simpleMessage("Compare Today"),
+        "image_compare_yesterday":
+            MessageLookupByLibrary.simpleMessage("Compare Yesterday"),
+        "item": MessageLookupByLibrary.simpleMessage("item"),
         "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
         "msg_keepItUp": MessageLookupByLibrary.simpleMessage(
-            "Keep it up! Gradually reduce your smoking."),
-        "page_add": MessageLookupByLibrary.simpleMessage("Add"),
+            "Keep it up! Gradually reduce the number of cigarettes."),
+        "page_add": MessageLookupByLibrary.simpleMessage("New"),
         "page_home": MessageLookupByLibrary.simpleMessage("Smoking Record"),
-        "page_list": MessageLookupByLibrary.simpleMessage("List"),
-        "page_next": MessageLookupByLibrary.simpleMessage("Next Page"),
-        "page_previous": MessageLookupByLibrary.simpleMessage("Previous Page"),
-        "page_report": MessageLookupByLibrary.simpleMessage("Report"),
-        "page_setting": MessageLookupByLibrary.simpleMessage("Settings"),
-        "page_title": MessageLookupByLibrary.simpleMessage("Title"),
+        "page_imageDisplayPage":
+            MessageLookupByLibrary.simpleMessage("Share pictures"),
+        "page_list": MessageLookupByLibrary.simpleMessage("list"),
+        "page_next": MessageLookupByLibrary.simpleMessage("Next page"),
+        "page_previous": MessageLookupByLibrary.simpleMessage("Previous page"),
+        "page_report": MessageLookupByLibrary.simpleMessage("report"),
+        "page_setting": MessageLookupByLibrary.simpleMessage("setting"),
+        "page_title": MessageLookupByLibrary.simpleMessage("title"),
+        "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
+            "Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information."),
+        "privacyPolicy_section1_title":
+            MessageLookupByLibrary.simpleMessage("1. Data Collection"),
+        "privacyPolicy_section2_content": MessageLookupByLibrary.simpleMessage(
+            "The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party."),
+        "privacyPolicy_section2_title":
+            MessageLookupByLibrary.simpleMessage("2. Use of Data"),
+        "privacyPolicy_section3_content": MessageLookupByLibrary.simpleMessage(
+            "Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information."),
+        "privacyPolicy_section3_title":
+            MessageLookupByLibrary.simpleMessage("3. Data Export and Import"),
+        "privacyPolicy_section4_content": MessageLookupByLibrary.simpleMessage(
+            "Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information."),
+        "privacyPolicy_section4_title":
+            MessageLookupByLibrary.simpleMessage("4. Sharing Function"),
+        "privacyPolicy_section5_content": MessageLookupByLibrary.simpleMessage(
+            "We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data."),
+        "privacyPolicy_section5_title":
+            MessageLookupByLibrary.simpleMessage("5. Data Protection"),
+        "privacyPolicy_section6_content": MessageLookupByLibrary.simpleMessage(
+            "Our App uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users."),
+        "privacyPolicy_section6_title": MessageLookupByLibrary.simpleMessage(
+            "6. Third-party Advertising Service"),
+        "privacyPolicy_title":
+            MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+        "query": MessageLookupByLibrary.simpleMessage("query"),
+        "query_criteria":
+            MessageLookupByLibrary.simpleMessage("query criteria"),
         "setting_changeDayNotification":
-            MessageLookupByLibrary.simpleMessage("Change Day Notification"),
+            MessageLookupByLibrary.simpleMessage("Day change notification"),
         "setting_changeDayTime":
-            MessageLookupByLibrary.simpleMessage("Change Day Time"),
+            MessageLookupByLibrary.simpleMessage("Change day time"),
+        "setting_crossoverTime":
+            MessageLookupByLibrary.simpleMessage("Crossover Time"),
         "setting_dataProcessing":
             MessageLookupByLibrary.simpleMessage("Data Processing"),
-        "setting_edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "setting_data_processing_in_progress":
+            MessageLookupByLibrary.simpleMessage(
+                "Data Processing In Progress..."),
+        "setting_data_recalculation":
+            MessageLookupByLibrary.simpleMessage("Data Recalculation"),
+        "setting_edit": MessageLookupByLibrary.simpleMessage("edit"),
         "setting_edit_one":
-            MessageLookupByLibrary.simpleMessage("Edit Single Data"),
-        "setting_exportCsv":
-            MessageLookupByLibrary.simpleMessage("Export Data to CSV"),
-        "setting_importCsv": MessageLookupByLibrary.simpleMessage("Import CSV"),
+            MessageLookupByLibrary.simpleMessage("Single data editing"),
+        "setting_export": MessageLookupByLibrary.simpleMessage("export"),
+        "setting_exportData":
+            MessageLookupByLibrary.simpleMessage("Data export"),
+        "setting_import": MessageLookupByLibrary.simpleMessage("import"),
         "setting_importData":
-            MessageLookupByLibrary.simpleMessage("Data Import"),
+            MessageLookupByLibrary.simpleMessage("Data import"),
         "setting_language":
-            MessageLookupByLibrary.simpleMessage("Language Setting"),
+            MessageLookupByLibrary.simpleMessage("Language setting"),
+        "setting_languageSettings":
+            MessageLookupByLibrary.simpleMessage("Language Settings"),
+        "setting_notifications":
+            MessageLookupByLibrary.simpleMessage("Notifications"),
         "setting_privacyAndServiceTerms":
-            MessageLookupByLibrary.simpleMessage("Privacy & Service Terms"),
+            MessageLookupByLibrary.simpleMessage("Privacy and Service Terms"),
+        "setting_recalculation":
+            MessageLookupByLibrary.simpleMessage("Recalculation"),
         "setting_recordNotification":
             MessageLookupByLibrary.simpleMessage("Record Notification"),
         "setting_recordNotificationTime":
-            MessageLookupByLibrary.simpleMessage("Record Notification Time"),
-        "setting_save": MessageLookupByLibrary.simpleMessage("Save"),
+            MessageLookupByLibrary.simpleMessage("Record notification time"),
+        "setting_save": MessageLookupByLibrary.simpleMessage("save"),
         "setting_saveByCount":
-            MessageLookupByLibrary.simpleMessage("Save By Count"),
+            MessageLookupByLibrary.simpleMessage("Save by quantity"),
+        "setting_settings": MessageLookupByLibrary.simpleMessage("Preferences"),
         "setting_singleCigaretteTime":
-            MessageLookupByLibrary.simpleMessage("Single Cigarette Time"),
-        "smokingStatus_cumulativeTime":
-            MessageLookupByLibrary.simpleMessage("Cumulative Time"),
+            MessageLookupByLibrary.simpleMessage("Single cigarette time"),
+        "setting_stopAd": MessageLookupByLibrary.simpleMessage("Disable ads"),
         "smokingStatus_evaluate":
-            MessageLookupByLibrary.simpleMessage("Feeling Rating"),
+            MessageLookupByLibrary.simpleMessage("SmokingStatus_evaluate"),
         "smokingStatus_smokeCount":
-            MessageLookupByLibrary.simpleMessage("Cigarette Count"),
+            MessageLookupByLibrary.simpleMessage("Smoking count"),
         "smokingStatus_spacing":
-            MessageLookupByLibrary.simpleMessage("Spacing Time"),
+            MessageLookupByLibrary.simpleMessage("spacing time"),
         "smokingStatus_status":
-            MessageLookupByLibrary.simpleMessage("Smoking Status"),
+            MessageLookupByLibrary.simpleMessage("SmokingStatus"),
+        "smokingStatus_total_time":
+            MessageLookupByLibrary.simpleMessage("   Total time   "),
+        "submit": MessageLookupByLibrary.simpleMessage("submit"),
+        "time_Time": MessageLookupByLibrary.simpleMessage("time"),
         "time_by_day":
-            MessageLookupByLibrary.simpleMessage("Today (Yesterday)"),
+            MessageLookupByLibrary.simpleMessage(" Today(yesterday) "),
         "time_by_week":
-            MessageLookupByLibrary.simpleMessage("This Week (Last Week)"),
-        "time_date": MessageLookupByLibrary.simpleMessage("Date"),
+            MessageLookupByLibrary.simpleMessage("This week(last week)"),
+        "time_date": MessageLookupByLibrary.simpleMessage("date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
-        "time_endTime": MessageLookupByLibrary.simpleMessage("End Time"),
+        "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
         "time_spacingTime":
-            MessageLookupByLibrary.simpleMessage("Spacing Time"),
-        "time_start": MessageLookupByLibrary.simpleMessage("Start"),
-        "time_startTime": MessageLookupByLibrary.simpleMessage("Start Time")
+            MessageLookupByLibrary.simpleMessage("Interval time"),
+        "time_start": MessageLookupByLibrary.simpleMessage("start"),
+        "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(minute)"),
+        "weekly": MessageLookupByLibrary.simpleMessage("single week")
       };
 }

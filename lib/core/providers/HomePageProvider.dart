@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/l10n.dart';
 import '../../ui/pages/AddPage.dart';
 import '../../ui/widgets/input/InterstitialState.dart';
 import '../../utils/dateTimeUtil.dart';
+import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
-import '../models/summaryDay.dart';
+import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
 import '../services/DayTimeManager.dart';
 import '../services/SmokingSatusService.dart';
@@ -18,27 +20,29 @@ class HomePageProvider with ChangeNotifier {
   final SummaryService summaryService;
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
-  String timeDiff = "00:00:00";
-  SummaryDay? today;
-  SummaryDay? yesterday;
-  SummaryDay? thisWeek;
-  SummaryDay? beforeWeek;
+  String timeDiff = "";
+  Summary? today;
+  Summary? yesterday;
+  Summary? thisWeek;
+  Summary? beforeWeek;
   TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
   String? changTimeStr = AppSettingService.getTimeChange();
   String? imagePath;
   String? message;
+  PageTextSizes? szieMap;
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
         summaryService = Provider.of<SummaryService>(context) {
     loadData();
+    szieMap = PageTextSizes();
   }
 
   Future<void> loadData() async {
     await _reloadTargetTime();
-    await _getDayTotalNumFromService();
-    await _getWeekTotalNumFromService();
-    timeDiff = "00:00:00";
+    await _getSummaryDayFromService();
+    await _getSummaryWeekFromService();
+    timeDiff = S.current.home_start;
     startTimer();
     notifyListeners();
   }
@@ -47,7 +51,7 @@ class HomePageProvider with ChangeNotifier {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       timeDiff = DayTimeManager().isTimeWithin(_targetTime)
           ? DateTimeUtil.formatDuration(DateTime.now().difference(_targetTime!))
-          : '00:00:00';
+          : S.current.home_start;
 
       notifyListeners();
     });
@@ -59,23 +63,22 @@ class HomePageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _getDayTotalNumFromService() async {
-    String todayStr = DateTimeUtil.getNowDate();
+  Future<void> _getSummaryDayFromService() async {
+    DateTime now = DateTime.now();
 
-    today = await summaryService.getDayTotalNum(todayStr);
-    yesterday = await summaryService.getDayTotalNum(
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: todayStr)));
+    today = await summaryService.getSummary(now);
+    yesterday =
+        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
 
     notifyListeners();
   }
 
-  Future<void> _getWeekTotalNumFromService() async {
+  Future<void> _getSummaryWeekFromService() async {
     DateTime now = DateTime.now();
 
-    thisWeek = await summaryService.getWeekTotalNum(now!);
-    beforeWeek =
-        await summaryService.getWeekTotalNum(now!.subtract(Duration(days: 7)));
-
+    thisWeek = await summaryService.getSummary(now!, 'SummaryWeek');
+    beforeWeek = await summaryService.getSummary(
+        now!.subtract(const Duration(days: 7)), 'SummaryWeek');
     notifyListeners();
   }
 
@@ -87,13 +90,13 @@ class HomePageProvider with ChangeNotifier {
     // 如果需要在廣告後進行其他操作，您可以在此處進行
   }
 
-  void onNavigateToSecondPage(BuildContext context) async {
+  Future<void> onNavigateToSecondPage(BuildContext context) async {
     SmokingStatus newStatus = SmokingStatus(
         null,
         1,
         DateTime.now(),
         DateTime.now(),
-        3,
+        0,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
     if (!AppSettingService.getisStopAd()) {

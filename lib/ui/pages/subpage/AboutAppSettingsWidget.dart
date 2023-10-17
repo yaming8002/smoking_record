@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/providers/SettingProvider.dart';
-import '../SettingsTile.dart';
+import '../../../core/services/AppSettingService.dart';
+import '../../../generated/l10n.dart';
+import '../../widgets/SettingsTile.dart';
+import '../PrivacyPolicyPage.dart';
 
 class AboutAppSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -21,7 +24,7 @@ class AboutAppSettingsWidget extends StatelessWidget {
             // borderRadius: BorderRadius.circular(8.0), // 設置圓角
           ),
           child: Text(
-            '關於本程式',
+            S.current.about_app,
             style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -31,7 +34,11 @@ class AboutAppSettingsWidget extends StatelessWidget {
         const Divider(),
         Column(
           children: [
+            _buildADMode(provider),
+            const Divider(),
             _buildAboutAppSetting(provider),
+            const Divider(),
+            _buildPrivacyPolicyPage(context),
             const Divider(),
             _buildContactAuthorSetting(provider),
             const Divider(),
@@ -43,18 +50,42 @@ class AboutAppSettingsWidget extends StatelessWidget {
   }
 }
 
+Widget _buildADMode(SettingsProvider provider) {
+  return SettingsTile(
+    title: S.current.setting_stopAd,
+    trailing: Switch(
+      value: AppSettingService.getisStopAd(),
+      onChanged: (value) {
+        AppSettingService.setIsStopAd(value);
+      },
+    ),
+  );
+}
+
+Widget _buildPrivacyPolicyPage(BuildContext context) {
+  return SettingsTile(
+    title: S.current.privacyPolicy_title,
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+      );
+    },
+  );
+}
+
 // 關於我們
 Widget _buildAboutAppSetting(SettingsProvider provider) {
   return SettingsTile(
-    title: '關於本程式',
+    title: S.current.about_app,
     trailing: Text(provider.aboutApp ?? "---"), // 後續把版本資訊包在其中
   );
 }
 
 Widget _buildContactAuthorSetting(SettingsProvider provider) {
   return SettingsTile(
-    title: '聯繫作者',
-    trailing: Text('Contact'),
+    title: S.current.contact_author,
+    trailing: const Text('Contact'),
     //   ElevatedButton(
     //     onPressed: provider.contactAuthor,
     //     child: Text('Contact'),

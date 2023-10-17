@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../generated/l10n.dart';
-import '../../utils/dateTimeUtil.dart';
-import '../models/summaryDay.dart';
+import '../models/Summary.dart';
 import '../services/SummaryService.dart';
 
 class ImageDisplayProvider with ChangeNotifier {
@@ -42,16 +41,12 @@ class ImageDisplayProvider with ChangeNotifier {
   }
 
   void _updateInitialText() async {
-    String date = _compareTodayAndYesterday
-        ? DateTimeUtil.getDate()
-        : // 取得今天的日期
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday()); // 取得昨天的日期
-    String yesterday =
-        DateTimeUtil.getDate(DateTimeUtil.getYesterday(today: date));
-    SummaryDay thisSummary = await summaryService.getDayTotalNum(date);
-    SummaryDay beforeSummary = await summaryService.getDayTotalNum(yesterday);
-    print(thisSummary);
-    print(beforeSummary);
+    DateTime now = DateTime.now();
+
+    Summary thisSummary = await summaryService.getSummary(now);
+    Summary beforeSummary =
+        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
+
     if (thisSummary.count < beforeSummary.count) {
       _defaultOnImage = S.current.image_Smoking_Less(thisSummary.sDate);
       //  "${thisSummary.sDate} 吸菸數比前一天少${thisSummary.count - beforeSummary.count} \n 有開始減少數量\n";
