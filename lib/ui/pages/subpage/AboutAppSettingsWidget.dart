@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/providers/SettingProvider.dart';
-import '../../core/services/AppSettingService.dart';
-import '../../generated/l10n.dart';
-import '../pages/PrivacyPolicyPage.dart';
-import 'SettingsTile.dart';
+import '../../../core/providers/SettingProvider.dart';
+import '../../../core/services/AppSettingService.dart';
+import '../../../generated/l10n.dart';
+import '../../widgets/SettingsTile.dart';
+import '../PrivacyPolicyPage.dart';
 
 class AboutAppSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;

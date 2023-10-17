@@ -51,6 +51,7 @@ class SettingsProvider with ChangeNotifier {
   }
 
   String get timeChange => AppSettingService.getTimeChange();
+
   set timeChange(String value) {
     AppSettingService.setTimeChange(value);
     notifyListeners();

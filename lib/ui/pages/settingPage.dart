@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smoking_record/ui/widgets/PreferenceSettingsWidget.dart';
+import 'package:smoking_record/ui/pages/subpage/PreferenceSettingsWidget.dart';
 
 import '../../core/providers/SettingProvider.dart';
 import '../../generated/l10n.dart';
-import '../widgets/AboutAppSettingsWidget.dart';
 import '../widgets/AppFrame.dart';
-import '../widgets/DataProcessingSettingsWidget.dart';
+import 'subpage/AboutAppSettingsWidget.dart';
+import 'subpage/DataProcessingSettingsWidget.dart';
 
 class SettingsPage extends StatefulWidget {
   @override

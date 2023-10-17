@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/models/Summary.dart';
-import '../../core/providers/HomePageProvider.dart';
-import '../../generated/l10n.dart';
-import '../pages/ImageDisplayPage.dart';
-import '../pages/reportPage.dart';
+import '../../../core/models/Summary.dart';
+import '../../../core/providers/HomePageProvider.dart';
+import '../../../generated/l10n.dart';
+import '../ImageDisplayPage.dart';
+import '../reportPage.dart';
 
 class InfoSection extends StatelessWidget {
   final String title;
@@ -36,7 +36,7 @@ class InfoSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           _buildHeader(context),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Expanded(
             child: Row(
               children: [
@@ -62,44 +62,53 @@ class InfoSection extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    double formatH2 = Theme.of(context).textTheme.headlineSmall!.fontSize!;
-
+    // double formatH2 = Theme.of(context).textTheme.headlineSmall!.fontSize!;
+    provider.szieMap
+        ?.setSize("formatH2", Theme.of(context).textTheme.bodySmall!.fontSize!);
     return Container(
       width: double.infinity,
-      // padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blue,
-        borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: formatH2,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
+          Expanded(
+            flex: 7, // 85%
+            child: AutoSizeText(
+              title,
+              minFontSize: 9,
+              maxFontSize: 20,
+              maxLines: 1,
+              style: TextStyle(
+                  fontSize: provider.szieMap?.getSize("formatH2"),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
           ),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ImageDisplayPage()),
+          Expanded(
+            flex: 3, // 15%
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ImageDisplayPage()),
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.bar_chart),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReportPage(isWeekly: isWeekly)),
+                IconButton(
+                  icon: const Icon(Icons.bar_chart),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ReportPage(isWeekly: isWeekly)),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

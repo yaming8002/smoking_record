@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/dateTimeUtil.dart';
+import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
 import 'AppSettingService.dart';
 import 'DatabaseManager.dart';
@@ -19,7 +20,8 @@ class SummaryService {
     // Build query string
     String daySelect =
         '''SELECT * FROM $tableName WHERE startTime < ? and endTime > ? ''';
-
+    print("daySelect $daySelect ");
+    print("now $now ");
     final weekTotalRes = await databaseManager?.rawQuery(daySelect,
         [DateTimeUtil.getDateTime(now), DateTimeUtil.getDateTime(now)]);
     print("weekTotalRes $weekTotalRes ");
@@ -117,12 +119,17 @@ class SummaryService {
     await databaseManager.deleteAll("SummaryWeek");
     String selectfirststatus =
         '''SELECT * FROM SmokingStatus ORDER BY id LIMIT 1;  ''';
-    List<Map<String, dynamic>> firstStatus =
-        await databaseManager.rawQuery(selectfirststatus);
-    DateTime firstDate = DateTime.parse(firstStatus[0]["startTime"]);
+    List<Map<String, dynamic>> statuses =
+        await databaseManager.select("SmokingStatus");
+    print(statuses);
 
-    await databaseManager
-        .execute(updateStatusSql, ["${AppSettingService.getTimeChange()}:00"]);
+    DateTime firstDate = DateTime.parse(statuses[0]["startTime"]);
+
+    await processRecordsInPlace(
+        statuses, "${AppSettingService.getTimeChange()}:00");
+
+    // await databaseManager
+    //     .execute(updateStatusSql, ["${AppSettingService.getTimeChange()}:00"]);
 
     DateTime currentDate = DateTime.now();
     Set<DateTime> dates = {};
@@ -132,6 +139,33 @@ class SummaryService {
     }
     dates.add(currentDate);
     await generateSummaries(dates);
+  }
+
+  Future<void> processRecordsInPlace(
+      List<Map<String, dynamic>> records, String crossoverTime) async {
+    SmokingStatus? previous;
+
+    for (Map<String, dynamic> item in records) {
+      SmokingStatus current = SmokingStatus.fromMap(item);
+      DateTime startTime = current.startTime;
+      DateTime? prevEndTime = previous?.endTime;
+      DateTime crossover =
+          DateTime.parse('${DateTimeUtil.getDate(startTime)} $crossoverTime');
+
+      Duration? spacing;
+      if (prevEndTime == null || startTime.isBefore(prevEndTime!)) {
+        spacing = null;
+      } else if (startTime.isAfter(crossover) &&
+          prevEndTime.isBefore(crossover)) {
+        spacing = null;
+      } else {
+        spacing = startTime.difference(prevEndTime!);
+      }
+
+      current.spacing = spacing;
+      previous = current;
+      await databaseManager.insertorReplace("SmokingStatus", current.toMap());
+    }
   }
 
   final String summarySelectSql = '''
@@ -147,29 +181,5 @@ class SummaryService {
           COALESCE(CAST(avg(evaluate) AS INTEGER), 0)  as evaluate
     FROM SmokingStatus 
     WHERE endTime > ? and endTime < ? 
-  ''';
-
-  final String updateStatusSql = '''
-    WITH CTE AS (
-        SELECT
-            SmokingStatus.id,
-            LAG(SmokingStatus.endTime, 1) OVER (ORDER BY SmokingStatus.startTime) AS prevEndTime,
-            SmokingStatus.startTime,
-            strftime('%Y-%m-%d', SmokingStatus.startTime) || ' ' || ? AS crossoverTime  -- 換日時間
-        FROM SmokingStatus
-    )
-    
-    UPDATE SmokingStatus
-    SET spacing = 
-        CASE 
-            -- 當 startTime 小於前一筆的 endTime，設定 spacing 為 null
-            WHEN SmokingStatus.startTime <= COALESCE(CTE.prevEndTime, SmokingStatus.startTime) THEN NULL  
-            -- 當 startTime 大於 crossoverTime 且前一筆的 endTime 小於 crossoverTime，設定 spacing 為 null
-            WHEN SmokingStatus.startTime > CTE.crossoverTime AND COALESCE(CTE.prevEndTime, '1900-01-01') < CTE.crossoverTime THEN NULL  
-            -- 其他情況，計算 startTime - endTime 並設定為 spacing
-            ELSE (strftime('%s', SmokingStatus.startTime) - strftime('%s', COALESCE(CTE.prevEndTime, SmokingStatus.startTime))) * 1000  
-        END
-    FROM CTE
-    WHERE CTE.id = SmokingStatus.id;
   ''';
 }

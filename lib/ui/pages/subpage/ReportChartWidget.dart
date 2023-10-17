@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/models/Summary.dart';
+import '../../../core/models/Summary.dart';
 
 class ReportChatWidget extends StatefulWidget {
   final List<Summary>? summaryDayList;
@@ -95,7 +95,7 @@ class _ReportChatWidget extends State<ReportChatWidget> {
             child: SizedBox(
               width: containerWidth,
               child: Container(
-                padding: EdgeInsets.only(top: 15, bottom: 30),
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -123,14 +123,14 @@ class _ReportChatWidget extends State<ReportChatWidget> {
                             if (index >= 0 &&
                                 index < widget.summaryDayList!.length) {
                               return Transform.rotate(
-                                origin: Offset(11, 10),
+                                origin: const Offset(11, 10),
                                 angle: -45 * (pi / 180),
                                 alignment: Alignment.center,
                                 child: Text(widget.summaryDayList![index].sDate
                                     .substring(5)),
                               );
                             }
-                            return Text('');
+                            return const Text('');
                           },
                         ),
                       ),

@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_author": MessageLookupByLibrary.simpleMessage("联系作者"),
         "daily": MessageLookupByLibrary.simpleMessage("单日"),
         "date_range": MessageLookupByLibrary.simpleMessage("日期范围"),
+        "home_start": MessageLookupByLibrary.simpleMessage("开始记录"),
         "image_Share": MessageLookupByLibrary.simpleMessage("分享"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
@@ -90,21 +91,32 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_changeDayNotification":
             MessageLookupByLibrary.simpleMessage("换日通知"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("换日时间"),
+        "setting_crossoverTime": MessageLookupByLibrary.simpleMessage("换日时间"),
         "setting_dataProcessing": MessageLookupByLibrary.simpleMessage("资料处里"),
+        "setting_data_processing_in_progress":
+            MessageLookupByLibrary.simpleMessage("资料处理中..."),
+        "setting_data_recalculation":
+            MessageLookupByLibrary.simpleMessage("资料重新计算"),
         "setting_edit": MessageLookupByLibrary.simpleMessage("编辑"),
         "setting_edit_one": MessageLookupByLibrary.simpleMessage("单笔资料编辑"),
-        "setting_exportCsv": MessageLookupByLibrary.simpleMessage("资料汇出CSV"),
-        "setting_importCsv": MessageLookupByLibrary.simpleMessage("导入CSV"),
+        "setting_export": MessageLookupByLibrary.simpleMessage("汇出"),
+        "setting_exportData": MessageLookupByLibrary.simpleMessage("资料汇出"),
+        "setting_import": MessageLookupByLibrary.simpleMessage("汇入"),
         "setting_importData": MessageLookupByLibrary.simpleMessage("资料汇入"),
         "setting_language": MessageLookupByLibrary.simpleMessage("语言设定"),
+        "setting_languageSettings":
+            MessageLookupByLibrary.simpleMessage("语言设置"),
+        "setting_notifications": MessageLookupByLibrary.simpleMessage("通知"),
         "setting_privacyAndServiceTerms":
             MessageLookupByLibrary.simpleMessage("隐私与服务条款"),
+        "setting_recalculation": MessageLookupByLibrary.simpleMessage("重新计算"),
         "setting_recordNotification":
             MessageLookupByLibrary.simpleMessage("纪录通知"),
         "setting_recordNotificationTime":
             MessageLookupByLibrary.simpleMessage("纪录通知的时间"),
         "setting_save": MessageLookupByLibrary.simpleMessage("保存"),
         "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依照数量保存"),
+        "setting_settings": MessageLookupByLibrary.simpleMessage("偏好设置"),
         "setting_singleCigaretteTime":
             MessageLookupByLibrary.simpleMessage("单根烟的时间"),
         "setting_stopAd": MessageLookupByLibrary.simpleMessage("停用广告"),

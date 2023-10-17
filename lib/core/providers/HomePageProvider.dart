@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/l10n.dart';
 import '../../ui/pages/AddPage.dart';
 import '../../ui/widgets/input/InterstitialState.dart';
 import '../../utils/dateTimeUtil.dart';
+import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
@@ -18,7 +20,7 @@ class HomePageProvider with ChangeNotifier {
   final SummaryService summaryService;
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
-  String timeDiff = "開始記錄";
+  String timeDiff = "";
   Summary? today;
   Summary? yesterday;
   Summary? thisWeek;
@@ -27,18 +29,20 @@ class HomePageProvider with ChangeNotifier {
   String? changTimeStr = AppSettingService.getTimeChange();
   String? imagePath;
   String? message;
+  PageTextSizes? szieMap;
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
         summaryService = Provider.of<SummaryService>(context) {
     loadData();
+    szieMap = PageTextSizes();
   }
 
   Future<void> loadData() async {
     await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
-    timeDiff = "開始記錄";
+    timeDiff = S.current.home_start;
     startTimer();
     notifyListeners();
   }
@@ -47,7 +51,7 @@ class HomePageProvider with ChangeNotifier {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       timeDiff = DayTimeManager().isTimeWithin(_targetTime)
           ? DateTimeUtil.formatDuration(DateTime.now().difference(_targetTime!))
-          : '00:00:00';
+          : S.current.home_start;
 
       notifyListeners();
     });
@@ -73,10 +77,8 @@ class HomePageProvider with ChangeNotifier {
     DateTime now = DateTime.now();
 
     thisWeek = await summaryService.getSummary(now!, 'SummaryWeek');
-    print(thisWeek);
     beforeWeek = await summaryService.getSummary(
         now!.subtract(const Duration(days: 7)), 'SummaryWeek');
-    print(beforeWeek);
     notifyListeners();
   }
 
@@ -88,7 +90,7 @@ class HomePageProvider with ChangeNotifier {
     // 如果需要在廣告後進行其他操作，您可以在此處進行
   }
 
-  void onNavigateToSecondPage(BuildContext context) async {
+  Future<void> onNavigateToSecondPage(BuildContext context) async {
     SmokingStatus newStatus = SmokingStatus(
         null,
         1,

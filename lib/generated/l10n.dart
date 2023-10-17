@@ -250,10 +250,10 @@ class S {
     );
   }
 
-  /// `Total time`
+  /// `   Total time   `
   String get smokingStatus_total_time {
     return Intl.message(
-      'Total time',
+      '   Total time   ',
       name: 'smokingStatus_total_time',
       desc: '',
       args: [],
@@ -285,6 +285,66 @@ class S {
     return Intl.message(
       'spacing time',
       name: 'smokingStatus_spacing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Recording`
+  String get home_start {
+    return Intl.message(
+      'Start Recording',
+      name: 'home_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preferences`
+  String get setting_settings {
+    return Intl.message(
+      'Preferences',
+      name: 'setting_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language Settings`
+  String get setting_languageSettings {
+    return Intl.message(
+      'Language Settings',
+      name: 'setting_languageSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crossover Time`
+  String get setting_crossoverTime {
+    return Intl.message(
+      'Crossover Time',
+      name: 'setting_crossoverTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Single cigarette time`
+  String get setting_singleCigaretteTime {
+    return Intl.message(
+      'Single cigarette time',
+      name: 'setting_singleCigaretteTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get setting_notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'setting_notifications',
       desc: '',
       args: [],
     );
@@ -350,21 +410,31 @@ class S {
     );
   }
 
-  /// `Import CSV`
-  String get setting_importCsv {
+  /// `export`
+  String get setting_export {
     return Intl.message(
-      'Import CSV',
-      name: 'setting_importCsv',
+      'export',
+      name: 'setting_export',
       desc: '',
       args: [],
     );
   }
 
-  /// `Data export CSV`
-  String get setting_exportCsv {
+  /// `import`
+  String get setting_import {
     return Intl.message(
-      'Data export CSV',
-      name: 'setting_exportCsv',
+      'import',
+      name: 'setting_import',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data export`
+  String get setting_exportData {
+    return Intl.message(
+      'Data export',
+      name: 'setting_exportData',
       desc: '',
       args: [],
     );
@@ -390,6 +460,36 @@ class S {
     );
   }
 
+  /// `Data Recalculation`
+  String get setting_data_recalculation {
+    return Intl.message(
+      'Data Recalculation',
+      name: 'setting_data_recalculation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recalculation`
+  String get setting_recalculation {
+    return Intl.message(
+      'Recalculation',
+      name: 'setting_recalculation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data Processing In Progress...`
+  String get setting_data_processing_in_progress {
+    return Intl.message(
+      'Data Processing In Progress...',
+      name: 'setting_data_processing_in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Language setting`
   String get setting_language {
     return Intl.message(
@@ -405,16 +505,6 @@ class S {
     return Intl.message(
       'Change day time',
       name: 'setting_changeDayTime',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Single cigarette time`
-  String get setting_singleCigaretteTime {
-    return Intl.message(
-      'Single cigarette time',
-      name: 'setting_singleCigaretteTime',
       desc: '',
       args: [],
     );
@@ -510,20 +600,20 @@ class S {
     );
   }
 
-  /// `Today (yesterday)`
+  /// ` Today(yesterday) `
   String get time_by_day {
     return Intl.message(
-      'Today (yesterday)',
+      ' Today(yesterday) ',
       name: 'time_by_day',
       desc: '',
       args: [],
     );
   }
 
-  /// `This week (last week)`
+  /// `This week(last week)`
   String get time_by_week {
     return Intl.message(
-      'This week (last week)',
+      'This week(last week)',
       name: 'time_by_week',
       desc: '',
       args: [],

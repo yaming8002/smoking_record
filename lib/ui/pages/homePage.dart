@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/providers/HomePageProvider.dart';
 import '../../generated/l10n.dart';
 import '../widgets/AppFrame.dart';
-import '../widgets/InfoCardByHome.dart';
+import 'subpage/InfoCardByHome.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -14,10 +14,31 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage> {
-  double? bodyWidth;
-  double? bodyHeight;
-  double? formatH1;
+class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
+  bool isAdBeingShown = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this); // 註冊觀察者
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this); // 移除觀察者
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && !isAdBeingShown) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()),
+          (Route<dynamic> route) => false // 无条件地移除所有之前的路由，因此用户不能使用返回按钮返回到上一页
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +50,10 @@ class _MyHomePageState extends State<HomePage> {
           appBarTitle: S.current.page_home,
           body: LayoutBuilder(
             builder: (context, constraints) {
-              bodyWidth = constraints.maxWidth;
-              bodyHeight = constraints.maxHeight;
-              formatH1 = Theme.of(context).textTheme.headlineLarge!.fontSize!;
+              provider.szieMap?.setSize("bodyWidth", constraints.maxWidth);
+              provider.szieMap?.setSize("bodyHeight", constraints.maxHeight);
+              provider.szieMap?.setSize("formatH1",
+                  Theme.of(context).textTheme.headlineLarge!.fontSize!);
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -39,10 +61,15 @@ class _MyHomePageState extends State<HomePage> {
                     Center(
                       child: LayoutBuilder(
                         builder: (context, constraints) {
-                          double radius = (bodyHeight! - 40) * 0.24;
+                          double radius =
+                              (provider.szieMap!.getSize("bodyHeight")! - 40) *
+                                  0.24;
                           return GestureDetector(
-                            onTap: () =>
-                                provider.onNavigateToSecondPage(context),
+                            onTap: () async {
+                              isAdBeingShown = true;
+                              await provider.onNavigateToSecondPage(context);
+                              isAdBeingShown = false;
+                            },
                             child: CircleAvatar(
                                 radius: radius,
                                 backgroundColor: Colors.red,
@@ -50,7 +77,10 @@ class _MyHomePageState extends State<HomePage> {
                                   provider.timeDiff,
                                   minFontSize: 10, // 這裡是最小的字體大小
                                   maxFontSize: 100, // 這裡是最大的字體大小
-                                  style: TextStyle(fontSize: formatH1 ?? 30),
+                                  style: TextStyle(
+                                      fontSize: provider.szieMap!
+                                              .getSize("formatH1") ??
+                                          30),
                                   maxLines: 1,
                                 )),
                           );
@@ -67,7 +97,7 @@ class _MyHomePageState extends State<HomePage> {
                         provider: provider,
                       ),
                     ),
-                    const SizedBox(height: 15.0),
+                    const SizedBox(height: 10.0),
                     Expanded(
                       flex: 22, // 這表示 InfoSection 將佔據 Column 中 25% 的空間
                       child: InfoSection(

@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Contact Author"),
         "daily": MessageLookupByLibrary.simpleMessage("single day"),
         "date_range": MessageLookupByLibrary.simpleMessage("date range"),
+        "home_start": MessageLookupByLibrary.simpleMessage("Start Recording"),
         "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
         "image_Smoking_Equal": m0,
         "image_Smoking_Less": m1,
@@ -101,20 +102,34 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Day change notification"),
         "setting_changeDayTime":
             MessageLookupByLibrary.simpleMessage("Change day time"),
+        "setting_crossoverTime":
+            MessageLookupByLibrary.simpleMessage("Crossover Time"),
         "setting_dataProcessing":
             MessageLookupByLibrary.simpleMessage("Data Processing"),
+        "setting_data_processing_in_progress":
+            MessageLookupByLibrary.simpleMessage(
+                "Data Processing In Progress..."),
+        "setting_data_recalculation":
+            MessageLookupByLibrary.simpleMessage("Data Recalculation"),
         "setting_edit": MessageLookupByLibrary.simpleMessage("edit"),
         "setting_edit_one":
             MessageLookupByLibrary.simpleMessage("Single data editing"),
-        "setting_exportCsv":
-            MessageLookupByLibrary.simpleMessage("Data export CSV"),
-        "setting_importCsv": MessageLookupByLibrary.simpleMessage("Import CSV"),
+        "setting_export": MessageLookupByLibrary.simpleMessage("export"),
+        "setting_exportData":
+            MessageLookupByLibrary.simpleMessage("Data export"),
+        "setting_import": MessageLookupByLibrary.simpleMessage("import"),
         "setting_importData":
             MessageLookupByLibrary.simpleMessage("Data import"),
         "setting_language":
             MessageLookupByLibrary.simpleMessage("Language setting"),
+        "setting_languageSettings":
+            MessageLookupByLibrary.simpleMessage("Language Settings"),
+        "setting_notifications":
+            MessageLookupByLibrary.simpleMessage("Notifications"),
         "setting_privacyAndServiceTerms":
             MessageLookupByLibrary.simpleMessage("Privacy and Service Terms"),
+        "setting_recalculation":
+            MessageLookupByLibrary.simpleMessage("Recalculation"),
         "setting_recordNotification":
             MessageLookupByLibrary.simpleMessage("Record Notification"),
         "setting_recordNotificationTime":
@@ -122,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_save": MessageLookupByLibrary.simpleMessage("save"),
         "setting_saveByCount":
             MessageLookupByLibrary.simpleMessage("Save by quantity"),
+        "setting_settings": MessageLookupByLibrary.simpleMessage("Preferences"),
         "setting_singleCigaretteTime":
             MessageLookupByLibrary.simpleMessage("Single cigarette time"),
         "setting_stopAd": MessageLookupByLibrary.simpleMessage("Disable ads"),
@@ -134,13 +150,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "smokingStatus_status":
             MessageLookupByLibrary.simpleMessage("SmokingStatus"),
         "smokingStatus_total_time":
-            MessageLookupByLibrary.simpleMessage("Total time"),
+            MessageLookupByLibrary.simpleMessage("   Total time   "),
         "submit": MessageLookupByLibrary.simpleMessage("submit"),
         "time_Time": MessageLookupByLibrary.simpleMessage("time"),
         "time_by_day":
-            MessageLookupByLibrary.simpleMessage("Today (yesterday)"),
+            MessageLookupByLibrary.simpleMessage(" Today(yesterday) "),
         "time_by_week":
-            MessageLookupByLibrary.simpleMessage("This week (last week)"),
+            MessageLookupByLibrary.simpleMessage("This week(last week)"),
         "time_date": MessageLookupByLibrary.simpleMessage("date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),

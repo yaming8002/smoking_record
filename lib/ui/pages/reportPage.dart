@@ -5,7 +5,7 @@ import '../../core/providers/ReportProvider.dart';
 import '../../generated/l10n.dart';
 import '../../utils/dateTimeUtil.dart';
 import '../widgets/AppFrame.dart';
-import '../widgets/ReportChartWidget.dart';
+import 'subpage/ReportChartWidget.dart';
 
 class ReportPage extends StatefulWidget {
   final bool isWeekly;
@@ -74,16 +74,17 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
           TabBar(
             controller: _chartTabController,
             tabs: [
-              Tab(text: S.current.all),
-              Tab(text: S.current.smokingStatus_smokeCount),
-              Tab(text: S.current.smokingStatus_total_time),
-              Tab(text: S.current.smokingStatus_spacing)
+              Tab(child: Text(S.current.all)),
+              Tab(child: Text(S.current.smokingStatus_smokeCount)),
+              Tab(child: Text(S.current.smokingStatus_total_time)),
+              Tab(child: Text(S.current.smokingStatus_spacing))
             ],
           ),
           SizedBox(
             height: 200, // 這裡你可以調整或根據內容動態設定
             child: TabBarView(
               controller: _chartTabController,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 ReportChatWidget(
                     summaryDayList: provider.summaryDayList,
@@ -210,9 +211,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
               S.current.time_date,
             )),
             DataColumn(
-                label: Text(
-              S.current.smokingStatus_smokeCount,
-            )),
+                label: Text(S.current.smokingStatus_smokeCount, maxLines: 2)),
             DataColumn(
                 label: Text(
               S.current.smokingStatus_total_time,
@@ -231,11 +230,11 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start, // 按需對齊
                     children: [
                       Expanded(
-                          child:
-                              Text(DateTimeUtil.getDateTime(data.startTime))),
+                          child: Text(DateTimeUtil.getDateTime(
+                              data.startTime, DateTimeUtil.hideyear))),
                       Expanded(
                           child: Text(
-                              "~ ${DateTimeUtil.getDateTime(data.endTime)}")),
+                              "~ ${DateTimeUtil.getDateTime(data.endTime, DateTimeUtil.hideyear)}")),
                     ],
                   ),
                   // ),

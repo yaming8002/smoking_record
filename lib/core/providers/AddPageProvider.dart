@@ -81,9 +81,9 @@ class AddPageProvider with ChangeNotifier {
       status.totalTime = status.endTime.difference(status.startTime);
     }
 
+    Set<DateTime> s = {status.endTime};
     AppSettingService.setLastEndTime(status.endTime);
     await service.insertSmokingStatus(status.toMap());
-    await summaryService?.updateSummaryDay();
-    await summaryService?.updateSummaryWeek();
+    await summaryService?.generateSummaries(s);
   }
 }

@@ -63,21 +63,6 @@ class NotificationService {
     );
   }
 
-  // 設定定時執行的功能
-  // Future<void> scheduleDailyNotification() async {
-  //   var time = Time(10, 0, 0); // 每天上午10點
-  //
-  //   var platformDetails = NotificationDetails(android: android);
-  //
-  //   await flutterLocalNotificationsPlugin!.showDailyAtTime(
-  //     1, // 通知的ID
-  //     '定期通知', // 通知的標題
-  //     '這是每天上午10點的通知', // 通知的內容
-  //     time,
-  //     platformDetails,
-  //   );
-  // }
-
   showNotifications() async {
     ReceivedNotification? notion = await _getDataFromDatabase();
     print(notion.toString());

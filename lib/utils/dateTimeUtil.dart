@@ -9,6 +9,7 @@ class DateTimeUtil {
   static const String MinuteFormat = "HH:mm";
   static const String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
   static const String dateTimeFormatTotal = "yyyy-MM-dd HH:mm:ss.SSS";
+  static const String hideyear = "MM-dd HH:mm";
 
   /// 格式化Duration為時:分:秒
   static String formatDuration(Duration d) {
@@ -135,12 +136,12 @@ class DateTimeUtil {
       // 找到最近的星期一
       startDate = now.subtract(Duration(days: now.weekday - 1));
       // 找到最近的星期日
-      endDate = startDate.add(Duration(days: 6));
+      endDate = startDate.add(Duration(days: 7));
     } else {
       // 找到最近的星期日
       startDate = now.subtract(Duration(days: now.weekday % 7));
       // 找到最近的星期六
-      endDate = startDate.add(Duration(days: 6));
+      endDate = startDate.add(Duration(days: 7));
     }
 
     String timeChange = AppSettingService.getTimeChange();

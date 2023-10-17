@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/providers/SettingProvider.dart';
-import '../pages/SmokingListPage.dart';
-import 'SettingsTile.dart';
+import '../../../core/providers/SettingProvider.dart';
+import '../../../generated/l10n.dart';
+import '../../widgets/SettingsTile.dart';
+import '../SmokingListPage.dart';
 
 class DataProcessingSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -16,13 +17,13 @@ class DataProcessingSettingsWidget extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          decoration: const BoxDecoration(
             color: Colors.blue, // 設置底色
             // borderRadius: BorderRadius.circular(8.0), // 設置圓角
           ),
           child: Text(
-            '資料處裡',
+            S.current.setting_dataProcessing,
             style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -50,47 +51,35 @@ class DataProcessingSettingsWidget extends StatelessWidget {
 // 資料設定
 Widget _buildEditDataSetting(BuildContext context) {
   return SettingsTile(
-    title: '單筆資料編輯',
-    trailing: ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SmokingListPage()),
-        );
-      },
-      child: Text('Go'),
-    ),
+    title: S.current.setting_edit_one,
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SmokingListPage()),
+      );
+    },
   );
 }
 
 Widget _buildExportDataSetting(SettingsProvider provider) {
   return SettingsTile(
-    title: '資料匯出CSV',
-    trailing: ElevatedButton(
-      onPressed: () => provider.exportDataToCsv(),
-      child: Text('Outport CSV'),
-    ),
-  );
-}
-
-Widget _buildDataRecount(SettingsProvider provider, BuildContext context) {
-  return SettingsTile(
-    title: '資料重新計算',
-    trailing: ElevatedButton(
-      onPressed: () => _showProcessingDialog(context, provider.dataRecount),
-      child: Text('資料重新計算'),
-    ),
+    title: S.current.setting_exportData,
+    onTap: () => provider.exportDataToCsv(),
   );
 }
 
 Widget _buildImportDataSetting(
     SettingsProvider provider, BuildContext context) {
   return SettingsTile(
-    title: '資料匯入',
-    trailing: ElevatedButton(
-      onPressed: () => _showProcessingDialog(context, provider.importDataToCsv),
-      child: Text("Import CSV"),
-    ),
+    title: S.current.setting_importData,
+    onTap: () => _showProcessingDialog(context, provider.importDataToCsv),
+  );
+}
+
+Widget _buildDataRecount(SettingsProvider provider, BuildContext context) {
+  return SettingsTile(
+    title: S.current.setting_data_recalculation,
+    onTap: () => _showProcessingDialog(context, provider.dataRecount),
   );
 }
 
@@ -107,17 +96,19 @@ void _showProcessingDialog(
             return AlertDialog(
               content: Row(
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(width: 20),
-                  Text('資料處理中...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 20),
+                  Flexible(
+                    child: Text(S.current.setting_data_processing_in_progress),
+                  ),
                 ],
               ),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             Navigator.of(context).pop();
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           } else {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
         },
       );
