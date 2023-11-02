@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
 import '../../utils/ReferenceBool.dart';
+import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
 import '../services/AppSettingService.dart';
 import '../services/SmokingSatusService.dart';
@@ -41,9 +42,9 @@ class AddPageProvider with ChangeNotifier {
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       status?.endTime = DateTime.now();
-      // Duration duration =
-      //     DateTime.now().difference(status!.startTime); // 增加1秒到持續時間
-      // timeDiff = DateTimeUtil.formatDuration(duration);
+      Duration duration =
+          DateTime.now().difference(status!.startTime); // 增加1秒到持續時間
+      timeDiff = DateTimeUtil.formatDuration(duration);
       notifyListeners();
     });
   }
@@ -84,6 +85,7 @@ class AddPageProvider with ChangeNotifier {
     Set<DateTime> s = {status.endTime};
     AppSettingService.setLastEndTime(status.endTime);
     await service.insertSmokingStatus(status.toMap());
+
     await summaryService?.generateSummaries(s);
   }
 }

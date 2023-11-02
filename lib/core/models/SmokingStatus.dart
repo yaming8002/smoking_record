@@ -39,8 +39,8 @@ class SmokingStatus {
         startTime = DateTime.parse(map['startTime']),
         endTime = DateTime.parse(map['endTime']),
         evaluate = map['evaluate'],
-        totalTime = Duration(milliseconds: map['totalTime']),
-        spacing = Duration(milliseconds: (map['spacing'] ?? Duration.zero));
+        totalTime = Duration(milliseconds: map['totalTime'] ?? 0),
+        spacing = Duration(milliseconds: (map['spacing'] ?? 0));
 
   @override
   String toString() {

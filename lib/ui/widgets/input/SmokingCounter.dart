@@ -59,7 +59,7 @@ class _SmokingCounterState extends State<SmokingCounter> {
 
   @override
   Widget build(BuildContext context) {
-    double formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    double formatDefault = Theme.of(context).textTheme.titleMedium!.fontSize!;
     return Row(
       children: <Widget>[
         TextButton(

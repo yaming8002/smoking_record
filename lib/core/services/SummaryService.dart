@@ -9,27 +9,41 @@ import 'DatabaseManager.dart';
 class SummaryService {
   final DatabaseManager databaseManager;
   TimeOfDay? changeTime = AppSettingService.getTimeChangeToTimeOfDay();
-  String? changeTimeByStr = AppSettingService.getTimeChange();
+  // String? changeTimeByStr = AppSettingService.getTimeChange();
 
   SummaryService(this.databaseManager);
 
   /// Retrieves the total data for the week of a specified date. If no date is specified, defaults to today.
-  Future<Summary> getSummary([DateTime? now, String? tableName]) async {
+  Future<Summary> getSummaryDay([DateTime? now]) async {
     now = now ?? DateTime.now();
-    tableName = tableName ?? 'SummaryDay';
+    // Build query string
+    String daySelect = '''SELECT * FROM SummaryDay WHERE sDate = ? ''';
+
+    final dayTotalRes =
+        await databaseManager?.rawQuery(daySelect, [DateTimeUtil.getDate(now)]);
+
+    Summary summary = dayTotalRes!.isNotEmpty
+        ? Summary.fromMap(dayTotalRes[0])
+        : Summary('-', now, now, 0, 0, Duration.zero, Duration.zero,
+            Duration.zero, 0.0);
+
+    return summary;
+  }
+
+  Future<Summary> getSummaryWeek([DateTime? now]) async {
+    now = now ?? DateTime.now();
+
     // Build query string
     String daySelect =
-        '''SELECT * FROM $tableName WHERE startTime < ? and endTime > ? ''';
-    print("daySelect $daySelect ");
-    print("now $now ");
-    final weekTotalRes = await databaseManager?.rawQuery(daySelect,
-        [DateTimeUtil.getDateTime(now), DateTimeUtil.getDateTime(now)]);
-    print("weekTotalRes $weekTotalRes ");
-    List<DateTime> dateRange = DateTimeUtil.getWeekRange(now);
+        '''SELECT * FROM SummaryWeek WHERE ? between startTime  and endTime ''';
+
+    final weekTotalRes = await databaseManager
+        ?.rawQuery(daySelect, [DateTimeUtil.getDateTime(now)]);
+
     Summary summary = weekTotalRes!.isNotEmpty
         ? Summary.fromMap(weekTotalRes[0])
-        : Summary('-', dateRange[0], dateRange[1], 0, 0, Duration.zero,
-            Duration.zero, Duration.zero, 0.0);
+        : Summary('-', now, now, 0, 0, Duration.zero, Duration.zero,
+            Duration.zero, 0.0);
 
     return summary;
   }
@@ -37,14 +51,17 @@ class SummaryService {
   /// Retrieves all SummaryDay records within a specified date range.
   Future<List<Summary>> getSummaryList(DateTimeRange dateRange,
       [String? tableName]) async {
-    String startDate = dateRange.start.toIso8601String().substring(0, 10);
-    String endDate = dateRange.end.toIso8601String().substring(0, 10);
+    // String startDate = dateRange.start.toIso8601String().substring(0, 10);
+    // String endDate = dateRange.end.toIso8601String().substring(0, 10);
+    List range = DateTimeUtil.getRange(dateRange.start, dateRange.end);
     tableName = tableName ?? 'SummaryDay';
-
+    print(range);
     // Execute query
     List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
-        'SELECT * from $tableName where sDate between ? and ?',
-        [startDate, endDate]);
+        'SELECT * from $tableName where startTime >= ? and endTime <= ?', [
+      DateTimeUtil.getDateTime(range[0]),
+      DateTimeUtil.getDateTime(range[1])
+    ]);
 
     // Parse query result
     List<Summary> list =
@@ -74,16 +91,17 @@ class SummaryService {
 
     List<dynamic> arguments = [
       DateTimeUtil.getDate(range[0]),
-      DateTimeUtil.getDateTime(range[0]),
-      DateTimeUtil.getDateTime(range[1]),
-      DateTimeUtil.getDateTime(range[0]),
-      DateTimeUtil.getDateTime(range[1])
+      range[0].toIso8601String(),
+      range[1].toIso8601String(),
+      range[0].toIso8601String(),
+      range[1].toIso8601String()
     ];
 
     List<Map<String, dynamic>>? records =
         await databaseManager.rawQuery(summarySelectSql, arguments);
+    print("SummaryDay");
     for (Map<String, dynamic> x in records) {
-      print(x);
+      print("SummaryDay$x");
     }
     // SummaryDay today = SummaryDay.fromMap(records[0]);
     await databaseManager.insertorReplace('SummaryDay', records[0]);
@@ -94,16 +112,20 @@ class SummaryService {
     final range = DateTimeUtil.getWeekRange(now);
 
     List<dynamic> arguments = [
-      "${DateTimeUtil.getDate(range[0])}~${DateTimeUtil.getDateTime(range[1])}",
-      DateTimeUtil.getDateTime(range[0]),
-      DateTimeUtil.getDateTime(range[1]),
-      DateTimeUtil.getDateTime(range[0]),
-      DateTimeUtil.getDateTime(range[1])
+      "${DateTimeUtil.getDate(range[0])}~${DateTimeUtil.getDate(range[1])}",
+      range[0].toIso8601String(),
+      range[1].toIso8601String(),
+      range[0].toIso8601String(),
+      range[1].toIso8601String()
     ];
 
     List<Map<String, dynamic>>? records =
         await databaseManager.rawQuery(summarySelectSql, arguments);
     // SummaryDay today = SummaryDay.fromMap(records[0]);
+    print("SummaryWeek");
+    for (Map<String, dynamic> x in records) {
+      print("SummaryWeek$x");
+    }
     await databaseManager.insertorReplace('SummaryWeek', records[0]);
   }
 
@@ -125,8 +147,10 @@ class SummaryService {
 
     DateTime firstDate = DateTime.parse(statuses[0]["startTime"]);
 
-    await processRecordsInPlace(
-        statuses, "${AppSettingService.getTimeChange()}:00");
+    // await processRecordsInPlace(
+    //     statuses, "${AppSettingService.getTimeChange()}:00");
+
+    await processRecordsInPlace(statuses);
 
     // await databaseManager
     //     .execute(updateStatusSql, ["${AppSettingService.getTimeChange()}:00"]);
@@ -141,26 +165,32 @@ class SummaryService {
     await generateSummaries(dates);
   }
 
-  Future<void> processRecordsInPlace(
-      List<Map<String, dynamic>> records, String crossoverTime) async {
+  Future<void> processRecordsInPlace(List<Map<String, dynamic>> records) async {
+    // Future<void> processRecordsInPlace(
+    //     List<Map<String, dynamic>> records, String crossoverTime) async {
     SmokingStatus? previous;
+    Duration interval = AppSettingService.getIntervalTime();
 
     for (Map<String, dynamic> item in records) {
       SmokingStatus current = SmokingStatus.fromMap(item);
       DateTime startTime = current.startTime;
       DateTime? prevEndTime = previous?.endTime;
-      DateTime crossover =
-          DateTime.parse('${DateTimeUtil.getDate(startTime)} $crossoverTime');
+      // DateTime crossover =
+      //     DateTime.parse('${DateTimeUtil.getDate(startTime)} $crossoverTime');
 
-      Duration? spacing;
-      if (prevEndTime == null || startTime.isBefore(prevEndTime!)) {
-        spacing = null;
-      } else if (startTime.isAfter(crossover) &&
-          prevEndTime.isBefore(crossover)) {
-        spacing = null;
-      } else {
-        spacing = startTime.difference(prevEndTime!);
-      }
+      Duration diff = startTime.difference(prevEndTime ?? startTime);
+      Duration? spacing =
+          diff.inMinutes > 0 && diff.inMinutes < interval.inMinutes
+              ? diff
+              : null;
+      // if (prevEndTime == null || startTime.isBefore(prevEndTime!)) {
+      //   spacing = null;
+      // } else if (startTime.isAfter(crossover) &&
+      //     prevEndTime.isBefore(crossover)) {
+      //   spacing = null;
+      // } else {
+      //   spacing = startTime.difference(prevEndTime!);
+      // }
 
       current.spacing = spacing;
       previous = current;
@@ -180,6 +210,6 @@ class SummaryService {
           COALESCE(CAST(avg(spacing) AS INTEGER), 0)  as spacing,
           COALESCE(CAST(avg(evaluate) AS INTEGER), 0)  as evaluate
     FROM SmokingStatus 
-    WHERE endTime > ? and endTime < ? 
+    WHERE endTime >= ? and endTime <= ? 
   ''';
 }

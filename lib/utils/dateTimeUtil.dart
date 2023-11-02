@@ -63,25 +63,25 @@ class DateTimeUtil {
     return DateFormat(format).format(date);
   }
 
-  /// 根據日更換時間獲取格式化的日期
-  static String getDateWithDayChangeTime([DateTime? date, String? format]) {
-    date = date ?? DateTime.now();
-    format = format ?? dateFormat;
-    String dayChangeTime =
-        AppSettingService.getTimeChange() ?? '00:00'; // Default to midnight
-
-    final currentTime = TimeOfDay.fromDateTime(date);
-    final parsedDayChangeTime =
-        TimeOfDay.fromDateTime(DateFormat('HH:mm').parse(dayChangeTime));
-
-    if (currentTime.hour < parsedDayChangeTime.hour ||
-        (currentTime.hour == parsedDayChangeTime.hour &&
-            currentTime.minute < parsedDayChangeTime.minute)) {
-      final yesterday = date.subtract(Duration(days: 1));
-      return DateFormat(format).format(yesterday);
-    }
-    return DateFormat(format).format(date);
-  }
+  // /// 根據日更換時間獲取格式化的日期
+  // static String getDateWithDayChangeTime([DateTime? date, String? format]) {
+  //   date = date ?? DateTime.now();
+  //   format = format ?? dateFormat;
+  //   String dayChangeTime =
+  //       AppSettingService.getTimeChange() ?? '00:00'; // Default to midnight
+  //
+  //   final currentTime = TimeOfDay.fromDateTime(date);
+  //   final parsedDayChangeTime =
+  //       TimeOfDay.fromDateTime(DateFormat('HH:mm').parse(dayChangeTime));
+  //
+  //   if (currentTime.hour < parsedDayChangeTime.hour ||
+  //       (currentTime.hour == parsedDayChangeTime.hour &&
+  //           currentTime.minute < parsedDayChangeTime.minute)) {
+  //     final yesterday = date.subtract(Duration(days: 1));
+  //     return DateFormat(format).format(yesterday);
+  //   }
+  //   return DateFormat(format).format(date);
+  // }
 
   /// 獲取昨天的日期
   static DateTime getYesterday([String? today, String? format]) {
@@ -118,107 +118,101 @@ class DateTimeUtil {
     return DateFormat(dateTimeFormat).format(parsedDate);
   }
 
-  static List<DateTime> getOneDateRange(DateTime now) {
-    String timeChange = AppSettingService.getTimeChange();
+  // static List<DateTime> getOneDateRange(DateTime now) {
+  //   // String timeChange = AppSettingService.getTimeChange();
+  //
+  //   DateTime startDateTime = DateTime.parse('${getDate(now)} $timeChange');
+  //   DateTime endDateTime = startDateTime.add(Duration(days: 1));
+  //
+  //   return [startDateTime, endDateTime];
+  // }
 
-    DateTime startDateTime = DateTime.parse('${getDate(now)} $timeChange');
-    DateTime endDateTime = startDateTime.add(Duration(days: 1));
-
-    return [startDateTime, endDateTime];
-  }
-
-  static List<DateTime> getWeekRange(DateTime now) {
-    bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
-    DateTime startDate;
-    DateTime endDate;
-
-    if (isWeekStartMonday) {
-      // 找到最近的星期一
-      startDate = now.subtract(Duration(days: now.weekday - 1));
-      // 找到最近的星期日
-      endDate = startDate.add(Duration(days: 7));
-    } else {
-      // 找到最近的星期日
-      startDate = now.subtract(Duration(days: now.weekday % 7));
-      // 找到最近的星期六
-      endDate = startDate.add(Duration(days: 7));
-    }
-
-    String timeChange = AppSettingService.getTimeChange();
-
-    DateTime startDateTime = DateTime.parse(
-        '${DateFormat(dateFormat).format(startDate)} $timeChange');
-    DateTime endDateTime =
-        DateTime.parse('${DateFormat(dateFormat).format(endDate)} $timeChange');
-
-    return [startDateTime, endDateTime];
-  }
-
-  static List<String> getOneDateRangeByNow(DateTime now) {
-    String timeChange = AppSettingService.getTimeChange();
-
-    DateTime startDateTime =
-        DateTime.parse('${DateFormat(dateFormat).format(now)} $timeChange');
-    DateTime endDateTime = startDateTime.add(Duration(days: 1));
-
-    return [
-      DateFormat(dateTimeFormat).format(startDateTime),
-      DateFormat(dateTimeFormat).format(endDateTime)
-    ];
-  }
-
-  static List<String> getWeekRangeByNow(DateTime now) {
-    bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
-    DateTime startDate;
-    DateTime endDate;
-
-    if (isWeekStartMonday) {
-      // 找到最近的星期一
-      startDate = now.subtract(Duration(days: now.weekday - 1));
-      // 找到最近的星期日
-      endDate = startDate.add(Duration(days: 6));
-    } else {
-      // 找到最近的星期日
-      startDate = now.subtract(Duration(days: now.weekday % 7));
-      // 找到最近的星期六
-      endDate = startDate.add(Duration(days: 6));
-    }
-
-    String timeChange = AppSettingService.getTimeChange();
-
-    DateTime startDateTime = DateTime.parse(
-        '${DateFormat(dateFormat).format(startDate)} $timeChange');
-    DateTime endDateTime =
-        DateTime.parse('${DateFormat(dateFormat).format(endDate)} $timeChange');
-
-    List<String> list = [
-      DateFormat(dateTimeFormat).format(startDateTime),
-      DateFormat(dateTimeFormat).format(endDateTime)
-    ];
-
-    return list;
-  }
-
-  static String getNowDate({DateTime? now, String? changTimeByStr}) {
+  static List<DateTime> getOneDateRange([DateTime? now]) {
     now = now ?? DateTime.now();
-    changTimeByStr = changTimeByStr ?? AppSettingService.getTimeChange();
-    DateTime startOfToday = DateTime(
-      now!.year,
-      now!.month,
-      now!.day,
-      int.parse(changTimeByStr!.split(':')[0]),
-      int.parse(changTimeByStr!.split(':')[1]),
-    );
+    // Create a new DateTime at the beginning of the day (midnight)
+    DateTime startDateTime = DateTime(now.year, now.month, now.day, 0, 0, 0, 0);
 
-    if (now.isBefore(startOfToday)) {
-      // 如果当前时间在今天7:00之前，返回昨天的日期
-      DateTime yesterday = DateTime(now.year, now.month, now.day - 1, 7);
-      return getDate(yesterday);
-    } else {
-      // 否则返回今天的日期
-      return getDate(startOfToday);
-    }
+    // Create a new DateTime at the very end of the day, just one millisecond before the next day
+    DateTime endDateTime =
+        DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+
+    return [startDateTime, endDateTime];
   }
+
+  static List<DateTime> getWeekRange([DateTime? now]) {
+    now = now ?? DateTime.now();
+    bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
+    DateTime startDate;
+    DateTime endDate;
+
+    if (isWeekStartMonday) {
+      // 找到最近的星期一
+      startDate = now.subtract(Duration(days: now.weekday - 1));
+      // 找到最近的星期日
+      endDate = startDate.add(Duration(days: 7));
+    } else {
+      // 找到最近的星期日
+      startDate = now.subtract(Duration(days: now.weekday % 7));
+      // 找到最近的星期六
+      endDate = startDate.add(Duration(days: 7));
+    }
+
+    startDate =
+        DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0, 0);
+
+    // Create a new DateTime at the very end of the day, just one millisecond before the next day
+    endDate =
+        DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59, 999);
+
+    return [startDate, endDate];
+  }
+
+  static List<DateTime> getRange(DateTime startDate, DateTime endDate) {
+    bool? isWeekStartMonday = AppSettingService.getIsWeekStartMonday() ?? false;
+
+    startDate =
+        DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0, 0);
+
+    // Create a new DateTime at the very end of the day, just one millisecond before the next day
+    endDate =
+        DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59, 999);
+
+    return [startDate, endDate];
+  }
+
+  // static List<String> getOneDateRangeByNow(DateTime now) {
+  //   String timeChange = AppSettingService.getTimeChange();
+  //
+  //   DateTime startDateTime =
+  //       DateTime.parse('${DateFormat(dateFormat).format(now)} $timeChange');
+  //   DateTime endDateTime = startDateTime.add(Duration(days: 1));
+  //
+  //   return [
+  //     DateFormat(dateTimeFormat).format(startDateTime),
+  //     DateFormat(dateTimeFormat).format(endDateTime)
+  //   ];
+  // }
+
+  // static String getNowDate({DateTime? now, String? changTimeByStr}) {
+  //   now = now ?? DateTime.now();
+  //   changTimeByStr = changTimeByStr ?? AppSettingService.getTimeChange();
+  //   DateTime startOfToday = DateTime(
+  //     now!.year,
+  //     now!.month,
+  //     now!.day,
+  //     int.parse(changTimeByStr!.split(':')[0]),
+  //     int.parse(changTimeByStr!.split(':')[1]),
+  //   );
+  //
+  //   if (now.isBefore(startOfToday)) {
+  //     // 如果当前时间在今天7:00之前，返回昨天的日期
+  //     DateTime yesterday = DateTime(now.year, now.month, now.day - 1, 7);
+  //     return getDate(yesterday);
+  //   } else {
+  //     // 否则返回今天的日期
+  //     return getDate(startOfToday);
+  //   }
+  // }
 
   static List<String> updateSummaryDayArg(
       String date, String changTime, String dateTime) {

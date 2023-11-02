@@ -11,7 +11,6 @@ import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
-import '../services/DayTimeManager.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
 
@@ -25,8 +24,7 @@ class HomePageProvider with ChangeNotifier {
   Summary? yesterday;
   Summary? thisWeek;
   Summary? beforeWeek;
-  TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
-  String? changTimeStr = AppSettingService.getTimeChange();
+  Duration interval = AppSettingService.getIntervalTime();
   String? imagePath;
   String? message;
   PageTextSizes? szieMap;
@@ -39,36 +37,37 @@ class HomePageProvider with ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    await _reloadTargetTime();
+    // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
-    timeDiff = S.current.home_start;
+    upgroupTimeDiff();
     startTimer();
     notifyListeners();
   }
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      timeDiff = DayTimeManager().isTimeWithin(_targetTime)
-          ? DateTimeUtil.formatDuration(DateTime.now().difference(_targetTime!))
-          : S.current.home_start;
-
-      notifyListeners();
+      upgroupTimeDiff();
     });
   }
 
-  Future<void> _reloadTargetTime() async {
-    DateTime? sqlTime = await satusService.getLastEndTime();
-    _targetTime = AppSettingService.getLastEndTime() ?? sqlTime;
+  void upgroupTimeDiff() {
+    _targetTime = AppSettingService.getLastEndTime();
+    DateTime now = DateTime.now();
+    Duration diff = now.difference(_targetTime ?? now);
+    timeDiff =
+        diff.inMilliseconds > 0 && diff.inMilliseconds < interval.inMilliseconds
+            ? DateTimeUtil.formatDuration(diff)
+            : S.current.home_start;
     notifyListeners();
   }
 
   Future<void> _getSummaryDayFromService() async {
     DateTime now = DateTime.now();
 
-    today = await summaryService.getSummary(now);
-    yesterday =
-        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
+    today = await summaryService.getSummaryDay(now);
+    yesterday = await summaryService
+        .getSummaryDay(now.subtract(const Duration(days: 1)));
 
     notifyListeners();
   }
@@ -76,9 +75,9 @@ class HomePageProvider with ChangeNotifier {
   Future<void> _getSummaryWeekFromService() async {
     DateTime now = DateTime.now();
 
-    thisWeek = await summaryService.getSummary(now!, 'SummaryWeek');
-    beforeWeek = await summaryService.getSummary(
-        now!.subtract(const Duration(days: 7)), 'SummaryWeek');
+    thisWeek = await summaryService.getSummaryWeek(now!);
+    beforeWeek = await summaryService
+        .getSummaryWeek(now!.subtract(const Duration(days: 7)));
     notifyListeners();
   }
 

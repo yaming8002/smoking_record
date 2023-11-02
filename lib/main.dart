@@ -6,7 +6,6 @@ import 'package:sqflite/sqflite.dart';
 
 import 'core/services/AppSettingService.dart';
 import 'core/services/DatabaseManager.dart';
-import 'core/services/DayTimeManager.dart';
 import 'core/services/SmokingSatusService.dart';
 import 'core/services/SummaryService.dart';
 import 'core/services/scheduleService.dart';
@@ -15,7 +14,6 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppSettingService.init();
-  DayTimeManager().initialize();
   Database db = await DatabaseManager.initDB();
   ScheduleManager manager = ScheduleManager();
   await manager.initialize();

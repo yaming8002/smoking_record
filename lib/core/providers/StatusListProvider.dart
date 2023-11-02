@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 
 import '../../core/models/SmokingStatus.dart';
 import '../../ui/pages/editRecordPage.dart';
-import '../../utils/dateTimeUtil.dart';
 import '../services/SmokingSatusService.dart';
 
 class StatusListProvider with ChangeNotifier {
@@ -26,12 +25,8 @@ class StatusListProvider with ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    final range =
-        DateTimeUtil.getOneDateRange(DateTime.parse(dateController.text));
-    smokingList = await service.selectByRang(currentPage, itemsPerPage, [
-      DateTimeUtil.getDateTime(range[0]),
-      DateTimeUtil.getDateTime(range[1])
-    ]);
+    smokingList =
+        await service.selectByRang(currentPage, itemsPerPage, selectedDate);
     notifyListeners();
   }
 

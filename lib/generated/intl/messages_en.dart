@@ -150,7 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "smokingStatus_status":
             MessageLookupByLibrary.simpleMessage("SmokingStatus"),
         "smokingStatus_total_time":
-            MessageLookupByLibrary.simpleMessage("   Total time   "),
+            MessageLookupByLibrary.simpleMessage("Total time"),
         "submit": MessageLookupByLibrary.simpleMessage("submit"),
         "time_Time": MessageLookupByLibrary.simpleMessage("time"),
         "time_by_day":

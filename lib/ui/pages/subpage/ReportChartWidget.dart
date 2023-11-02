@@ -81,8 +81,10 @@ class _ReportChatWidget extends State<ReportChatWidget> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double additionalWidthForYAxis = 50; // 增加的宽度基于Y轴的最大值
     double calculatedWidth =
-        widget.summaryDayList!.length * 20.0 * currentColumn.length;
+        widget.summaryDayList!.length * 20.0 * currentColumn.length +
+            additionalWidthForYAxis;
 
     double containerWidth =
         calculatedWidth < screenWidth ? screenWidth : calculatedWidth;
@@ -95,7 +97,7 @@ class _ReportChatWidget extends State<ReportChatWidget> {
             child: SizedBox(
               width: containerWidth,
               child: Container(
-                padding: const EdgeInsets.only(top: 15, bottom: 30),
+                padding: const EdgeInsets.only(top: 55, bottom: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -106,34 +108,71 @@ class _ReportChatWidget extends State<ReportChatWidget> {
                     barTouchData: BarTouchData(
                       enabled: true,
                       touchTooltipData: BarTouchTooltipData(
-                        direction: TooltipDirection.bottom,
+                        tooltipBgColor: Colors.blueAccent, // 您可以根据需要更改这里的颜色
+                        getTooltipItem: (BarChartGroupData group,
+                            int groupIndex, BarChartRodData rod, int rodIndex) {
+                          // 获取日期
+                          String date =
+                              widget.summaryDayList![group.x.toInt()].sDate;
+
+                          // 获取数值，并转换为字符串
+                          double value = rod.toY;
+                          String label = '';
+                          if (rodIndex < currentColumn.length) {
+                            label = currentColumn[rodIndex];
+                          }
+                          // 返回一个工具提示项，其中包含日期和数值，每个占一行
+                          return BarTooltipItem(
+                            '$date\n$label:${value.floor()}', // 这里将日期和数值分成两行
+                            TextStyle(
+                              color: Colors.white, // 文本颜色
+                              fontSize: 6, // 减小字体大小
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    titlesData: FlTitlesData(
+                    // barTouchData: BarTouchData(
+                    //   enabled: true,
+                    //   touchTooltipData: BarTouchTooltipData(
+                    //     direction: TooltipDirection.bottom,
+                    //   ),
+                    // ),
+                    titlesData: const FlTitlesData(
                       show: true,
-                      rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
-                      topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
-                      bottomTitles: AxisTitles(
+                      leftTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            int index = value.toInt();
-                            if (index >= 0 &&
-                                index < widget.summaryDayList!.length) {
-                              return Transform.rotate(
-                                origin: const Offset(11, 10),
-                                angle: -45 * (pi / 180),
-                                alignment: Alignment.center,
-                                child: Text(widget.summaryDayList![index].sDate
-                                    .substring(5)),
-                              );
-                            }
-                            return const Text('');
-                          },
+                          reservedSize: 60, // 这里设置Y轴标题的宽度
                         ),
                       ),
+                      rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      // bottomTitles: AxisTitles(
+                      //   sideTitles: SideTitles(
+                      //     showTitles: true,
+                      //     getTitlesWidget: (value, meta) {
+                      //       int index = value.toInt();
+                      //       if (index >= 0 &&
+                      //           index < widget.summaryDayList!.length) {
+                      //
+                      //               .substring(5)),
+                      //         return Transform.rotate(
+                      //           origin: const Offset(11, 10),
+                      //           angle: -25 * (pi / 180),
+                      //           alignment: Alignment.center,
+                      //           child: Text(widget.summaryDayList![index].sDate
+                      //               .substring(5)),
+                      //         );
+                      //       }
+                      //       return const Text('');
+                      //     },
+                      //   ),
+                      // ),
+                      bottomTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
                     borderData: FlBorderData(
                       show: true,

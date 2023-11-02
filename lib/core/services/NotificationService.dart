@@ -3,14 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../generated/l10n.dart';
 import '../models/ReceivedNotification.dart';
 import '../models/Summary.dart';
-import 'AppSettingService.dart';
 import 'SummaryService.dart';
 
 class NotificationService {
   final SummaryService service;
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  String? changTimeStr = AppSettingService.getTimeChange();
+  // String? changTimeStr = AppSettingService.getTimeChange();
 
   NotificationService(this.service) {
     init();
@@ -40,10 +39,10 @@ class NotificationService {
   Future<ReceivedNotification?> _getDataFromDatabase() async {
     DateTime now = DateTime.now();
     DateTime yesterday = now.subtract(const Duration(days: 1));
-    Summary summaryForYesterday = await service.getSummary(yesterday);
+    Summary summaryForYesterday = await service.getSummaryDay(yesterday);
     DateTime dayBeforeYesterday = yesterday.subtract(const Duration(days: 1));
     Summary summaryForDayBeforeYesterday =
-        await service.getSummary(dayBeforeYesterday);
+        await service.getSummaryDay(dayBeforeYesterday);
 
     int count = summaryForYesterday.count - summaryForDayBeforeYesterday.count;
     String text = "";

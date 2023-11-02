@@ -43,14 +43,16 @@ class PreferenceSettingsWidget extends StatelessWidget {
               title: S.current.setting_crossoverTime,
               trailing: TextButton(
                 onPressed: () async {
-                  final String? newValue =
-                      await _showEditDialog(context, provider.timeChange);
+                  final String? newValue = await _showEditDialog(
+                      context, provider.intervalTime.inHours.toString());
                   if (newValue != null) {
-                    provider.timeChange = newValue;
+                    provider.intervalTime =
+                        Duration(hours: int.parse(newValue));
                   }
                 },
                 child: AutoSizeText(
-                  provider.timeChange, // display the current setting
+                  provider.intervalTime.inHours
+                      .toString(), // display the current setting
                   minFontSize: 10,
                   maxFontSize: 60,
                 ),

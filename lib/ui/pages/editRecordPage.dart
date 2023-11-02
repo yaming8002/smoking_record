@@ -5,7 +5,7 @@ import '../../core/models/SmokingStatus.dart';
 import '../../core/providers/EditRecordProvider.dart';
 import '../../utils/ReferenceBool.dart';
 import '../widgets/AppFrame.dart';
-import '../widgets/SetSmokStatusWidget.dart';
+import 'subpage/SetSmokStatusWidget.dart';
 
 class EditSomkingPage extends StatefulWidget {
   final SmokingStatus status;

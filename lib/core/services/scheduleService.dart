@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smoking_record/core/services/AppSettingService.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:workmanager/workmanager.dart';
@@ -17,13 +16,13 @@ class ScheduleManager {
   }
 
   Future<Duration> _nextInstanceOfCustomTime() async {
-    List<String> timeParts = AppSettingService.getTimeChange().split(":");
-    int hour = int.parse(timeParts[0]);
-    int minute = int.parse(timeParts[1]);
+    // List<String> timeParts = AppSettingService.getTimeChange().split(":");
+    // int hour = int.parse(timeParts[0]);
+    // int minute = int.parse(timeParts[1]);
 
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 8, 0);
 
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));

@@ -40,9 +40,18 @@ class AppSettingService {
     return const Locale('en', 'US');
   }
 
-  static String getTimeChange() {
-    return _prefs.getString('time_change') ?? '07:00';
+  static DateTime getLastStatusTime() {
+    String? lestTime = _prefs.getString('last_status_time');
+    return lestTime == null ? DateTime.now() : DateTime.parse(lestTime);
   }
+
+  static Duration getIntervalTime() {
+    return Duration(minutes: _prefs.getInt('interval_time') ?? 360);
+  }
+
+  // static String getTimeChange() {
+  //   return _prefs.getString('time_change') ?? '07:00';
+  // }
 
   static TimeOfDay getTimeChangeToTimeOfDay() {
     String timeString = _prefs.getString('time_change') ?? '07:00';
@@ -83,9 +92,17 @@ class AppSettingService {
     await _prefs.setString('language', language);
   }
 
-  static Future<void> setTimeChange(String timeChange) async {
-    await _prefs.setString('time_change', timeChange);
+  static Future<void> setLastStatusTime(DateTime endtime) async {
+    await _prefs.setString('last_status_time', endtime.toIso8601String());
   }
+
+  static Future<void> setIntervalTime(Duration interval) async {
+    await _prefs.setInt('interval_time', interval.inMinutes);
+  }
+
+  // static Future<void> setTimeChange(String timeChange) async {
+  //   await _prefs.setString('time_change', timeChange);
+  // }
 
   static Future<void> setAverageSmokingTime(int averageSmokingTime) async {
     await _prefs.setInt('average_smoking_time', averageSmokingTime);

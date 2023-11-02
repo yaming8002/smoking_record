@@ -250,10 +250,10 @@ class S {
     );
   }
 
-  /// `   Total time   `
+  /// `Total time`
   String get smokingStatus_total_time {
     return Intl.message(
-      '   Total time   ',
+      'Total time',
       name: 'smokingStatus_total_time',
       desc: '',
       args: [],

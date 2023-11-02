@@ -55,7 +55,7 @@ Widget _buildEditDataSetting(BuildContext context) {
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SmokingListPage()),
+        MaterialPageRoute(builder: (context) => const SmokingListPage()),
       );
     },
   );

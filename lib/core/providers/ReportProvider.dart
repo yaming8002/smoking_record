@@ -51,8 +51,8 @@ class ReportProvider with ChangeNotifier {
           : weekend;
       dateRange = DateTimeRange(
           start: weekend
-              .subtract(Duration(days: 7 * 10))
-              .subtract(Duration(days: 6)),
+              .subtract(const Duration(days: 7 * 10))
+              .subtract(const Duration(days: 6)),
           end: weekend);
     } else {
       dateRange = DateTimeRange(
@@ -60,7 +60,6 @@ class ReportProvider with ChangeNotifier {
         end: now, //
       );
     }
-    print("dateRange  $dateRange");
 
     summaryDayList = await summaryService.getSummaryList(
         dateRange!, Week ? "SummaryWeek" : "SummaryDay");

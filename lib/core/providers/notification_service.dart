@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 import '../../generated/l10n.dart';
 import '../models/ReceivedNotification.dart';
 import '../models/Summary.dart';
-import '../services/AppSettingService.dart';
 import '../services/DatabaseManager.dart';
 import '../services/SummaryService.dart';
 
@@ -30,7 +28,7 @@ class NotificationService {
 
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  String? changTimeStr = AppSettingService.getTimeChange();
+  //String? changTimeStr = AppSettingService.getTimeChange();
 
   var androidDetails = const AndroidNotificationDetails(
     'SmokingApp',
@@ -58,9 +56,9 @@ class NotificationService {
     DateTime yesterday = now.subtract(const Duration(days: 1));
     DateTime dayBeforeYesterday = yesterday.subtract(const Duration(days: 1));
 
-    Summary summaryForYesterday = await service.getSummary(yesterday);
+    Summary summaryForYesterday = await service.getSummaryDay(yesterday);
     Summary summaryForDayBeforeYesterday =
-        await service.getSummary(dayBeforeYesterday);
+        await service.getSummaryDay(dayBeforeYesterday);
 
     int count = summaryForYesterday.count - summaryForDayBeforeYesterday.count;
     String text = "";
@@ -78,17 +76,6 @@ class NotificationService {
       body: text,
       payload: null,
     );
-  }
-
-  tz.TZDateTime _nextInstanceOfTimeChange() {
-    List<String> changeTimeParts = AppSettingService.getTimeChange().split(":");
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
-        now.day, int.parse(changeTimeParts[0]), int.parse(changeTimeParts[1]));
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
   }
 
   showNotifications() async {

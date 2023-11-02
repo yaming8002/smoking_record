@@ -43,9 +43,9 @@ class ImageDisplayProvider with ChangeNotifier {
   void _updateInitialText() async {
     DateTime now = DateTime.now();
 
-    Summary thisSummary = await summaryService.getSummary(now);
-    Summary beforeSummary =
-        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
+    Summary thisSummary = await summaryService.getSummaryDay(now);
+    Summary beforeSummary = await summaryService
+        .getSummaryDay(now.subtract(const Duration(days: 1)));
 
     if (thisSummary.count < beforeSummary.count) {
       _defaultOnImage = S.current.image_Smoking_Less(thisSummary.sDate);

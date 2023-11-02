@@ -63,8 +63,8 @@ class InfoSection extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     // double formatH2 = Theme.of(context).textTheme.headlineSmall!.fontSize!;
-    provider.szieMap
-        ?.setSize("formatH2", Theme.of(context).textTheme.bodySmall!.fontSize!);
+    provider.szieMap?.setSize(
+        "formatH2", Theme.of(context).textTheme.headlineSmall!.fontSize!);
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -117,8 +117,9 @@ class InfoSection extends StatelessWidget {
 
   Widget _buildInfoCard(BuildContext context, String title, String content,
       {String? helpStr}) {
-    double formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
-    double iconformat = Theme.of(context).textTheme.bodyLarge!.fontSize!;
+    double formatDefault = Theme.of(context).textTheme.titleMedium!.fontSize!;
+    double valueDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    double iconformat = Theme.of(context).textTheme.bodyMedium!.fontSize!;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -170,7 +171,7 @@ class InfoSection extends StatelessWidget {
                 content,
                 minFontSize: 10,
                 maxFontSize: 100,
-                style: TextStyle(fontSize: formatDefault),
+                style: TextStyle(fontSize: valueDefault),
                 maxLines: 1,
                 textAlign: TextAlign.center,
               ),

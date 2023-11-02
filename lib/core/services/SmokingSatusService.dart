@@ -1,50 +1,51 @@
-import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:smoking_record/utils/dateTimeUtil.dart';
 
-import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
-import 'AppSettingService.dart';
 import 'DatabaseManager.dart';
 
 class SmokingSatusService {
   final DatabaseManager databaseManager;
 
-  TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
-  String? changTimeByStr = AppSettingService.getTimeChange();
+  // TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
+  // String? changTimeByStr = AppSettingService.getTimeChange();
 
   SmokingSatusService(this.databaseManager);
 
-  Future<DateTime?> getLastEndTime() async {
-    final maps = await databaseManager.rawQuery(
-        "SELECT endTime FROM SmokingStatus ORDER BY endTime DESC LIMIT 1");
-
-    if (maps != null && maps.isNotEmpty) {
-      final formattedEndTime =
-          DateTimeUtil.parseTimeFromString(maps.first['endTime']);
-
-      if (DateTimeUtil.compareTime(formattedEndTime!, changTime!)) {
-        // 將字符串轉換為DateTime
-        return DateTime.parse(maps.first['endTime']);
-      }
-    }
-    return null;
-  }
+  // Future<DateTime?> getLastEndTime() async {
+  //   final maps = await databaseManager.rawQuery(
+  //       "SELECT endTime FROM SmokingStatus ORDER BY endTime DESC LIMIT 1");
+  //
+  //   if (maps != null && maps.isNotEmpty) {
+  //     final formattedEndTime =
+  //         DateTimeUtil.parseTimeFromString(maps.first['endTime']);
+  //
+  //     if (DateTimeUtil.compareTime(formattedEndTime!, changTime!)) {
+  //       // 將字符串轉換為DateTime
+  //       return DateTime.parse(maps.first['endTime']);
+  //     }
+  //   }
+  //   return null;
+  // }
 
   Future<String> selectAll() async {
     List<Map<String, dynamic>> maps =
         await databaseManager.select("SmokingStatus");
+
     List<SmokingStatus> list =
         maps.map((item) => SmokingStatus.fromMap(item)).toList();
     // String data = await SmokingStatus.toCsv(list);
     return SmokingStatus.toCsv(list);
   }
 
-  Future<List<SmokingStatus>> selectByRang(
-      int currentPage, int itemsPerPage, List<String> date) async {
+  Future<List<SmokingStatus>> selectByRang(int currentPage, int itemsPerPage,
+      [DateTime? now]) async {
+    String nowFormatted = DateTimeUtil.getDate(now ?? DateTime.now());
+
     int offset = currentPage * itemsPerPage;
     List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
-        'SELECT * from SmokingStatus where startTime >= ? AND endTime < ? LIMIT ? OFFSET ?',
-        [date[0], date[1], itemsPerPage, offset]);
+        "SELECT * FROM SmokingStatus WHERE SUBSTR(endTime, 1, 10) = ? LIMIT ? OFFSET ?",
+        [nowFormatted, itemsPerPage, offset]);
 
     List<SmokingStatus> list =
         queryResult.map((item) => SmokingStatus.fromMap(item)).toList();
@@ -52,6 +53,7 @@ class SmokingSatusService {
   }
 
   insertSmokingStatus(Map<String, dynamic> map) async {
+    print("insertSmokingStatus$map");
     await databaseManager?.insert('SmokingStatus', map);
   }
 

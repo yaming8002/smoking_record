@@ -23,6 +23,7 @@ class EditRecordProvider with ChangeNotifier {
   }
 
   Future<void> loadData() async {
+    print(status.toString());
     countController = TextEditingController(text: status.count.toString());
     startDateController =
         TextEditingController(text: DateTimeUtil.getDate(status.startTime));
@@ -38,6 +39,7 @@ class EditRecordProvider with ChangeNotifier {
 
   updateSmokingStatus() async {
     status.totalTime = status.endTime.difference(status.startTime);
+    print(status);
     service.updateSmokingStatus(status.toMap());
     await summaryService?.updateSummaryDay(status.endTime);
     await summaryService?.updateSummaryWeek(status.endTime);

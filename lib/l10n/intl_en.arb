@@ -21,7 +21,7 @@
 
     "add_Estimate": "Estimate",
     "smokingStatus_status": "SmokingStatus",
-    "smokingStatus_total_time": "   Total time   ",
+    "smokingStatus_total_time": "Total time",
     "smokingStatus_evaluate": "SmokingStatus_evaluate",
     "smokingStatus_smokeCount": "Smoking count",
     "smokingStatus_spacing": "spacing time",

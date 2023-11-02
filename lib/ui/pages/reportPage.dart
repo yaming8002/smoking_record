@@ -71,39 +71,35 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
       child: Column(
         // mainAxisSize: MainAxisSize.min,
         children: [
-          TabBar(
-            controller: _chartTabController,
-            tabs: [
-              Tab(child: Text(S.current.all)),
-              Tab(child: Text(S.current.smokingStatus_smokeCount)),
-              Tab(child: Text(S.current.smokingStatus_total_time)),
-              Tab(child: Text(S.current.smokingStatus_spacing))
-            ],
-          ),
+          TabBar(controller: _chartTabController, isScrollable: true, tabs: [
+            Tab(child: Text(S.current.all)),
+            Tab(child: Text(S.current.smokingStatus_smokeCount)),
+            Tab(child: Text(S.current.smokingStatus_total_time)),
+            Tab(child: Text(S.current.smokingStatus_spacing))
+          ]),
           SizedBox(
             height: 200, // 這裡你可以調整或根據內容動態設定
             child: TabBarView(
-              controller: _chartTabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                ReportChatWidget(
-                    summaryDayList: provider.summaryDayList,
-                    column: null,
-                    maxBarValue: provider.maxBarValue),
-                ReportChatWidget(
-                    summaryDayList: provider.summaryDayList,
-                    column: 'count',
-                    maxBarValue: provider.maxBarValue),
-                ReportChatWidget(
-                    summaryDayList: provider.summaryDayList,
-                    column: 'totalTime',
-                    maxBarValue: provider.maxBarValue),
-                ReportChatWidget(
-                    summaryDayList: provider.summaryDayList,
-                    column: 'spacing',
-                    maxBarValue: provider.maxBarValue),
-              ],
-            ),
+                controller: _chartTabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  ReportChatWidget(
+                      summaryDayList: provider.summaryDayList,
+                      column: null,
+                      maxBarValue: provider.maxBarValue),
+                  ReportChatWidget(
+                      summaryDayList: provider.summaryDayList,
+                      column: 'count',
+                      maxBarValue: provider.maxBarValue),
+                  ReportChatWidget(
+                      summaryDayList: provider.summaryDayList,
+                      column: 'totalTime',
+                      maxBarValue: provider.maxBarValue),
+                  ReportChatWidget(
+                      summaryDayList: provider.summaryDayList,
+                      column: 'spacing',
+                      maxBarValue: provider.maxBarValue),
+                ]),
           ),
         ],
       ),
