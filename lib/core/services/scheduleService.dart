@@ -1,9 +1,7 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import 'package:workmanager/workmanager.dart';
 
-import '../providers/notification_service.dart';
+import 'AppSettingService.dart';
+import 'NotificationService.dart';
 
 class ScheduleManager {
   static final ScheduleManager _instance = ScheduleManager._internal();
@@ -11,54 +9,34 @@ class ScheduleManager {
   ScheduleManager._internal();
 
   Future<void> initialize() async {
-    tz.initializeTimeZones();
-    await Workmanager().initialize(callbackDispatcher);
-  }
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+    final now = DateTime.now();
+    var scheduledDate = DateTime(
+        now.year, now.month, now.hour < 8 ? now.day : now.day + 1, 8, 0, 0);
 
-  Future<Duration> _nextInstanceOfCustomTime() async {
-    // List<String> timeParts = AppSettingService.getTimeChange().split(":");
-    // int hour = int.parse(timeParts[0]);
-    // int minute = int.parse(timeParts[1]);
+    final scheduledTime = scheduledDate.difference(now);
 
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 8, 0);
-
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-
-    return scheduledDate.difference(now);
-  }
-
-  Future<void> scheduleTask() async {
-    Duration scheduledTime = await _nextInstanceOfCustomTime();
-    await Workmanager().registerPeriodicTask(
-      'id_unique',
-      'simplePeriodicTask',
-      frequency: Duration(days: 1),
+    await Workmanager().registerOneOffTask(
+      "simpleTask", // 任務名稱
+      "simpleTask", // 任務標籤
       initialDelay: scheduledTime,
-      inputData: <String, dynamic>{'key': 'value'},
+      inputData: <String, dynamic>{
+        'languageCode': AppSettingService.getLanguage(),
+        // 可以加入更多需要的數據
+      },
     );
   }
 
-  Future<void> updateTimeChange(String newTime) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('time_change', newTime);
-
-    await cancelTask();
-    await scheduleTask();
-  }
-
   Future<void> cancelTask() async {
-    await Workmanager().cancelByTag('id_unique');
+    await Workmanager().cancelByTag('simpleTask');
   }
 }
 
+@pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    NotificationService notion = await NotificationService.instance;
-    notion.showNotifications();
+    String languageCode = inputData!['languageCode'];
+    await NotificationService.instance.showNotifications(languageCode);
     return Future.value(true);
   });
 }

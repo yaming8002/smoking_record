@@ -7,26 +7,7 @@ import 'DatabaseManager.dart';
 class SmokingSatusService {
   final DatabaseManager databaseManager;
 
-  // TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
-  // String? changTimeByStr = AppSettingService.getTimeChange();
-
   SmokingSatusService(this.databaseManager);
-
-  // Future<DateTime?> getLastEndTime() async {
-  //   final maps = await databaseManager.rawQuery(
-  //       "SELECT endTime FROM SmokingStatus ORDER BY endTime DESC LIMIT 1");
-  //
-  //   if (maps != null && maps.isNotEmpty) {
-  //     final formattedEndTime =
-  //         DateTimeUtil.parseTimeFromString(maps.first['endTime']);
-  //
-  //     if (DateTimeUtil.compareTime(formattedEndTime!, changTime!)) {
-  //       // 將字符串轉換為DateTime
-  //       return DateTime.parse(maps.first['endTime']);
-  //     }
-  //   }
-  //   return null;
-  // }
 
   Future<String> selectAll() async {
     List<Map<String, dynamic>> maps =
@@ -39,13 +20,14 @@ class SmokingSatusService {
   }
 
   Future<List<SmokingStatus>> selectByRang(int currentPage, int itemsPerPage,
-      [DateTime? now]) async {
-    String nowFormatted = DateTimeUtil.getDate(now ?? DateTime.now());
+      [DateTime? startTime, DateTime? endTime]) async {
+    String start = DateTimeUtil.getDate(startTime ?? DateTime.now());
+    String end = DateTimeUtil.getDate(endTime ?? DateTime.now());
 
     int offset = currentPage * itemsPerPage;
     List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
-        "SELECT * FROM SmokingStatus WHERE SUBSTR(endTime, 1, 10) = ? LIMIT ? OFFSET ?",
-        [nowFormatted, itemsPerPage, offset]);
+        "SELECT * FROM SmokingStatus WHERE SUBSTR(endTime, 1, 10) between ? and ?  LIMIT ? OFFSET ?",
+        [start, end, itemsPerPage, offset]);
 
     List<SmokingStatus> list =
         queryResult.map((item) => SmokingStatus.fromMap(item)).toList();
@@ -78,6 +60,7 @@ class SmokingSatusService {
       await databaseManager!.execute(sql);
     } else {
       print('Error: SmokingStatus does not have an id.');
+      insertSmokingStatus(map);
     }
   }
 

@@ -74,8 +74,10 @@ class ReportProvider with ChangeNotifier {
 
   void _calculateMaxBarValue() {
     for (String column in maxBarValue.keys) {
+      print(column);
       for (int i = 0; i < summaryDayList!.length; i++) {
         final data = summaryDayList![i].toMinuteMap();
+        print(data[column]);
         maxBarValue[column] = maxBarValue[column]! > data[column].toDouble()
             ? maxBarValue[column]
             : data[column].toDouble();
@@ -84,6 +86,7 @@ class ReportProvider with ChangeNotifier {
           ? 15
           : (maxBarValue[column]! / 10).ceilToDouble() * 10 + 10;
     }
+    print(maxBarValue);
   }
 
   void changColumn(String? newValue) {

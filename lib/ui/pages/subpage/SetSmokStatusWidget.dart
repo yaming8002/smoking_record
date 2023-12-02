@@ -120,6 +120,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
             maxFontSize: 60,
           ),
           subtitle: SmokingCounter(
+            initialCount: widget.status!.count,
             onCountChanged: (newAmoun) {
               widget.status!.count = newAmoun;
             },
@@ -134,10 +135,10 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
               minFontSize: 10,
               maxFontSize: 60,
             ),
-            onPressed: () async => await widget.savestatus(
-                widget.startBaseswitch.value,
-                widget.endBaseswitch.value,
-                widget.status),
+            onPressed: () async {
+              await widget.savestatus(widget.startBaseswitch.value,
+                  widget.endBaseswitch.value, widget.status);
+            },
           ),
           // TODO 後續提供新增後再紀錄的功能
           // ElevatedButton(

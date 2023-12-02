@@ -11,6 +11,7 @@ import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
+import '../services/NotificationService.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
 
@@ -27,7 +28,9 @@ class HomePageProvider with ChangeNotifier {
   Duration interval = AppSettingService.getIntervalTime();
   String? imagePath;
   String? message;
+  Color CircleColor = Colors.grey;
   PageTextSizes? szieMap;
+  NotificationService? notion;
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
@@ -40,13 +43,15 @@ class HomePageProvider with ChangeNotifier {
     // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
+
     upgroupTimeDiff();
     startTimer();
     notifyListeners();
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _timer?.cancel(); // 确保取消之前的定时器
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       upgroupTimeDiff();
     });
   }
@@ -55,11 +60,24 @@ class HomePageProvider with ChangeNotifier {
     _targetTime = AppSettingService.getLastEndTime();
     DateTime now = DateTime.now();
     Duration diff = now.difference(_targetTime ?? now);
-    timeDiff =
-        diff.inMilliseconds > 0 && diff.inMilliseconds < interval.inMilliseconds
-            ? DateTimeUtil.formatDuration(diff)
-            : S.current.home_start;
+    Duration interval = AppSettingService.getIntervalTime();
+
+    if (diff.inMilliseconds > 0 && interval.inMinutes > 0 && diff < interval) {
+      timeDiff = "請等待${DateTimeUtil.formatDuration(interval - diff)}";
+      CircleColor = Colors.grey;
+    } else if (diff.inMilliseconds > 0) {
+      timeDiff = DateTimeUtil.formatDuration(diff);
+      CircleColor = Colors.red;
+    } else {
+      timeDiff = S.current.home_start;
+    }
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> _getSummaryDayFromService() async {
@@ -98,9 +116,9 @@ class HomePageProvider with ChangeNotifier {
         0,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
-    if (!AppSettingService.getisStopAd()) {
-      await showAd(context);
-    }
+    // if (!AppSettingService.getisStopAd()) {
+    //   await showAd(context);
+    // }
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => AddPage(status: newStatus)));
 

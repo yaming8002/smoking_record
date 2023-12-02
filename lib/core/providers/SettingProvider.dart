@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../services/AppSettingService.dart';
 import '../services/CsvManager.dart';
+import '../services/NotificationService.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
-import 'notification_service.dart';
 
 class SettingsProvider with ChangeNotifier {
   final SmokingSatusService satusService;
@@ -20,8 +20,8 @@ class SettingsProvider with ChangeNotifier {
     init();
   }
 
-  Future<void> init() async {
-    notion = await NotificationService.instance;
+  void init() {
+    notion = NotificationService.instance;
   }
 
   String get contactAuthor => ""; // 这里可以添加具体的实现
@@ -49,13 +49,6 @@ class SettingsProvider with ChangeNotifier {
     AppSettingService.setRecordNotificationTime(value);
     notifyListeners();
   }
-
-  // String get timeChange => AppSettingService.getTimeChange();
-  //
-  // set timeChange(String value) {
-  //   AppSettingService.setTimeChange(value);
-  //   notifyListeners();
-  // }
 
   Duration get intervalTime => AppSettingService.getIntervalTime();
 
@@ -91,6 +84,6 @@ class SettingsProvider with ChangeNotifier {
 
   testnutton() {
     print("測試打應");
-    notion?.showNotifications();
+    notion?.showNotifications(AppSettingService.getLanguage());
   }
 }

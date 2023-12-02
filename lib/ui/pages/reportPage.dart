@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/providers/ReportProvider.dart';
 import '../../generated/l10n.dart';
 import '../../utils/dateTimeUtil.dart';
-import '../widgets/AppFrame.dart';
+import '../AppFrame.dart';
 import 'subpage/ReportChartWidget.dart';
 
 class ReportPage extends StatefulWidget {
@@ -21,6 +25,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
   late TabController _chartTabController;
+  GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -33,6 +38,34 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
   void dispose() {
     _chartTabController.dispose();
     super.dispose();
+  }
+
+  Future<Uint8List?> capturePng(GlobalKey globalKey) async {
+    try {
+      if (globalKey.currentContext == null) {
+        return null;
+      }
+
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      if (boundary.debugNeedsPaint) {
+        await Future.delayed(const Duration(milliseconds: 20));
+        return capturePng(globalKey); // Try again
+      }
+
+      var image = await boundary.toImage(pixelRatio: 1.0);
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData == null) {
+        return null;
+      }
+
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+      return pngBytes;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   @override
@@ -48,11 +81,16 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      _showReportDialog(context, provider);
-                    },
-                    child: Text(S.current.query),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: ElevatedButton(
+                        onPressed: () {
+                          _showReportDialog(context, provider);
+                        },
+                        child: Text(S.current.query),
+                      )),
+                    ],
                   ),
                   _buildContent(provider),
                   _buildTableWidget(provider),
@@ -79,27 +117,30 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
           ]),
           SizedBox(
             height: 200, // 這裡你可以調整或根據內容動態設定
-            child: TabBarView(
-                controller: _chartTabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  ReportChatWidget(
-                      summaryDayList: provider.summaryDayList,
-                      column: null,
-                      maxBarValue: provider.maxBarValue),
-                  ReportChatWidget(
-                      summaryDayList: provider.summaryDayList,
-                      column: 'count',
-                      maxBarValue: provider.maxBarValue),
-                  ReportChatWidget(
-                      summaryDayList: provider.summaryDayList,
-                      column: 'totalTime',
-                      maxBarValue: provider.maxBarValue),
-                  ReportChatWidget(
-                      summaryDayList: provider.summaryDayList,
-                      column: 'spacing',
-                      maxBarValue: provider.maxBarValue),
-                ]),
+            child: RepaintBoundary(
+              key: _globalKey,
+              child: TabBarView(
+                  controller: _chartTabController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    ReportChatWidget(
+                        summaryDayList: provider.summaryDayList,
+                        column: null,
+                        maxBarValue: provider.maxBarValue),
+                    ReportChatWidget(
+                        summaryDayList: provider.summaryDayList,
+                        column: 'count',
+                        maxBarValue: provider.maxBarValue),
+                    ReportChatWidget(
+                        summaryDayList: provider.summaryDayList,
+                        column: 'totalTime',
+                        maxBarValue: provider.maxBarValue),
+                    ReportChatWidget(
+                        summaryDayList: provider.summaryDayList,
+                        column: 'spacing',
+                        maxBarValue: provider.maxBarValue),
+                  ]),
+            ),
           ),
         ],
       ),
@@ -150,7 +191,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                         subtitle: Row(
                           children: [
                             Text(
-                                '${DateTimeUtil.getDate(dateRange!.start)} ~ ${DateTimeUtil.getDate(dateRange!.end)}'),
+                                '${DateTimeUtil.getDate(dateRange!.start)} \n ~ ${DateTimeUtil.getDate(dateRange!.end)}'),
                             IconButton(
                               icon: const Icon(Icons.date_range),
                               onPressed: () async {

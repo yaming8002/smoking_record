@@ -5,10 +5,16 @@ import 'package:smoking_record/utils/dateTimeUtil.dart';
 
 import '../../core/providers/StatusListProvider.dart';
 import '../../generated/l10n.dart';
-import '../widgets/AppFrame.dart';
+import '../AppFrame.dart';
 
 class SmokingListPage extends StatefulWidget {
-  const SmokingListPage({super.key});
+  final DateTime? startTime;
+  final DateTime? endTime;
+  const SmokingListPage(
+    this.startTime,
+    this.endTime, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SmokingListPageState createState() => _SmokingListPageState();
@@ -18,7 +24,8 @@ class _SmokingListPageState extends State<SmokingListPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => StatusListProvider(context),
+      create: (_) =>
+          StatusListProvider(context, widget.startTime, widget.endTime),
       child: Consumer<StatusListProvider>(
         builder: (context, provider, child) {
           return AppFrame(
@@ -67,25 +74,45 @@ class _SmokingListPageState extends State<SmokingListPage> {
   Widget _buildHeader(StatusListProvider provider) {
     return Row(
       children: [
-        Text(S.current.time_date),
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: TextField(
-              controller: provider.dateController,
-              readOnly: true,
-              textAlign: TextAlign.right, // 讓文字靠右對齊
-              decoration: const InputDecoration(
-                border: InputBorder.none, // 移除下劃線
+        const SizedBox(width: 10.0),
+        Ink(
+          width: 35.0,
+          height: 35.0,
+          decoration: const ShapeDecoration(
+            color: Colors.green, // 设置为绿色
+            shape: CircleBorder(),
+          ),
+          child: InkWell(
+            onTap: () {
+              provider.addEdit(context);
+            },
+            customBorder: const CircleBorder(),
+            child: const Center(
+              child: Icon(
+                Icons.add,
+                color: Colors.white, // 设置图标颜色，这里为白色
               ),
-              onTap: provider.selectDate,
             ),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: provider.selectDate,
+        const SizedBox(width: 5.0),
+        Expanded(
+          child: ElevatedButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero, // 移除内部填充以允许文本填满整个按钮
+              alignment: Alignment.center, // 确保按钮内容（文本）靠右对齐
+            ),
+            onPressed: () {
+              if (provider.isMultiDate) {
+                provider.selectDateRange();
+              } else {
+                provider.selectDate();
+              }
+            },
+            child: Text(provider.dateController.text),
+          ),
         ),
+        const SizedBox(width: 10.0),
       ],
     );
   }

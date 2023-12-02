@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/models/SmokingStatus.dart';
 import '../../core/providers/AddPageProvider.dart';
 import '../../generated/l10n.dart';
-import '../widgets/AppFrame.dart';
+import '../AppFrame.dart';
 import 'subpage/SetSmokStatusWidget.dart';
 
 class AddPage extends StatefulWidget {

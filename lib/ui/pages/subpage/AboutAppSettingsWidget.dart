@@ -1,10 +1,12 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/providers/SettingProvider.dart';
-import '../../../core/services/AppSettingService.dart';
 import '../../../generated/l10n.dart';
 import '../../widgets/SettingsTile.dart';
-import '../PrivacyPolicyPage.dart';
+import 'PrivacyPolicyPage.dart';
 
 class AboutAppSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -20,27 +22,27 @@ class AboutAppSettingsWidget extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           decoration: BoxDecoration(
-            color: Colors.blue, // 設置底色
+            color: Colors.amber, // 設置底色
             // borderRadius: BorderRadius.circular(8.0), // 設置圓角
           ),
           child: Text(
             S.current.about_app,
             style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white), // 設置文字顏色為白色以與背景對比
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ), // 設置文字顏色為白色以與背景對比
           ),
         ),
         const Divider(),
         Column(
           children: [
-            _buildADMode(provider),
-            const Divider(),
-            _buildAboutAppSetting(provider),
-            const Divider(),
+            // _buildADMode(provider),
+            // const Divider(),
             _buildPrivacyPolicyPage(context),
             const Divider(),
-            _buildContactAuthorSetting(provider),
+            _buildAboutAppSetting(context),
+            const Divider(),
+            _buildContactAuthorSetting(context),
             const Divider(),
             // 这里您可以添加 "隱私與服務條款" 的设置项
           ],
@@ -48,18 +50,6 @@ class AboutAppSettingsWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-Widget _buildADMode(SettingsProvider provider) {
-  return SettingsTile(
-    title: S.current.setting_stopAd,
-    trailing: Switch(
-      value: AppSettingService.getisStopAd(),
-      onChanged: (value) {
-        AppSettingService.setIsStopAd(value);
-      },
-    ),
-  );
 }
 
 Widget _buildPrivacyPolicyPage(BuildContext context) {
@@ -75,20 +65,61 @@ Widget _buildPrivacyPolicyPage(BuildContext context) {
 }
 
 // 關於我們
-Widget _buildAboutAppSetting(SettingsProvider provider) {
+Widget _buildAboutAppSetting(BuildContext context) {
   return SettingsTile(
     title: S.current.about_app,
-    trailing: Text(provider.aboutApp ?? "---"), // 後續把版本資訊包在其中
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+      );
+    },
   );
 }
 
-Widget _buildContactAuthorSetting(SettingsProvider provider) {
-  return SettingsTile(
-    title: S.current.contact_author,
-    trailing: const Text('Contact'),
-    //   ElevatedButton(
-    //     onPressed: provider.contactAuthor,
-    //     child: Text('Contact'),
-    //   ),
+Widget _buildContactAuthorSetting(BuildContext context) {
+  return FutureBuilder<String>(
+    future: encodeQueryParameters(),
+    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator(); // 返回一个加载指示器，表示等待
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else {
+        final Uri params = Uri(
+          scheme: 'mailto',
+          path: 'mountain0212@hotmail.com',
+          query: snapshot.data, // 使用解析后的数据
+        );
+        print(params.query);
+        return SettingsTile(
+          title: S.current.contact_author,
+          onTap: () async {
+            // 将 onTap 方法标记为 async
+            encodeQueryParameters();
+            if (await canLaunchUrl(params)) {
+              // 使用正确的函数名和 params
+              await launchUrl(params); // 使用正确的函数名和 params
+            } else {
+              throw 'Could not launch $params'; // 使用正确的变量名
+            }
+          },
+        );
+      }
+    },
   );
+}
+
+Future<String> encodeQueryParameters() async {
+  Map<String, String> params = <String, String>{
+    'subject': 'Support Request from SmokingRecord User',
+    'body': 'os:${Platform.operatingSystem}\n ' +
+        'version:${Platform.operatingSystemVersion}\n' +
+        'app:${Platform.operatingSystemVersion}\n',
+  };
+
+  return params.entries
+      .map((MapEntry<String, String> e) =>
+          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      .join('&');
 }

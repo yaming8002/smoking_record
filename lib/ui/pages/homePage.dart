@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/providers/HomePageProvider.dart';
 import '../../generated/l10n.dart';
-import '../widgets/AppFrame.dart';
+import '../AppFrame.dart';
 import 'subpage/InfoCardByHome.dart';
 
 class HomePage extends StatefulWidget {
@@ -66,13 +66,15 @@ class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   0.24;
                           return GestureDetector(
                             onTap: () async {
-                              isAdBeingShown = true;
-                              await provider.onNavigateToSecondPage(context);
-                              isAdBeingShown = false;
+                              if (provider.CircleColor == Colors.red) {
+                                isAdBeingShown = true;
+                                await provider.onNavigateToSecondPage(context);
+                                isAdBeingShown = false;
+                              }
                             },
                             child: CircleAvatar(
                                 radius: radius,
-                                backgroundColor: Colors.red,
+                                backgroundColor: provider.CircleColor,
                                 child: AutoSizeText(
                                   provider.timeDiff,
                                   minFontSize: 10, // 這裡是最小的字體大小
@@ -90,7 +92,7 @@ class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
                     const SizedBox(height: 10.0),
                     Expanded(
                       flex: 22, // 這表示 InfoSection 將佔據 Column 中 25% 的空間
-                      child: InfoSection(
+                      child: InfoCardByHome(
                         title: S.current.time_by_day,
                         thisSummaryDay: provider.today,
                         beforeSummaryDay: provider.yesterday,
@@ -100,7 +102,7 @@ class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
                     const SizedBox(height: 10.0),
                     Expanded(
                       flex: 22, // 這表示 InfoSection 將佔據 Column 中 25% 的空間
-                      child: InfoSection(
+                      child: InfoCardByHome(
                         title: S.current.time_by_week,
                         thisSummaryDay: provider.thisWeek,
                         beforeSummaryDay: provider.beforeWeek,

@@ -6,9 +6,9 @@ import 'package:sqflite/sqflite.dart';
 
 import 'core/services/AppSettingService.dart';
 import 'core/services/DatabaseManager.dart';
+import 'core/services/ScheduleService.dart';
 import 'core/services/SmokingSatusService.dart';
 import 'core/services/SummaryService.dart';
-import 'core/services/scheduleService.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -17,7 +17,6 @@ void main() async {
   Database db = await DatabaseManager.initDB();
   ScheduleManager manager = ScheduleManager();
   await manager.initialize();
-  await manager.scheduleTask();
 
   runApp(MultiProvider(
     providers: [
@@ -32,10 +31,6 @@ void main() async {
         update: (context, databaseManager, previous) =>
             SmokingSatusService(databaseManager),
       ),
-      // ProxyProvider<SummaryService, NotificationService>(
-      //   update: (context, summaryService, previous) =>
-      //       NotificationService(summaryService),
-      // ),
     ],
     builder: (context, child) {
       return MyApp();
@@ -71,9 +66,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       locale: _locale,
-      title: 'Flutter Demo',
+      title: 'smokingRecord',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
