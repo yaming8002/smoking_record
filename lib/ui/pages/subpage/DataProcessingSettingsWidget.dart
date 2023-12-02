@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../core/providers/SettingProvider.dart';
 import '../../../generated/l10n.dart';
 import '../../widgets/SettingsTile.dart';
-import '../SmokingListPage.dart';
 
 class DataProcessingSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -19,22 +18,22 @@ class DataProcessingSettingsWidget extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           decoration: const BoxDecoration(
-            color: Colors.blue, // 設置底色
+            color: Colors.amber, // 設置底色
             // borderRadius: BorderRadius.circular(8.0), // 設置圓角
           ),
           child: Text(
             S.current.setting_dataProcessing,
             style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white), // 設置文字顏色為白色以與背景對比
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ), // 設置文字顏色為白色以與背景對比
           ),
         ),
         const Divider(),
         Column(
           children: [
-            _buildEditDataSetting(context),
-            const Divider(),
+            // _buildEditDataSetting(context),
+            // const Divider(),
             _buildImportDataSetting(provider, context),
             const Divider(),
             _buildExportDataSetting(provider),
@@ -49,17 +48,17 @@ class DataProcessingSettingsWidget extends StatelessWidget {
 }
 
 // 資料設定
-Widget _buildEditDataSetting(BuildContext context) {
-  return SettingsTile(
-    title: S.current.setting_edit_one,
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SmokingListPage()),
-      );
-    },
-  );
-}
+// Widget _buildEditDataSetting(BuildContext context) {
+//   return SettingsTile(
+//     title: S.current.setting_edit_one,
+//     onTap: () {
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => const SmokingListPage()),
+//       );
+//     },
+//   );
+// }
 
 Widget _buildExportDataSetting(SettingsProvider provider) {
   return SettingsTile(

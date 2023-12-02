@@ -4,7 +4,7 @@ import 'package:smoking_record/ui/pages/subpage/PreferenceSettingsWidget.dart';
 
 import '../../core/providers/SettingProvider.dart';
 import '../../generated/l10n.dart';
-import '../widgets/AppFrame.dart';
+import '../AppFrame.dart';
 import 'subpage/AboutAppSettingsWidget.dart';
 import 'subpage/DataProcessingSettingsWidget.dart';
 

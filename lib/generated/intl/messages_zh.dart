@@ -26,18 +26,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(date) => "${date} 的吸烟数量比前一日多，再接再厉！";
 
-  static String m3(count, yesterday, dayBefore) =>
-      "恭喜！你${yesterday}有比${dayBefore}减少${count}根烟。";
-
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("关于本程式"),
         "add_Estimate": MessageLookupByLibrary.simpleMessage("估算"),
         "all": MessageLookupByLibrary.simpleMessage("全部"),
+        "appName": MessageLookupByLibrary.simpleMessage("吸烟纪录"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "contact_author": MessageLookupByLibrary.simpleMessage("联系作者"),
         "daily": MessageLookupByLibrary.simpleMessage("单日"),
         "date_range": MessageLookupByLibrary.simpleMessage("日期范围"),
+        "freq_unit": MessageLookupByLibrary.simpleMessage("(根)"),
         "home_start": MessageLookupByLibrary.simpleMessage("开始记录"),
         "image_Share": MessageLookupByLibrary.simpleMessage("分享"),
         "image_Smoking_Equal": m0,
@@ -47,11 +46,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_compare_this": MessageLookupByLibrary.simpleMessage("比较今日"),
         "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比较昨日"),
         "item": MessageLookupByLibrary.simpleMessage("项目"),
-        "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("结束时间不能在未来！"),
-        "msg_keepItUp":
-            MessageLookupByLibrary.simpleMessage("我们再接再厉！慢慢减少吸烟数量。"),
+        "notification_msg1":
+            MessageLookupByLibrary.simpleMessage("有了纪录，我们就有了方向，持续走向更好的自己。"),
+        "notification_msg2":
+            MessageLookupByLibrary.simpleMessage("每一笔纪录都将帮助你更好地理解自己，继续前进。"),
+        "notification_msg3":
+            MessageLookupByLibrary.simpleMessage("让每一次的纪录成为探索自我、提升生活品质的契机。"),
+        "notification_msg4":
+            MessageLookupByLibrary.simpleMessage("让我们用记录来感受生活，一步一步迈向更健康的生活。"),
         "page_add": MessageLookupByLibrary.simpleMessage("新增"),
         "page_home": MessageLookupByLibrary.simpleMessage("吸烟纪录"),
         "page_imageDisplayPage": MessageLookupByLibrary.simpleMessage("分享图片"),
@@ -128,15 +132,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "smokingStatus_total_time": MessageLookupByLibrary.simpleMessage("总时间"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
         "time_Time": MessageLookupByLibrary.simpleMessage("时间"),
-        "time_by_day": MessageLookupByLibrary.simpleMessage("今日(昨日)"),
-        "time_by_week": MessageLookupByLibrary.simpleMessage("本周(上周)"),
+        "time_by_day": MessageLookupByLibrary.simpleMessage("今日 / 昨日"),
+        "time_by_week": MessageLookupByLibrary.simpleMessage("本周 / 上周"),
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
         "time_end": MessageLookupByLibrary.simpleMessage("结束"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("结束时间"),
+        "time_seconds": MessageLookupByLibrary.simpleMessage("(秒)"),
         "time_spacingTime": MessageLookupByLibrary.simpleMessage("间隔时间"),
         "time_start": MessageLookupByLibrary.simpleMessage("开始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(分钟)"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(分钟"),
         "weekly": MessageLookupByLibrary.simpleMessage("单周")
       };
 }

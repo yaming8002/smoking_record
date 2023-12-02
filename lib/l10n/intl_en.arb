@@ -1,4 +1,5 @@
 {
+    "appName":"Smoking Record" ,
     "page_add": "New",
     "page_home": "Smoking Record",
     "page_list": "list",
@@ -21,10 +22,11 @@
 
     "add_Estimate": "Estimate",
     "smokingStatus_status": "SmokingStatus",
-    "smokingStatus_total_time": "   Total time   ",
+    "smokingStatus_total_time": "Total time",
     "smokingStatus_evaluate": "SmokingStatus_evaluate",
     "smokingStatus_smokeCount": "Smoking count",
     "smokingStatus_spacing": "spacing time",
+
 
     "home_start": "Start Recording",
     "setting_settings": "Preferences",
@@ -53,20 +55,24 @@
     "setting_recordNotification": "Record Notification",
     "setting_recordNotificationTime": "Record notification time",
 
-    "time_date": "date",
-    "time_Time": "time",
+    "time_date": "Date",
+    "time_Time": "Time",
     "time_startTime": "Start time",
     "time_endTime": "End time",
     "time_start": "start",
     "time_end": "End",
-    "time_by_day": " Today(yesterday) ",
-    "time_by_week": "This week(last week)",
+    "time_by_day": " Today / yesterday",
+    "time_by_week": "This week / last week",
     "time_spacingTime": "Interval time",
     "time_unit": "(minute)",
+    "time_seconds": "(s)",
+    "freq_unit": "(Freq.)",
 
     "msg_endTimeFutureError": "End time cannot be in the future!",
-    "msg_congratulationsReduced": "Congratulations! You smoked {count} fewer cigarettes on {yesterday} than on {dayBefore}.",
-    "msg_keepItUp": "Keep it up! Gradually reduce the number of cigarettes.",
+    "notification_msg1":"With each record, we find our direction, continuously moving towards a better self.",
+    "notification_msg2":"Every entry helps you understand yourself better, keep moving forward.",
+    "notification_msg3":"Let each record be an opportunity to explore yourself and enhance the quality of life",
+    "notification_msg4":"Let us use these records to feel the life, step by step towards a healthier lifestyle.",
 
     "about_app": "About This App",
     "contact_author": "Contact Author",

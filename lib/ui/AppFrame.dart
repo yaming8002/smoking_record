@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/providers/SettingProvider.dart';
-import '../../core/services/AppSettingService.dart';
-import '../../generated/l10n.dart';
-import '../pages/settingPage.dart';
-import 'AdBanner.dart';
+import '../core/providers/SettingProvider.dart';
+import '../generated/l10n.dart';
+import 'pages/settingPage.dart';
+import 'widgets/AdBanner.dart';
 
 class AppFrame extends StatelessWidget {
   final Widget body;
@@ -23,7 +22,8 @@ class AppFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.amber, // 设置 AppBar 背景颜色为琥珀色
         title: Text(appBarTitle ?? S.current.page_home),
         actions: <Widget>[
           if (appBarActions != null) ...appBarActions!,
@@ -44,7 +44,7 @@ class AppFrame extends StatelessWidget {
         ],
       ),
       body: body,
-      bottomNavigationBar: !AppSettingService.getisStopAd() ? AdBanner() : null,
+      bottomNavigationBar: AdBanner(),
     );
   }
 }

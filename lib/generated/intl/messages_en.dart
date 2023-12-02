@@ -29,19 +29,18 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(date) =>
       "The number of cigarettes smoked on ${date} is more than the previous day, keep going!";
 
-  static String m3(count, yesterday, dayBefore) =>
-      "Congratulations! You smoked ${count} fewer cigarettes on ${yesterday} than on ${dayBefore}.";
-
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
         "add_Estimate": MessageLookupByLibrary.simpleMessage("Estimate"),
         "all": MessageLookupByLibrary.simpleMessage("all"),
+        "appName": MessageLookupByLibrary.simpleMessage("Smoking Record"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
         "daily": MessageLookupByLibrary.simpleMessage("single day"),
         "date_range": MessageLookupByLibrary.simpleMessage("date range"),
+        "freq_unit": MessageLookupByLibrary.simpleMessage("(Freq.)"),
         "home_start": MessageLookupByLibrary.simpleMessage("Start Recording"),
         "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
         "image_Smoking_Equal": m0,
@@ -54,11 +53,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_compare_yesterday":
             MessageLookupByLibrary.simpleMessage("Compare Yesterday"),
         "item": MessageLookupByLibrary.simpleMessage("item"),
-        "msg_congratulationsReduced": m3,
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
-        "msg_keepItUp": MessageLookupByLibrary.simpleMessage(
-            "Keep it up! Gradually reduce the number of cigarettes."),
+        "notification_msg1": MessageLookupByLibrary.simpleMessage(
+            "With each record, we find our direction, continuously moving towards a better self."),
+        "notification_msg2": MessageLookupByLibrary.simpleMessage(
+            "Every entry helps you understand yourself better, keep moving forward."),
+        "notification_msg3": MessageLookupByLibrary.simpleMessage(
+            "Let each record be an opportunity to explore yourself and enhance the quality of life"),
+        "notification_msg4": MessageLookupByLibrary.simpleMessage(
+            "Let us use these records to feel the life, step by step towards a healthier lifestyle."),
         "page_add": MessageLookupByLibrary.simpleMessage("New"),
         "page_home": MessageLookupByLibrary.simpleMessage("Smoking Record"),
         "page_imageDisplayPage":
@@ -150,16 +154,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "smokingStatus_status":
             MessageLookupByLibrary.simpleMessage("SmokingStatus"),
         "smokingStatus_total_time":
-            MessageLookupByLibrary.simpleMessage("   Total time   "),
+            MessageLookupByLibrary.simpleMessage("Total time"),
         "submit": MessageLookupByLibrary.simpleMessage("submit"),
-        "time_Time": MessageLookupByLibrary.simpleMessage("time"),
+        "time_Time": MessageLookupByLibrary.simpleMessage("Time"),
         "time_by_day":
-            MessageLookupByLibrary.simpleMessage(" Today(yesterday) "),
+            MessageLookupByLibrary.simpleMessage(" Today / yesterday"),
         "time_by_week":
-            MessageLookupByLibrary.simpleMessage("This week(last week)"),
-        "time_date": MessageLookupByLibrary.simpleMessage("date"),
+            MessageLookupByLibrary.simpleMessage("This week / last week"),
+        "time_date": MessageLookupByLibrary.simpleMessage("Date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
+        "time_seconds": MessageLookupByLibrary.simpleMessage("(s)"),
         "time_spacingTime":
             MessageLookupByLibrary.simpleMessage("Interval time"),
         "time_start": MessageLookupByLibrary.simpleMessage("start"),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import '../../../utils/dateTimeUtil.dart';
 /// 它還具有一個切換按鈕，以決定是否使用某個基準時間。
 class DateTimePicker extends StatefulWidget {
   final bool isAdd; // 是否為添加模式
+  final bool isRun;
   final bool useReferenceTime; // 是否使用參考時間
   final DateTime referenceDateTime; // 參考日期和時間
   final Function(DateTime datetime) onDateTimeChanged; // 日期或時間更改時的回調
@@ -17,6 +20,7 @@ class DateTimePicker extends StatefulWidget {
   const DateTimePicker({
     Key? key,
     this.isAdd = true,
+    this.isRun = false,
     this.useReferenceTime = false,
     required this.referenceDateTime,
     required this.onDateTimeChanged,
@@ -28,24 +32,39 @@ class DateTimePicker extends StatefulWidget {
 }
 
 class _DateTimePickerState extends State<DateTimePicker> {
-  DateTime selectedDateTime = DateTime.now();
-  String selectedDate = DateTimeUtil.getDate();
-  String selectedTime = DateTimeUtil.getTime();
+  late DateTime selectedDateTime;
+  Timer? _timer; // 添加一个 Timer 实例
   double? formatDefault;
 
   @override
-  void didUpdateWidget(DateTimePicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void initState() {
+    super.initState();
+    selectedDateTime = widget.referenceDateTime;
+
+    // 如果是添加模式，则启动计时器
+    if (widget.isAdd && widget.isRun) {
+      _timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _updateTime());
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // 当 widget 销毁时，取消计时器
+    super.dispose();
+  }
+
+  void _updateTime() {
+    // 用当前时间更新 selectedDateTime
     setState(() {
-      selectedDateTime = widget.referenceDateTime;
-      selectedDate = DateTimeUtil.getDate(selectedDateTime);
-      selectedTime = DateTimeUtil.getTime(date: selectedDateTime);
+      selectedDateTime = DateTime.now();
     });
+    widget.onDateTimeChanged(selectedDateTime);
   }
 
   @override
   Widget build(BuildContext context) {
-    formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    // formatDefault = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    formatDefault = Theme.of(context).textTheme.titleMedium!.fontSize!;
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -75,7 +94,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                     }
                   },
             child: AutoSizeText(
-              selectedDate,
+              DateTimeUtil.getDate(selectedDateTime),
               style: TextStyle(fontSize: formatDefault),
               minFontSize: 8,
               maxFontSize: 30,
@@ -105,7 +124,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   }
                 },
           child: AutoSizeText(
-            selectedTime,
+            DateTimeUtil.getTime(date: selectedDateTime),
             style: TextStyle(fontSize: formatDefault),
             minFontSize: 8,
             maxFontSize: 30,

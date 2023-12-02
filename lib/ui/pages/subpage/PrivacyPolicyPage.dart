@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../generated/l10n.dart';
-import '../widgets/AppFrame.dart';
+import '../../../generated/l10n.dart';
+import '../../AppFrame.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});

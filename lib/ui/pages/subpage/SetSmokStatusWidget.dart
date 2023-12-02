@@ -2,11 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:smoking_record/utils/dateTimeUtil.dart';
 
-import '../../core/models/SmokingStatus.dart';
-import '../../generated/l10n.dart';
-import '../../utils/ReferenceBool.dart';
-import 'input/DateTimePicker.dart';
-import 'input/SmokingCounter.dart';
+import '../../../core/models/SmokingStatus.dart';
+import '../../../generated/l10n.dart';
+import '../../../utils/ReferenceBool.dart';
+import '../../widgets/input/DateTimePicker.dart';
+import '../../widgets/input/SmokingCounter.dart';
 
 class SetSmokStatusWidget extends StatefulWidget {
   SmokingStatus? status;
@@ -34,6 +34,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
   @override
   Widget build(BuildContext context) {
     double? formatH1 = Theme.of(context).textTheme.titleLarge!.fontSize!;
+    double? formatH2 = Theme.of(context).textTheme.titleMedium!.fontSize!;
     return ListView(
       children: <Widget>[
         ListTile(
@@ -47,7 +48,12 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
             isAdd: widget.isAdd,
             useReferenceTime: widget.startBaseswitch.value,
             referenceDateTime: widget.status!.startTime,
-            onDateTimeChanged: (newDateTime) {},
+            onDateTimeChanged: (newDateTime) {
+              setState(() {
+                // 如果 `status` 是一个状态变量并且这个 widget 可以调用 setState，否则你可能需要调整这段逻辑
+                widget.status!.startTime = newDateTime; // 更新 startTime 为新选择的时间
+              });
+            },
             onReferenceToggleChanged: (bool value) {
               widget.startBaseswitch.value = value;
               widget.endBaseswitch.value =
@@ -65,9 +71,15 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
           ),
           subtitle: DateTimePicker(
             isAdd: widget.isAdd,
+            isRun: true,
             useReferenceTime: widget.endBaseswitch.value,
             referenceDateTime: widget.status!.endTime,
-            onDateTimeChanged: (newDateTime) {},
+            onDateTimeChanged: (newDateTime) {
+              setState(() {
+                // 如果 `status` 是一个状态变量并且这个 widget 可以调用 setState，否则你可能需要调整这段逻辑
+                widget.status!.endTime = newDateTime; // 更新 startTime 为新选择的时间
+              });
+            },
             onReferenceToggleChanged: (bool value) {
               widget.endBaseswitch.value = value;
               widget.startBaseswitch.value =
@@ -91,7 +103,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
                 child: AutoSizeText(
                   DateTimeUtil.formatDuration(widget.status!.endTime
                       .difference(widget.status!.startTime)),
-                  style: TextStyle(fontSize: formatH1),
+                  style: TextStyle(fontSize: formatH2),
                   minFontSize: 10,
                   maxFontSize: 60,
                 ),
@@ -108,6 +120,7 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
             maxFontSize: 60,
           ),
           subtitle: SmokingCounter(
+            initialCount: widget.status!.count,
             onCountChanged: (newAmoun) {
               widget.status!.count = newAmoun;
             },
@@ -122,10 +135,10 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
               minFontSize: 10,
               maxFontSize: 60,
             ),
-            onPressed: () async => await widget.savestatus(
-                widget.startBaseswitch.value,
-                widget.endBaseswitch.value,
-                widget.status),
+            onPressed: () async {
+              await widget.savestatus(widget.startBaseswitch.value,
+                  widget.endBaseswitch.value, widget.status);
+            },
           ),
           // TODO 後續提供新增後再紀錄的功能
           // ElevatedButton(

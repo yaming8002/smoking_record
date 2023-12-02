@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Smoking Record`
+  String get appName {
+    return Intl.message(
+      'Smoking Record',
+      name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get page_add {
     return Intl.message(
@@ -250,10 +260,10 @@ class S {
     );
   }
 
-  /// `   Total time   `
+  /// `Total time`
   String get smokingStatus_total_time {
     return Intl.message(
-      '   Total time   ',
+      'Total time',
       name: 'smokingStatus_total_time',
       desc: '',
       args: [],
@@ -540,20 +550,20 @@ class S {
     );
   }
 
-  /// `date`
+  /// `Date`
   String get time_date {
     return Intl.message(
-      'date',
+      'Date',
       name: 'time_date',
       desc: '',
       args: [],
     );
   }
 
-  /// `time`
+  /// `Time`
   String get time_Time {
     return Intl.message(
-      'time',
+      'Time',
       name: 'time_Time',
       desc: '',
       args: [],
@@ -600,20 +610,20 @@ class S {
     );
   }
 
-  /// ` Today(yesterday) `
+  /// ` Today / yesterday`
   String get time_by_day {
     return Intl.message(
-      ' Today(yesterday) ',
+      ' Today / yesterday',
       name: 'time_by_day',
       desc: '',
       args: [],
     );
   }
 
-  /// `This week(last week)`
+  /// `This week / last week`
   String get time_by_week {
     return Intl.message(
-      'This week(last week)',
+      'This week / last week',
       name: 'time_by_week',
       desc: '',
       args: [],
@@ -640,6 +650,26 @@ class S {
     );
   }
 
+  /// `(s)`
+  String get time_seconds {
+    return Intl.message(
+      '(s)',
+      name: 'time_seconds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(Freq.)`
+  String get freq_unit {
+    return Intl.message(
+      '(Freq.)',
+      name: 'freq_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `End time cannot be in the future!`
   String get msg_endTimeFutureError {
     return Intl.message(
@@ -650,22 +680,41 @@ class S {
     );
   }
 
-  /// `Congratulations! You smoked {count} fewer cigarettes on {yesterday} than on {dayBefore}.`
-  String msg_congratulationsReduced(
-      Object count, Object yesterday, Object dayBefore) {
+  /// `With each record, we find our direction, continuously moving towards a better self.`
+  String get notification_msg1 {
     return Intl.message(
-      'Congratulations! You smoked $count fewer cigarettes on $yesterday than on $dayBefore.',
-      name: 'msg_congratulationsReduced',
+      'With each record, we find our direction, continuously moving towards a better self.',
+      name: 'notification_msg1',
       desc: '',
-      args: [count, yesterday, dayBefore],
+      args: [],
     );
   }
 
-  /// `Keep it up! Gradually reduce the number of cigarettes.`
-  String get msg_keepItUp {
+  /// `Every entry helps you understand yourself better, keep moving forward.`
+  String get notification_msg2 {
     return Intl.message(
-      'Keep it up! Gradually reduce the number of cigarettes.',
-      name: 'msg_keepItUp',
+      'Every entry helps you understand yourself better, keep moving forward.',
+      name: 'notification_msg2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let each record be an opportunity to explore yourself and enhance the quality of life`
+  String get notification_msg3 {
+    return Intl.message(
+      'Let each record be an opportunity to explore yourself and enhance the quality of life',
+      name: 'notification_msg3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let us use these records to feel the life, step by step towards a healthier lifestyle.`
+  String get notification_msg4 {
+    return Intl.message(
+      'Let us use these records to feel the life, step by step towards a healthier lifestyle.',
+      name: 'notification_msg4',
       desc: '',
       args: [],
     );

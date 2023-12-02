@@ -51,8 +51,8 @@ class ReportProvider with ChangeNotifier {
           : weekend;
       dateRange = DateTimeRange(
           start: weekend
-              .subtract(Duration(days: 7 * 10))
-              .subtract(Duration(days: 6)),
+              .subtract(const Duration(days: 7 * 10))
+              .subtract(const Duration(days: 6)),
           end: weekend);
     } else {
       dateRange = DateTimeRange(
@@ -60,7 +60,6 @@ class ReportProvider with ChangeNotifier {
         end: now, //
       );
     }
-    print("dateRange  $dateRange");
 
     summaryDayList = await summaryService.getSummaryList(
         dateRange!, Week ? "SummaryWeek" : "SummaryDay");
@@ -75,8 +74,10 @@ class ReportProvider with ChangeNotifier {
 
   void _calculateMaxBarValue() {
     for (String column in maxBarValue.keys) {
+      print(column);
       for (int i = 0; i < summaryDayList!.length; i++) {
         final data = summaryDayList![i].toMinuteMap();
+        print(data[column]);
         maxBarValue[column] = maxBarValue[column]! > data[column].toDouble()
             ? maxBarValue[column]
             : data[column].toDouble();
@@ -85,6 +86,7 @@ class ReportProvider with ChangeNotifier {
           ? 15
           : (maxBarValue[column]! / 10).ceilToDouble() * 10 + 10;
     }
+    print(maxBarValue);
   }
 
   void changColumn(String? newValue) {

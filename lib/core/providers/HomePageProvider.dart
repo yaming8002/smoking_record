@@ -11,7 +11,7 @@ import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
 import '../services/AppSettingService.dart';
-import '../services/DayTimeManager.dart';
+import '../services/NotificationService.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
 
@@ -25,11 +25,12 @@ class HomePageProvider with ChangeNotifier {
   Summary? yesterday;
   Summary? thisWeek;
   Summary? beforeWeek;
-  TimeOfDay? changTime = AppSettingService.getTimeChangeToTimeOfDay();
-  String? changTimeStr = AppSettingService.getTimeChange();
+  Duration interval = AppSettingService.getIntervalTime();
   String? imagePath;
   String? message;
+  Color CircleColor = Colors.grey;
   PageTextSizes? szieMap;
+  NotificationService? notion;
 
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
@@ -39,36 +40,52 @@ class HomePageProvider with ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    await _reloadTargetTime();
+    // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
-    timeDiff = S.current.home_start;
+
+    upgroupTimeDiff();
     startTimer();
     notifyListeners();
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      timeDiff = DayTimeManager().isTimeWithin(_targetTime)
-          ? DateTimeUtil.formatDuration(DateTime.now().difference(_targetTime!))
-          : S.current.home_start;
-
-      notifyListeners();
+    _timer?.cancel(); // 确保取消之前的定时器
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      upgroupTimeDiff();
     });
   }
 
-  Future<void> _reloadTargetTime() async {
-    DateTime? sqlTime = await satusService.getLastEndTime();
-    _targetTime = AppSettingService.getLastEndTime() ?? sqlTime;
+  void upgroupTimeDiff() {
+    _targetTime = AppSettingService.getLastEndTime();
+    DateTime now = DateTime.now();
+    Duration diff = now.difference(_targetTime ?? now);
+    Duration interval = AppSettingService.getIntervalTime();
+
+    if (diff.inMilliseconds > 0 && interval.inMinutes > 0 && diff < interval) {
+      timeDiff = "請等待${DateTimeUtil.formatDuration(interval - diff)}";
+      CircleColor = Colors.grey;
+    } else if (diff.inMilliseconds > 0) {
+      timeDiff = DateTimeUtil.formatDuration(diff);
+      CircleColor = Colors.red;
+    } else {
+      timeDiff = S.current.home_start;
+    }
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> _getSummaryDayFromService() async {
     DateTime now = DateTime.now();
 
-    today = await summaryService.getSummary(now);
-    yesterday =
-        await summaryService.getSummary(now.subtract(const Duration(days: 1)));
+    today = await summaryService.getSummaryDay(now);
+    yesterday = await summaryService
+        .getSummaryDay(now.subtract(const Duration(days: 1)));
 
     notifyListeners();
   }
@@ -76,9 +93,9 @@ class HomePageProvider with ChangeNotifier {
   Future<void> _getSummaryWeekFromService() async {
     DateTime now = DateTime.now();
 
-    thisWeek = await summaryService.getSummary(now!, 'SummaryWeek');
-    beforeWeek = await summaryService.getSummary(
-        now!.subtract(const Duration(days: 7)), 'SummaryWeek');
+    thisWeek = await summaryService.getSummaryWeek(now!);
+    beforeWeek = await summaryService
+        .getSummaryWeek(now!.subtract(const Duration(days: 7)));
     notifyListeners();
   }
 
@@ -99,9 +116,9 @@ class HomePageProvider with ChangeNotifier {
         0,
         DateTime.now().difference(DateTime.now()),
         _targetTime == null ? null : DateTime.now().difference(_targetTime!));
-    if (!AppSettingService.getisStopAd()) {
-      await showAd(context);
-    }
+    // if (!AppSettingService.getisStopAd()) {
+    //   await showAd(context);
+    // }
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => AddPage(status: newStatus)));
 
