@@ -20,11 +20,13 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_TW';
 
-  static String m0(date) => "${date} 與前一日的吸菸數量持平，繼續加油！";
+  static String m0(date) => "請等待\n${date}";
 
-  static String m1(date) => "${date} 的吸菸數量比前一日少，做得好！";
+  static String m1(date) => "${date} 與前一日的吸菸數量持平，繼續加油！";
 
-  static String m2(date) => "${date} 的吸菸數量比前一日多，再接再厲！";
+  static String m2(date) => "${date} 的吸菸數量比前一日少，做得好！";
+
+  static String m3(date) => "${date} 的吸菸數量比前一日多，再接再厲！";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -37,11 +39,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "daily": MessageLookupByLibrary.simpleMessage("單日"),
         "date_range": MessageLookupByLibrary.simpleMessage("日期範圍"),
         "freq_unit": MessageLookupByLibrary.simpleMessage("(根)"),
+        "home_interval": m0,
         "home_start": MessageLookupByLibrary.simpleMessage("開始記錄"),
         "image_Share": MessageLookupByLibrary.simpleMessage("分享"),
-        "image_Smoking_Equal": m0,
-        "image_Smoking_Less": m1,
-        "image_Smoking_More": m2,
+        "image_Smoking_Equal": m1,
+        "image_Smoking_Less": m2,
+        "image_Smoking_More": m3,
         "image_Smoking_feel": MessageLookupByLibrary.simpleMessage("輸入感受"),
         "image_compare_this": MessageLookupByLibrary.simpleMessage("比較今日"),
         "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比較昨日"),

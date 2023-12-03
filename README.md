@@ -16,14 +16,14 @@ This application aims to track and analyze smoking habits, assisting smokers in 
 
 ## Features
 - **Record Smoking Instances:** Record the time and duration of each smoking instance.
-- **Reports:** Generate daily, weekly, and monthly reports to display the number of cigarettes smoked and total time spent smoking.
-- **Social Sharing:** Share your progress and records on social platforms like Facebook and Instagram.
+- **Set Interval Time:** Users can set a specific interval time between smoking instances. This feature helps in gradually reducing the frequency of smoking by encouraging users to wait longer before their next cigarette.
+- **Reports:** Generate daily, weekly, and monthly reports to display the number of cigarettes smoked and total time spent smoking. Reports will also track progress in extending the interval time between smoking instances.
 - **Main Pages:**
   - **Top Menu:** Access data-related options and settings.
-  - **Home Page:** View a main button showing the current time and time since last smoking instance, and summaries of daily and weekly smoking data.
-  - **Add Smoking Record:** Record the total time and number of cigarettes smoked.
-  - **Report Summary:** Toggle between daily and weekly views, and browse through a date range selector.
-  - **Settings Page:** Configure the day-change time, usual smoking time, language preferences, and editing and subscription options.
+  - **Home Page:** View a main button showing the current time and time since last smoking instance, and summaries of daily and weekly smoking data. Also displays the next allowable smoking time based on the set interval.
+  - **Add Smoking Record:** Record the total time and number of cigarettes smoked. Input the time of the next smoking instance according to the set interval.
+  - **Report Summary:** Toggle between daily and weekly views, and browse through a date range selector. Includes statistics on adherence to the set smoking intervals.
+  - **Settings Page:** Configure the day-change time, usual smoking time, language preferences, and editing and subscription options. Additionally, set and adjust the smoking interval time to suit individual goals for reducing smoking frequency.
 
 ## Database Schema
 - **SmokingStatus:** Managed by `SmokingStatus.dart`.

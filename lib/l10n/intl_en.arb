@@ -29,6 +29,7 @@
 
 
     "home_start": "Start Recording",
+    "home_interval" : "Please Wait\n{date}",
     "setting_settings": "Preferences",
     "setting_languageSettings": "Language Settings",
     "setting_crossoverTime": "Crossover Time",
@@ -55,13 +56,14 @@
     "setting_recordNotification": "Record Notification",
     "setting_recordNotificationTime": "Record notification time",
 
+
     "time_date": "Date",
     "time_Time": "Time",
     "time_startTime": "Start time",
     "time_endTime": "End time",
     "time_start": "start",
     "time_end": "End",
-    "time_by_day": " Today / yesterday",
+    "time_by_day": "Today / yesterday",
     "time_by_week": "This week / last week",
     "time_spacingTime": "Interval time",
     "time_unit": "(minute)",

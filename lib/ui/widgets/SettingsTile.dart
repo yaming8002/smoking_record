@@ -16,7 +16,7 @@ class SettingsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
-      trailing: trailing ?? null, // 如果 trailing 為 null 則不顯示
+      trailing: trailing, // 如果 trailing 為 null 則不顯示
       onTap: onTap, // 如果 onTap 為 null，ListTile 會自動處理成不可點擊
     );
   }

@@ -310,6 +310,16 @@ class S {
     );
   }
 
+  /// `Please Wait\n{date}`
+  String home_interval(Object date) {
+    return Intl.message(
+      'Please Wait\n$date',
+      name: 'home_interval',
+      desc: '',
+      args: [date],
+    );
+  }
+
   /// `Preferences`
   String get setting_settings {
     return Intl.message(
@@ -610,10 +620,10 @@ class S {
     );
   }
 
-  /// ` Today / yesterday`
+  /// `Today / yesterday`
   String get time_by_day {
     return Intl.message(
-      ' Today / yesterday',
+      'Today / yesterday',
       name: 'time_by_day',
       desc: '',
       args: [],

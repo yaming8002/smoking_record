@@ -35,6 +35,7 @@
     "setting_notifications": "通知",
 
     "home_start": "开始记录",
+    "home_interval" : "请等待\n{date}",
     "setting_edit_one": "单笔资料编辑",
     "setting_edit": "编辑",
     "setting_save": "保存",

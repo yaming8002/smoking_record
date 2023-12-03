@@ -82,7 +82,7 @@ Widget _buildContactAuthorSetting(BuildContext context) {
     future: encodeQueryParameters(),
     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return CircularProgressIndicator(); // 返回一个加载指示器，表示等待
+        return const CircularProgressIndicator(); // 返回一个加载指示器，表示等待
       } else if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
       } else {
@@ -91,7 +91,6 @@ Widget _buildContactAuthorSetting(BuildContext context) {
           path: 'mountain0212@hotmail.com',
           query: snapshot.data, // 使用解析后的数据
         );
-        print(params.query);
         return SettingsTile(
           title: S.current.contact_author,
           onTap: () async {
@@ -113,9 +112,9 @@ Widget _buildContactAuthorSetting(BuildContext context) {
 Future<String> encodeQueryParameters() async {
   Map<String, String> params = <String, String>{
     'subject': 'Support Request from SmokingRecord User',
-    'body': 'os:${Platform.operatingSystem}\n ' +
-        'version:${Platform.operatingSystemVersion}\n' +
-        'app:${Platform.operatingSystemVersion}\n',
+    'body': '''os:${Platform.operatingSystem}
+         version:${Platform.operatingSystemVersion}
+         app:${Platform.operatingSystemVersion}''',
   };
 
   return params.entries

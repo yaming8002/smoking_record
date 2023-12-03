@@ -50,10 +50,10 @@ class PreferenceSettingsWidget extends StatelessWidget {
             ),
             const Divider(),
             SettingsTile(
-              title: '言詞時間',
+              title: S.current.time_spacingTime,
               trailing: _buildNumberEditButton(
                 context,
-                '言詞時間',
+                S.current.time_spacingTime,
                 provider.intervalTime.inMinutes,
                 (newValue) =>
                     provider.intervalTime = Duration(minutes: newValue),

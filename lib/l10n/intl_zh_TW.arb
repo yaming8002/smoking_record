@@ -28,6 +28,7 @@
     "smokingStatus_spacing": "間隔時間",
 
     "home_start":"開始記錄",
+    "home_interval" : "請等待\n{date}",
     "setting_settings": "偏好設定",
     "setting_languageSettings": "語言設定",
     "setting_crossoverTime": "換日時間",

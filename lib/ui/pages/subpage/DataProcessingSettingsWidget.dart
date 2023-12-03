@@ -7,7 +7,7 @@ import '../../widgets/SettingsTile.dart';
 class DataProcessingSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
 
-  DataProcessingSettingsWidget(this.provider);
+  DataProcessingSettingsWidget(this.provider, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,19 +46,6 @@ class DataProcessingSettingsWidget extends StatelessWidget {
     );
   }
 }
-
-// 資料設定
-// Widget _buildEditDataSetting(BuildContext context) {
-//   return SettingsTile(
-//     title: S.current.setting_edit_one,
-//     onTap: () {
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(builder: (context) => const SmokingListPage()),
-//       );
-//     },
-//   );
-// }
 
 Widget _buildExportDataSetting(SettingsProvider provider) {
   return SettingsTile(

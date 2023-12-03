@@ -26,12 +26,7 @@ class InfoCardByHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-      // decoration: BoxDecoration(
-      //   color: Colors.yellow,
-      //   borderRadius: BorderRadius.circular(8.0),
-      //   border: Border.all(color: Colors.black, width: 0.5),
-      // ),
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -69,7 +64,6 @@ class InfoCardByHome extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    // double formatH2 = Theme.of(context).textTheme.headlineSmall!.fontSize!;
     provider.szieMap?.setSize(
         "formatH2", Theme.of(context).textTheme.headlineSmall!.fontSize!);
     return Container(
@@ -81,6 +75,7 @@ class InfoCardByHome extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          const SizedBox(width: 8.0),
           Expanded(
             flex: 7, // 85%
             child: AutoSizeText(
@@ -161,51 +156,51 @@ class InfoCardByHome extends StatelessWidget {
             ),
           ],
         ),
-        child: Stack(children: [
-          Column(
-            children: [
-              // Title 配置3的部分
-              Flexible(
-                flex: 4,
-                child: Center(
-                  child: AutoSizeText(
-                    title,
-                    minFontSize: 10,
-                    maxFontSize: 100,
-                    style: TextStyle(fontSize: formatDefault),
-                    maxLines: 1,
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Title 配置 3 的部分
+            Flexible(
+              flex: 3,
+              child: Center(
+                child: AutoSizeText(
+                  title,
+                  minFontSize: 10,
+                  maxFontSize: 100,
+                  style: TextStyle(fontSize: formatDefault),
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
                 ),
               ),
-
-              // Content 配置7的部分
-              Flexible(
-                flex: 6,
-                child: Center(
-                  child: AutoSizeText(
-                    content,
-                    minFontSize: 10,
-                    maxFontSize: 100,
-                    style: TextStyle(fontSize: valueDefault),
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              // "?" 標示在右上角
-            ],
-          ),
-          Positioned(
-            right: 8, // Adjust the value as needed for right alignment
-            bottom: 8, // Adjust the value as needed for bottom alignment
-            child: Text(
-              helpStr ?? 'Default help message',
-              style: TextStyle(fontSize: iconformat),
-              maxLines: 1,
-              textAlign: TextAlign.center,
             ),
-          ),
-        ]),
+
+            // Content 配置 5 的部分
+            Flexible(
+              flex: 5,
+              child: Center(
+                child: AutoSizeText(
+                  content,
+                  minFontSize: 10,
+                  maxFontSize: 100,
+                  style: TextStyle(fontSize: valueDefault),
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            // helpStr 配置 2 的部分
+            Flexible(
+              flex: 2,
+              child: Text(
+                helpStr ?? 'Default help message',
+                style: TextStyle(fontSize: iconformat),
+                maxLines: 1,
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

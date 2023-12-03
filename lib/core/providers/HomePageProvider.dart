@@ -28,7 +28,7 @@ class HomePageProvider with ChangeNotifier {
   Duration interval = AppSettingService.getIntervalTime();
   String? imagePath;
   String? message;
-  Color CircleColor = Colors.grey;
+  Color CircleColor = Colors.red;
   PageTextSizes? szieMap;
   NotificationService? notion;
 
@@ -63,7 +63,8 @@ class HomePageProvider with ChangeNotifier {
     Duration interval = AppSettingService.getIntervalTime();
 
     if (diff.inMilliseconds > 0 && interval.inMinutes > 0 && diff < interval) {
-      timeDiff = "請等待${DateTimeUtil.formatDuration(interval - diff)}";
+      timeDiff =
+          S.current.home_interval(DateTimeUtil.formatDuration(interval - diff));
       CircleColor = Colors.grey;
     } else if (diff.inMilliseconds > 0) {
       timeDiff = DateTimeUtil.formatDuration(diff);

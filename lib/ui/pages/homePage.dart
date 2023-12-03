@@ -8,7 +8,7 @@ import '../AppFrame.dart';
 import 'subpage/InfoCardByHome.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _MyHomePageState();
@@ -34,7 +34,8 @@ class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed && !isAdBeingShown) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()),
+          MaterialPageRoute(
+              builder: (BuildContext context) => const HomePage()),
           (Route<dynamic> route) => false // 无条件地移除所有之前的路由，因此用户不能使用返回按钮返回到上一页
           );
     }
@@ -77,13 +78,14 @@ class _MyHomePageState extends State<HomePage> with WidgetsBindingObserver {
                                 backgroundColor: provider.CircleColor,
                                 child: AutoSizeText(
                                   provider.timeDiff,
-                                  minFontSize: 10, // 這裡是最小的字體大小
+                                  minFontSize: 20, // 這裡是最小的字體大小
                                   maxFontSize: 100, // 這裡是最大的字體大小
                                   style: TextStyle(
-                                      fontSize: provider.szieMap!
-                                              .getSize("formatH1") ??
-                                          30),
-                                  maxLines: 1,
+                                    fontSize:
+                                        provider.szieMap!.getSize("formatH1") ??
+                                            30,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 )),
                           );
                         },

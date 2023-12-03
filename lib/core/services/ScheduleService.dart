@@ -16,7 +16,7 @@ class ScheduleManager {
 
     final scheduledTime = scheduledDate.difference(now);
 
-    await Workmanager().registerOneOffTask(
+    await Workmanager().registerPeriodicTask(
       "simpleTask", // 任務名稱
       "simpleTask", // 任務標籤
       initialDelay: scheduledTime,

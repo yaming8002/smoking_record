@@ -20,13 +20,15 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(date) =>
-      "${date} has the same number of cigarettes as the previous day, keep it up!";
+  static String m0(date) => "Please Wait\n${date}";
 
   static String m1(date) =>
-      "The number of cigarettes smoked on ${date} is less than the previous day, well done!";
+      "${date} has the same number of cigarettes as the previous day, keep it up!";
 
   static String m2(date) =>
+      "The number of cigarettes smoked on ${date} is less than the previous day, well done!";
+
+  static String m3(date) =>
       "The number of cigarettes smoked on ${date} is more than the previous day, keep going!";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -41,11 +43,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "daily": MessageLookupByLibrary.simpleMessage("single day"),
         "date_range": MessageLookupByLibrary.simpleMessage("date range"),
         "freq_unit": MessageLookupByLibrary.simpleMessage("(Freq.)"),
+        "home_interval": m0,
         "home_start": MessageLookupByLibrary.simpleMessage("Start Recording"),
         "image_Share": MessageLookupByLibrary.simpleMessage("Share"),
-        "image_Smoking_Equal": m0,
-        "image_Smoking_Less": m1,
-        "image_Smoking_More": m2,
+        "image_Smoking_Equal": m1,
+        "image_Smoking_Less": m2,
+        "image_Smoking_More": m3,
         "image_Smoking_feel":
             MessageLookupByLibrary.simpleMessage("Enter feelings"),
         "image_compare_this":
@@ -158,7 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submit": MessageLookupByLibrary.simpleMessage("submit"),
         "time_Time": MessageLookupByLibrary.simpleMessage("Time"),
         "time_by_day":
-            MessageLookupByLibrary.simpleMessage(" Today / yesterday"),
+            MessageLookupByLibrary.simpleMessage("Today / yesterday"),
         "time_by_week":
             MessageLookupByLibrary.simpleMessage("This week / last week"),
         "time_date": MessageLookupByLibrary.simpleMessage("Date"),
