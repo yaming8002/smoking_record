@@ -12,7 +12,7 @@ class ReportProvider with ChangeNotifier {
   String? dateShow;
   DateTimeRange? dateRange;
   String? chatControl;
-  // List<String> columns = ['count', 'totalTime',  'spacing'];
+  // List<String> columns = ['count', 'totalTime',  'interval'];
   String column = 'count';
   bool isWeekly;
 
@@ -20,7 +20,7 @@ class ReportProvider with ChangeNotifier {
   Map<String, double> maxBarValue = {
     'count': 0.0,
     'totalTime': 0.0,
-    'spacing': 0.0,
+    'interval': 0.0,
   };
 
   // void setIsWeekly(bool value) {

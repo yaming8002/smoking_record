@@ -24,7 +24,7 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
   Widget build(BuildContext context) {
     SmokingStatus status = widget.status ??
         SmokingStatus(null, 1, DateTime.now(), DateTime.now(), 0,
-            DateTime.now().difference(DateTime.now()), null);
+            DateTime.now().difference(DateTime.now()), Duration.zero);
 
     return ChangeNotifierProvider(
       create: (_) => EditRecordProvider(context, status),

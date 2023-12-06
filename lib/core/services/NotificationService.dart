@@ -60,7 +60,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotifications(String languageCode) async {
+  Future<void> showNotifications(String languageCode, [String? testMsg]) async {
     await initializeLocalization(languageCode); // 確保本地化完成
     String text = await _getLocalizedKeepItUpMessage(languageCode); // 獲取本地化的消息
     var platform =
@@ -68,7 +68,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.show(
         0,
         await _getLocalizedAppName(languageCode), // 獲取本地化的應用名稱
-        text,
+        '$text \n ${testMsg ?? ""}',
         platform);
   }
 

@@ -25,7 +25,7 @@
     "smokingStatus_total_time": "总时间",
     "smokingStatus_evaluate": "感受评分",
     "smokingStatus_smokeCount": "吸烟数量",
-    "smokingStatus_spacing": "间隔时间",
+    "smokingStatus_interval": "间隔时间",
 
 
     "setting_settings": "偏好设置",
@@ -53,9 +53,7 @@
     "setting_language": "语言设定",
     "setting_changeDayTime": "换日时间",
     "setting_singleCigaretteTime": "单根烟的时间",
-    "setting_changeDayNotification": "换日通知",
-    "setting_recordNotification": "纪录通知",
-    "setting_recordNotificationTime": "纪录通知的时间",
+    "setting_isWeekStartMonday": "周统计起始为周一",
 
     "time_date": "日期",
     "time_Time": "时间",
@@ -65,7 +63,7 @@
     "time_end": "结束",
     "time_by_day": "今日 / 昨日",
     "time_by_week": "本周 / 上周",
-    "time_spacingTime": "间隔时间",
+    "time_intervalTime": "间隔时间",
     "time_unit": "(分钟",
     "time_seconds": "(秒)",
     "freq_unit": "(根)",

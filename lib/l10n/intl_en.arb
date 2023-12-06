@@ -25,7 +25,7 @@
     "smokingStatus_total_time": "Total time",
     "smokingStatus_evaluate": "SmokingStatus_evaluate",
     "smokingStatus_smokeCount": "Smoking count",
-    "smokingStatus_spacing": "spacing time",
+    "smokingStatus_interval": "interva time",
 
 
     "home_start": "Start Recording",
@@ -52,9 +52,7 @@
     "setting_language": "Language setting",
     "setting_changeDayTime": "Change day time",
     "setting_singleCigaretteTime": "Single cigarette time",
-    "setting_changeDayNotification": "Day change notification",
-    "setting_recordNotification": "Record Notification",
-    "setting_recordNotificationTime": "Record notification time",
+    "setting_isWeekStartMonday": "Start Week on Monday",
 
 
     "time_date": "Date",
@@ -65,7 +63,7 @@
     "time_end": "End",
     "time_by_day": "Today / yesterday",
     "time_by_week": "This week / last week",
-    "time_spacingTime": "Interval time",
+    "time_intervalTime": "Interval time",
     "time_unit": "(minute)",
     "time_seconds": "(s)",
     "freq_unit": "(Freq.)",

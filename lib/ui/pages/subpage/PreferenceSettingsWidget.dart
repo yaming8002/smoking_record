@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:smoking_record/core/services/AppSettingService.dart';
 
 import '../../../core/providers/SettingProvider.dart';
 import '../../../generated/l10n.dart';
@@ -40,6 +41,11 @@ class PreferenceSettingsWidget extends StatelessWidget {
             ),
             const Divider(),
             SettingsTile(
+              title: S.current.setting_isWeekStartMonday,
+              trailing: _buildWeekStartByMon(context),
+            ),
+            const Divider(),
+            SettingsTile(
               title: S.current.setting_singleCigaretteTime,
               trailing: _buildNumberEditButton(
                 context,
@@ -50,10 +56,10 @@ class PreferenceSettingsWidget extends StatelessWidget {
             ),
             const Divider(),
             SettingsTile(
-              title: S.current.time_spacingTime,
+              title: S.current.time_intervalTime,
               trailing: _buildNumberEditButton(
                 context,
-                S.current.time_spacingTime,
+                S.current.time_intervalTime,
                 provider.intervalTime.inMinutes,
                 (newValue) =>
                     provider.intervalTime = Duration(minutes: newValue),
@@ -86,6 +92,14 @@ Widget _buildNumberEditButton(BuildContext context, String title,
       maxFontSize: 60,
     ),
   );
+}
+
+Widget _buildWeekStartByMon(BuildContext context) {
+  return Switch(
+      value: AppSettingService.getIsWeekStartMonday(),
+      onChanged: (newValue) {
+        AppSettingService.setIsWeekStartMonday(newValue);
+      });
 }
 
 Future<String?> _showEditDialog(

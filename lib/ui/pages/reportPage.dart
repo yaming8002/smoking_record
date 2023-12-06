@@ -31,7 +31,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _chartTabController =
-        TabController(length: 4, vsync: this); // 全部、count、total time、spacing
+        TabController(length: 4, vsync: this); // 全部、count、total time、interval
   }
 
   @override
@@ -113,7 +113,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
             Tab(child: Text(S.current.all)),
             Tab(child: Text(S.current.smokingStatus_smokeCount)),
             Tab(child: Text(S.current.smokingStatus_total_time)),
-            Tab(child: Text(S.current.smokingStatus_spacing))
+            Tab(child: Text(S.current.smokingStatus_interval))
           ]),
           SizedBox(
             height: 200, // 這裡你可以調整或根據內容動態設定
@@ -137,7 +137,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                         maxBarValue: provider.maxBarValue),
                     ReportChatWidget(
                         summaryDayList: provider.summaryDayList,
-                        column: 'spacing',
+                        column: 'interval',
                         maxBarValue: provider.maxBarValue),
                   ]),
             ),
@@ -255,7 +255,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
             )),
             DataColumn(
                 label: Text(
-              S.current.time_spacingTime,
+              S.current.time_intervalTime,
             )),
           ],
           rows: provider.summaryDayList.map((data) {
@@ -280,7 +280,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                 DataCell(
                     Text('${data.totalTime.inMinutes}${S.current.time_unit}')),
                 DataCell(
-                    Text('${data.spacing.inMinutes}${S.current.time_unit}')),
+                    Text('${data.interval.inMinutes}${S.current.time_unit}')),
               ],
             );
           }).toList(),

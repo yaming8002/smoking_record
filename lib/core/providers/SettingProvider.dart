@@ -42,14 +42,6 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get recordNotification =>
-      AppSettingService.getRecordNotificationTime(); // 这里可以添加具体的实现
-
-  set recordNotification(bool value) {
-    AppSettingService.setRecordNotificationTime(value);
-    notifyListeners();
-  }
-
   Duration get intervalTime => AppSettingService.getIntervalTime();
 
   set intervalTime(Duration value) {
@@ -75,7 +67,6 @@ class SettingsProvider with ChangeNotifier {
 
   Future<void> importDataToCsv() async {
     await csvManager!.importCsvAndSaveToDatabase();
-    await summaryService.cleanAll();
   }
 
   Future<void> dataRecount() async {

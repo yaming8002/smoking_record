@@ -66,7 +66,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
         _paddedText(item.startTime.toIso8601String().substring(11, 19)),
         _paddedText(item.endTime.toIso8601String().substring(11, 19)),
         _paddedText(
-            DateTimeUtil.formatDuration(item.spacing ?? const Duration())),
+            DateTimeUtil.formatDuration(item.interval ?? Duration.zero )),
       ],
     );
   }
@@ -138,7 +138,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
                   _paddedText(S.current.smokingStatus_smokeCount),
                   _paddedText(S.current.time_startTime),
                   _paddedText(S.current.time_endTime),
-                  _paddedText(S.current.smokingStatus_spacing),
+                  _paddedText(S.current.smokingStatus_interval),
                 ],
               ),
               ...provider.smokingList

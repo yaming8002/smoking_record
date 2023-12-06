@@ -105,8 +105,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "query": MessageLookupByLibrary.simpleMessage("query"),
         "query_criteria":
             MessageLookupByLibrary.simpleMessage("query criteria"),
-        "setting_changeDayNotification":
-            MessageLookupByLibrary.simpleMessage("Day change notification"),
         "setting_changeDayTime":
             MessageLookupByLibrary.simpleMessage("Change day time"),
         "setting_crossoverTime":
@@ -127,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_import": MessageLookupByLibrary.simpleMessage("import"),
         "setting_importData":
             MessageLookupByLibrary.simpleMessage("Data import"),
+        "setting_isWeekStartMonday":
+            MessageLookupByLibrary.simpleMessage("Start Week on Monday"),
         "setting_language":
             MessageLookupByLibrary.simpleMessage("Language setting"),
         "setting_languageSettings":
@@ -137,10 +137,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Privacy and Service Terms"),
         "setting_recalculation":
             MessageLookupByLibrary.simpleMessage("Recalculation"),
-        "setting_recordNotification":
-            MessageLookupByLibrary.simpleMessage("Record Notification"),
-        "setting_recordNotificationTime":
-            MessageLookupByLibrary.simpleMessage("Record notification time"),
         "setting_save": MessageLookupByLibrary.simpleMessage("save"),
         "setting_saveByCount":
             MessageLookupByLibrary.simpleMessage("Save by quantity"),
@@ -150,10 +146,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_stopAd": MessageLookupByLibrary.simpleMessage("Disable ads"),
         "smokingStatus_evaluate":
             MessageLookupByLibrary.simpleMessage("SmokingStatus_evaluate"),
+        "smokingStatus_interval":
+            MessageLookupByLibrary.simpleMessage("interva time"),
         "smokingStatus_smokeCount":
             MessageLookupByLibrary.simpleMessage("Smoking count"),
-        "smokingStatus_spacing":
-            MessageLookupByLibrary.simpleMessage("spacing time"),
         "smokingStatus_status":
             MessageLookupByLibrary.simpleMessage("SmokingStatus"),
         "smokingStatus_total_time":
@@ -167,9 +163,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("Date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
-        "time_seconds": MessageLookupByLibrary.simpleMessage("(s)"),
-        "time_spacingTime":
+        "time_intervalTime":
             MessageLookupByLibrary.simpleMessage("Interval time"),
+        "time_seconds": MessageLookupByLibrary.simpleMessage("(s)"),
         "time_start": MessageLookupByLibrary.simpleMessage("start"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
         "time_unit": MessageLookupByLibrary.simpleMessage("(minute)"),

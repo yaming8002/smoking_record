@@ -11,11 +11,11 @@ class SmokingSatusService {
 
   Future<String> selectAll() async {
     List<Map<String, dynamic>> maps =
-        await databaseManager.select("SmokingStatus");
+        await databaseManager.select("smokingStatus");
 
     List<SmokingStatus> list =
         maps.map((item) => SmokingStatus.fromMap(item)).toList();
-    // String data = await SmokingStatus.toCsv(list);
+
     return SmokingStatus.toCsv(list);
   }
 
@@ -26,7 +26,7 @@ class SmokingSatusService {
 
     int offset = currentPage * itemsPerPage;
     List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
-        "SELECT * FROM SmokingStatus WHERE SUBSTR(endTime, 1, 10) between ? and ?  LIMIT ? OFFSET ?",
+        "SELECT * FROM smokingStatus WHERE SUBSTR(endTime, 1, 10) between ? and ? order by endTime  LIMIT ? OFFSET ? ",
         [start, end, itemsPerPage, offset]);
 
     List<SmokingStatus> list =
@@ -35,12 +35,13 @@ class SmokingSatusService {
   }
 
   insertSmokingStatus(Map<String, dynamic> map) async {
-    print("insertSmokingStatus$map");
-    await databaseManager?.insert('SmokingStatus', map);
+    int check = await databaseManager!.insert('smokingStatus', map);
+    List<Map<String, dynamic>> queryResult = await databaseManager!
+        .rawQuery("SELECT * FROM smokingStatus WHERE id = ? ", [check]);
   }
 
   deleteAll() async {
-    await databaseManager.deleteAll("SmokingStatus");
+    await databaseManager!.deleteAll("smokingStatus");
   }
 
   updateSmokingStatus(Map<String, dynamic> map) async {
@@ -55,11 +56,11 @@ class SmokingSatusService {
       });
 
       String sql =
-          'UPDATE SmokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
+          'UPDATE smokingStatus SET ${updates.join(', ')} WHERE id = ${map['id']}';
 
       await databaseManager!.execute(sql);
     } else {
-      print('Error: SmokingStatus does not have an id.');
+      print('Error: smokingStatus does not have an id.');
       insertSmokingStatus(map);
     }
   }
@@ -67,7 +68,7 @@ class SmokingSatusService {
   Future<void> exportDataToCsv() async {
     // 1. 從SQLite數據庫查詢數據
     final List<Map<String, dynamic>> maps =
-        await databaseManager.select("SmokingStatus");
+        await databaseManager.select("smokingStatus");
     final List<SmokingStatus> records =
         List.generate(maps.length, (i) => SmokingStatus.fromMap(maps[i]));
 

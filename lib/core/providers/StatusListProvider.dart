@@ -57,17 +57,21 @@ class StatusListProvider with ChangeNotifier {
   selectDateRange() async {
     DateTimeRange? dateRange = await showDateRangePicker(
       context: context,
-      firstDate: startTime ?? DateTime.now(),
-      lastDate: endTime ?? DateTime.now(),
+      initialDateRange: DateTimeRange(
+          start: startTime ?? DateTime.now(), end: endTime ?? DateTime.now()),
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
     );
 
-    startTime = dateRange?.start ?? DateTime.now();
-    endTime = dateRange?.end ?? DateTime.now();
+    if (dateRange != null) {
+      startTime = dateRange.start;
+      endTime = dateRange.end;
 
-    dateController.text =
-        '${DateTimeUtil.getDate(startTime)}~${DateTimeUtil.getDate(endTime)}';
-    loadData();
-    notifyListeners();
+      dateController.text =
+          '${DateTimeUtil.getDate(startTime)}~${DateTimeUtil.getDate(endTime)}';
+      loadData();
+      notifyListeners();
+    }
   }
 
   void onNavigateToEditPage(context, item) async {
@@ -78,7 +82,7 @@ class StatusListProvider with ChangeNotifier {
         builder: (context) => EditSomkingPage(status: editItem),
       ),
     );
-    loadData() ;
+    loadData();
   }
 
   void addEdit(context) async {
@@ -90,6 +94,6 @@ class StatusListProvider with ChangeNotifier {
         ),
       ),
     );
-    loadData() ;
+    loadData();
   }
 }

@@ -11,7 +11,7 @@ import '../../../core/models/Summary.dart';
 
 class ReportChatWidget extends StatefulWidget {
   final List<Summary>? summaryDayList;
-  final String? column; // count, totalTime, spacing, or null for all
+  final String? column; // count, totalTime, interval, or null for all
   final Map<String, double> maxBarValue;
 
   const ReportChatWidget({
@@ -34,7 +34,7 @@ class _ReportChatWidget extends State<ReportChatWidget> {
   void initState() {
     super.initState();
     if (widget.column == null || widget.column == 'all') {
-      currentColumn = ['count', 'totalTime', 'spacing'];
+      currentColumn = ['count', 'totalTime', 'interval'];
     } else {
       currentColumn = [widget.column!];
     }
@@ -96,9 +96,9 @@ class _ReportChatWidget extends State<ReportChatWidget> {
           color: Colors.amber,
         ));
       }
-      if (currentColumn.contains("spacing")) {
+      if (currentColumn.contains("interval")) {
         rods.add(BarChartRodData(
-          toY: max(0, data['spacing'].toDouble()),
+          toY: max(0, data['interval'].toDouble()),
           width: 15,
           color: Colors.lightGreen,
         ));

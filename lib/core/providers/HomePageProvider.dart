@@ -116,7 +116,9 @@ class HomePageProvider with ChangeNotifier {
         DateTime.now(),
         0,
         DateTime.now().difference(DateTime.now()),
-        _targetTime == null ? null : DateTime.now().difference(_targetTime!));
+        _targetTime == null
+            ? Duration.zero
+            : DateTime.now().difference(_targetTime!));
     // if (!AppSettingService.getisStopAd()) {
     //   await showAd(context);
     // }

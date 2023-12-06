@@ -290,11 +290,11 @@ class S {
     );
   }
 
-  /// `spacing time`
-  String get smokingStatus_spacing {
+  /// `interva time`
+  String get smokingStatus_interval {
     return Intl.message(
-      'spacing time',
-      name: 'smokingStatus_spacing',
+      'interva time',
+      name: 'smokingStatus_interval',
       desc: '',
       args: [],
     );
@@ -530,31 +530,11 @@ class S {
     );
   }
 
-  /// `Day change notification`
-  String get setting_changeDayNotification {
+  /// `Start Week on Monday`
+  String get setting_isWeekStartMonday {
     return Intl.message(
-      'Day change notification',
-      name: 'setting_changeDayNotification',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Record Notification`
-  String get setting_recordNotification {
-    return Intl.message(
-      'Record Notification',
-      name: 'setting_recordNotification',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Record notification time`
-  String get setting_recordNotificationTime {
-    return Intl.message(
-      'Record notification time',
-      name: 'setting_recordNotificationTime',
+      'Start Week on Monday',
+      name: 'setting_isWeekStartMonday',
       desc: '',
       args: [],
     );
@@ -641,10 +621,10 @@ class S {
   }
 
   /// `Interval time`
-  String get time_spacingTime {
+  String get time_intervalTime {
     return Intl.message(
       'Interval time',
-      name: 'time_spacingTime',
+      name: 'time_intervalTime',
       desc: '',
       args: [],
     );

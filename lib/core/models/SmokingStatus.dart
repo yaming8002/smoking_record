@@ -7,7 +7,7 @@ class SmokingStatus {
   DateTime endTime; // 抽菸的結束時間
   int evaluate; // 抽菸感受的評分
   Duration totalTime; // 抽菸的總時間
-  Duration? spacing; // 抽菸的間隔時間
+  Duration interval; // 抽菸的間隔時間
 
   SmokingStatus(
     this.id,
@@ -16,7 +16,7 @@ class SmokingStatus {
     this.endTime,
     this.evaluate,
     this.totalTime,
-    this.spacing,
+    this.interval,
   );
 
   // 將對象轉換為 Map 結構，方便儲存到 SQLite
@@ -28,7 +28,7 @@ class SmokingStatus {
       'endTime': endTime.toIso8601String(),
       'evaluate': evaluate,
       'totalTime': totalTime.inMilliseconds,
-      'spacing': (spacing ?? Duration.zero).inMilliseconds,
+      'interval': interval.inMilliseconds,
     };
   }
 
@@ -40,11 +40,11 @@ class SmokingStatus {
         endTime = DateTime.parse(map['endTime']),
         evaluate = map['evaluate'],
         totalTime = Duration(milliseconds: map['totalTime'] ?? 0),
-        spacing = Duration(milliseconds: (map['spacing'] ?? 0));
+        interval = Duration(milliseconds: map['interval'] ?? 0);
 
   @override
   String toString() {
-    return 'SmokingStatus{id: $id, count: $count, startTime: $startTime, endTime: $endTime, evaluate: $evaluate, totalTime: $totalTime, spacing: $spacing}';
+    return 'SmokingStatus{id: $id, count: $count, startTime: $startTime, endTime: $endTime, evaluate: $evaluate, totalTime: $totalTime, interval: $interval}';
   }
 
   // 將SmokingStatus列表轉換為CSV字符串
@@ -56,7 +56,7 @@ class SmokingStatus {
           record.endTime.toIso8601String(),
           record.evaluate,
           record.totalTime.inMilliseconds,
-          (record.spacing ?? Duration.zero).inMilliseconds,
+          record.interval.inMilliseconds,
         ]));
     rows.insert(0, [
       'id',
@@ -65,24 +65,21 @@ class SmokingStatus {
       'endTime',
       'evaluate',
       'totalTime',
-      'spacing'
+      'interval'
     ]); // 插入標題行
     return const ListToCsvConverter().convert(rows);
   }
 
   // 從CSV字符串創建SmokingStatus列表
   factory SmokingStatus.fromCsv(List<dynamic> csvRow) {
-    DateTime startTime = DateTime.parse(csvRow[2]);
-    DateTime endTime = DateTime.parse(csvRow[3]);
-    Duration? spacing = startTime.difference(endTime);
     return SmokingStatus(
       null, // id set to null because we don't want to sync from CSV
       csvRow[1],
-      startTime,
-      endTime,
+      DateTime.parse(csvRow[2]),
+      DateTime.parse(csvRow[3]),
       csvRow[4],
       Duration(milliseconds: csvRow[5]),
-      spacing,
+      Duration(milliseconds: csvRow[6]),
     );
   }
 }

@@ -37,14 +37,14 @@ class DatabaseManager {
 
   static Future _onCreate(Database db, int version) async {
     await db.execute('''
-        CREATE TABLE SmokingStatus  (
+        CREATE TABLE smokingStatus  (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           count INTEGER,
           startTime TEXT,
           endTime TEXT,
           evaluate INTEGER,
           totalTime INTEGER,
-          spacing INTEGER
+          interval INTEGER
         )
     ''');
 
@@ -61,7 +61,7 @@ class DatabaseManager {
           frequency INTEGER NOT NULL,
           totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           avgTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
-          spacing INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          interval INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           evaluate REAL  NOT NULL
       );
     ''');
@@ -75,7 +75,7 @@ class DatabaseManager {
           frequency INTEGER NOT NULL,
           totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           avgTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
-          spacing INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          interval INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           evaluate REAL  NOT NULL
       );
     ''');
@@ -102,7 +102,7 @@ class DatabaseManager {
 
   static Future<void> updateDailySmokingSummary() async {
     // 步驟1: 從 SmokingStatus 表中選取所有資料
-    List<Map<String, dynamic>> smokingData = await _db!.query('SmokingStatus');
+    List<Map<String, dynamic>> smokingData = await _db!.query('smokingStatus');
 
     // 根據 smokingEndTime 進行分組，並計算每日的摘要
     Map<String, Map<String, dynamic>> groupedData = {};
@@ -151,19 +151,20 @@ class DatabaseManager {
   }
 
   Future<int> delete(String table, int id) async {
-    return await _db?.delete(table, where: 'id = ?', whereArgs: [id]) ?? 0;
+    return await _db!.delete(table, where: 'id = ?', whereArgs: [id]) ?? 0;
   }
 
   Future<int> deleteAll(String table) async {
-    return await _db?.delete(table) ?? 0;
+    await _db!.execute("DELETE FROM sqlite_sequence WHERE name='$table'");
+    return await _db!.delete(table) ?? 0;
   }
 
   Future<int> insert(String table, Map<String, dynamic> data) async {
-    return await _db?.insert(table, data) ?? 0;
+    return await _db!.insert(table, data);
   }
 
   Future<int> insertorReplace(String table, Map<String, dynamic> data) async {
-    return await _db?.insert(table, data,
+    return await _db!.insert(table, data,
             conflictAlgorithm: ConflictAlgorithm.replace) ??
         0;
   }

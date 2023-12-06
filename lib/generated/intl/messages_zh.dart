@@ -95,8 +95,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy_title": MessageLookupByLibrary.simpleMessage("隐私权说明"),
         "query": MessageLookupByLibrary.simpleMessage("查询"),
         "query_criteria": MessageLookupByLibrary.simpleMessage("查询条件"),
-        "setting_changeDayNotification":
-            MessageLookupByLibrary.simpleMessage("换日通知"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("换日时间"),
         "setting_crossoverTime": MessageLookupByLibrary.simpleMessage("换日时间"),
         "setting_dataProcessing": MessageLookupByLibrary.simpleMessage("资料处里"),
@@ -110,6 +108,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_exportData": MessageLookupByLibrary.simpleMessage("资料汇出"),
         "setting_import": MessageLookupByLibrary.simpleMessage("汇入"),
         "setting_importData": MessageLookupByLibrary.simpleMessage("资料汇入"),
+        "setting_isWeekStartMonday":
+            MessageLookupByLibrary.simpleMessage("周统计起始为周一"),
         "setting_language": MessageLookupByLibrary.simpleMessage("语言设定"),
         "setting_languageSettings":
             MessageLookupByLibrary.simpleMessage("语言设置"),
@@ -117,10 +117,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_privacyAndServiceTerms":
             MessageLookupByLibrary.simpleMessage("隐私与服务条款"),
         "setting_recalculation": MessageLookupByLibrary.simpleMessage("重新计算"),
-        "setting_recordNotification":
-            MessageLookupByLibrary.simpleMessage("纪录通知"),
-        "setting_recordNotificationTime":
-            MessageLookupByLibrary.simpleMessage("纪录通知的时间"),
         "setting_save": MessageLookupByLibrary.simpleMessage("保存"),
         "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依照数量保存"),
         "setting_settings": MessageLookupByLibrary.simpleMessage("偏好设置"),
@@ -128,9 +124,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("单根烟的时间"),
         "setting_stopAd": MessageLookupByLibrary.simpleMessage("停用广告"),
         "smokingStatus_evaluate": MessageLookupByLibrary.simpleMessage("感受评分"),
+        "smokingStatus_interval": MessageLookupByLibrary.simpleMessage("间隔时间"),
         "smokingStatus_smokeCount":
             MessageLookupByLibrary.simpleMessage("吸烟数量"),
-        "smokingStatus_spacing": MessageLookupByLibrary.simpleMessage("间隔时间"),
         "smokingStatus_status": MessageLookupByLibrary.simpleMessage("吸烟状态"),
         "smokingStatus_total_time": MessageLookupByLibrary.simpleMessage("总时间"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
@@ -140,8 +136,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
         "time_end": MessageLookupByLibrary.simpleMessage("结束"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("结束时间"),
+        "time_intervalTime": MessageLookupByLibrary.simpleMessage("间隔时间"),
         "time_seconds": MessageLookupByLibrary.simpleMessage("(秒)"),
-        "time_spacingTime": MessageLookupByLibrary.simpleMessage("间隔时间"),
         "time_start": MessageLookupByLibrary.simpleMessage("开始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
         "time_unit": MessageLookupByLibrary.simpleMessage("(分钟"),

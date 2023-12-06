@@ -1,19 +1,18 @@
 class Summary {
   int? id; // 唯一識別碼
-  final String sDate;
-  final DateTime startTime; // 當日的開始時間
-  final DateTime endTime; // 當日的結束時間
+  String sDate;
+  DateTime startTime; // 當日的開始時間
+  DateTime endTime; // 當日的結束時間
 
-  final int count;
-
-  final int frequency;
+  int count;
+  int frequency;
   // final int avgCount;
 
-  final Duration totalTime;
-  final Duration avgTime;
-  final Duration spacing;
+  Duration totalTime;
+  Duration avgTime;
+  Duration interval;
 
-  final double evaluate;
+  double evaluate;
 
   Summary(
       this.sDate,
@@ -24,8 +23,33 @@ class Summary {
       // this.avgCount,
       this.totalTime,
       this.avgTime,
-      this.spacing,
+      this.interval,
       this.evaluate);
+
+  Summary.newSummary()
+      : sDate = '-',
+        startTime = DateTime.now(),
+        endTime = DateTime.now(),
+        count = 0,
+        frequency = 0,
+        totalTime = Duration.zero,
+        avgTime = Duration.zero,
+        interval = Duration.zero,
+        evaluate = 0.0;
+
+  Summary copy() {
+    return Summary(
+      sDate,
+      DateTime.fromMillisecondsSinceEpoch(startTime.millisecondsSinceEpoch),
+      DateTime.fromMillisecondsSinceEpoch(endTime.millisecondsSinceEpoch),
+      count,
+      frequency,
+      Duration(milliseconds: totalTime.inMilliseconds),
+      Duration(milliseconds: avgTime.inMilliseconds),
+      Duration(milliseconds: interval.inMilliseconds),
+      evaluate,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,7 +61,7 @@ class Summary {
       'frequency': frequency, // 抽菸次數
       'totalTime': totalTime.inMilliseconds, // 總耗時
       'avgTime': avgTime.inMilliseconds,
-      'spacing': spacing.inMilliseconds, // 平均間隔時間
+      'interval': interval.inMilliseconds, // 平均間隔時間
       'evaluate': evaluate, // 平均感受評分
     };
   }
@@ -52,7 +76,7 @@ class Summary {
       'frequency': frequency, // 抽菸次數
       'totalTime': (totalTime.inMinutes < 0 ? 0 : totalTime.inMinutes), // 總耗時
       'avgTime': (avgTime.inMinutes < 0 ? 0 : avgTime.inMinutes),
-      'spacing': (spacing.inMinutes < 0 ? 0 : spacing.inMinutes), // 平均間隔時間
+      'interval': (interval.inMinutes < 0 ? 0 : interval.inMinutes), // 平均間隔時間
       'evaluate': evaluate, // 平均感受評分
     };
   }
@@ -65,13 +89,22 @@ class Summary {
         frequency = map['frequency'] ?? 0,
         // avgCount = map['avgCount'],
         totalTime = Duration(milliseconds: map['totalTime'] ?? 0),
-        avgTime = Duration(milliseconds: map['avgTime'] ?? 0),
-        spacing = Duration(
-            milliseconds: (map['spacing'] ?? 0) < 0 ? 0 : map['spacing']),
+        avgTime = Duration(milliseconds: (map['avgTime'] ?? 0).round()),
+        interval = Duration(
+            milliseconds: (map['interval'] ?? 0) < 0
+                ? 0
+                : (map['interval'] ?? 0).round()),
         evaluate = double.parse((map['evaluate'] ?? 0.0).toStringAsFixed(2));
+
+  void aggregate(Summary other) {
+    count += other.count;
+    totalTime += other.totalTime;
+    avgTime += other.avgTime;
+    interval += other.interval;
+  }
 
   @override
   String toString() {
-    return 'SummaryWeek{sDate: $sDate,startTime: $startTime, endTime: $endTime, count: $count, frequency: $frequency, totalTime: $totalTime, avgTime: $avgTime, spacing: $spacing, evaluate: $evaluate}';
+    return 'SummaryWeek{sDate: $sDate,startTime: $startTime, endTime: $endTime, count: $count, frequency: $frequency, totalTime: $totalTime, avgTime: $avgTime, interval: $interval, evaluate: $evaluate}';
   }
 }

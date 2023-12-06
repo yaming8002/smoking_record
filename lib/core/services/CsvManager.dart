@@ -56,15 +56,21 @@ class CsvManager {
       // final List<SmokingStatus> statusList = [];
       final lines = await file.readAsLines();
       Set<DateTime> dates = {};
+      List<SmokingStatus> list = [];
       for (var line in lines.skip(1)) {
         List<dynamic> csvRow = const CsvToListConverter().convert(line).first;
-        SmokingStatus status = SmokingStatus.fromCsv(csvRow);
-        dates.add(status.endTime);
-        satusService.insertSmokingStatus(status.toMap());
+        list.add(SmokingStatus.fromCsv(csvRow));
+        dates.add(list[list.length - 1].startTime);
       }
 
-      // await summaryService.generateSummaries(
-      //     getUniqueDays(dates, AppSettingService.getTimeChange()));
+      list.sort((a, b) => a.startTime.compareTo(b.startTime));
+      list[0].interval = Duration.zero;
+      for (int i = 1; i < list.length; i += 1) {
+        satusService.insertSmokingStatus(list[i - 1].toMap());
+        Duration interval = list[i].startTime.difference(list[i - 1].endTime);
+        list[i].interval = interval > Duration.zero ? interval : Duration.zero;
+      }
+
       await summaryService.generateSummaries(dates);
       // return int.parse(contents);
     } catch (e, s) {
@@ -73,20 +79,5 @@ class CsvManager {
       // If encountering an error, return 0
       // return 0;
     }
-  }
-
-  dataRecount() async {
-    DateTime startDate =
-        DateTimeUtil.getYesterday('2023-09-10 08:00:00', 'yyyy-MM-dd hh:mm:ss');
-    final now = DateTime.now();
-    final Set<DateTime> dateSet = {};
-
-    for (int i = 0;
-        startDate.isBefore(now) || startDate.isAtSameMomentAs(now);
-        i++) {
-      dateSet.add(startDate.add(Duration(days: i)));
-    }
-    print(dateSet);
-    await summaryService.generateSummaries(dateSet);
   }
 }
