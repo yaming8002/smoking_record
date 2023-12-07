@@ -136,11 +136,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
         "time_end": MessageLookupByLibrary.simpleMessage("结束"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("结束时间"),
-        "time_intervalTime": MessageLookupByLibrary.simpleMessage("间隔时间"),
+        "time_intervalTime": MessageLookupByLibrary.simpleMessage("平均间隔时间"),
         "time_seconds": MessageLookupByLibrary.simpleMessage("(秒)"),
         "time_start": MessageLookupByLibrary.simpleMessage("开始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(分钟"),
+        "time_unit": MessageLookupByLibrary.simpleMessage("(分钟)"),
         "weekly": MessageLookupByLibrary.simpleMessage("单周")
       };
 }

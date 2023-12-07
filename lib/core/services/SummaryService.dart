@@ -22,7 +22,7 @@ class SummaryService {
     Summary summary = dayTotalRes!.isNotEmpty
         ? Summary.fromMap(dayTotalRes[0])
         : Summary('-', now, now, 0, 0, Duration.zero, Duration.zero,
-            Duration.zero, 0.0);
+            Duration.zero, 0, 0.0);
 
     return summary;
   }
@@ -46,7 +46,8 @@ class SummaryService {
         SUM(frequency) as frequency,
         SUM(totalTime) as totalTime,
         AVG(avgTime) as avgTime,
-        AVG(interval) as interval,
+        SUM(interval) as interval,
+        SUM(intervalCount) as intervalCount,
         AVG(evaluate) as evaluate
       FROM SummaryDay 
       WHERE startTime >= ? AND endTime <= ?
@@ -62,23 +63,26 @@ class SummaryService {
     Summary summary;
     if (isValidResult) {
       summary = Summary.fromMap(queryResult[0]);
+      summary.startTime = weekRange[0];
+      summary.endTime = weekRange[1];
     } else {
       summary = Summary('-', weekRange[0], weekRange[1], 0, 0, Duration.zero,
-          Duration.zero, Duration.zero, 0.0);
+          Duration.zero, Duration.zero, 0, 0.0);
     }
 
     return summary;
   }
 
   /// Retrieves all SummaryDay records within a specified date range.
-  Future<List<Summary>> getSummaryList(DateTimeRange dateRange,
-      [String? tableName]) async {
-    List<DateTime> range = tableName == 'SummaryWeek'
-        ? DateTimeUtil.getRange(DateTimeUtil.getWeekRange(dateRange.start)[0],
-            DateTimeUtil.getWeekRange(dateRange.end)[1])
-        : DateTimeUtil.getRange(dateRange.start, dateRange.end);
+  Future<List<Summary>> getSummaryList(
+      DateTimeRange dateRange, bool isweek) async {
+    if (isweek) {
+      return getSummaryWeekList(dateRange);
+    }
 
-    // Execute query
+    List<DateTime> range =
+        DateTimeUtil.getRange(dateRange.start, dateRange.end);
+
     List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
         'SELECT * from SummaryDay where startTime >= ? and endTime <= ? order by startTime ',
         [
@@ -86,11 +90,22 @@ class SummaryService {
           DateTimeUtil.getDateTime(range[1])
         ]);
 
-    // Parse query result
     List<Summary> list =
         queryResult.map((item) => Summary.fromMap(item)).toList();
 
-    return tableName == 'SummaryWeek' ? aggregateToWeeklySummaries(list) : list;
+    return list;
+  }
+
+  Future<List<Summary>> getSummaryWeekList(DateTimeRange dateRange) async {
+    List<Summary> list = [];
+    DateTime working = dateRange.start;
+    DateTime end = dateRange.end;
+    while (working.isBefore(end)) {
+      list.add(await getSummaryWeek(working));
+      working = working.add(Duration(days: 7)); // 更新 working 变量
+    }
+
+    return list;
   }
 
   List<Summary> aggregateToWeeklySummaries(List<Summary> list) {
@@ -124,16 +139,32 @@ class SummaryService {
     final range = DateTimeUtil.getOneDateRange(now);
 
     List<dynamic> arguments = [
-      DateTimeUtil.getDate(range[0]),
-      range[0].toIso8601String(),
-      range[1].toIso8601String(),
       range[0].toIso8601String(),
       range[1].toIso8601String()
     ];
 
-    List<Map<String, dynamic>>? summary =
-        await databaseManager.rawQuery(summarySelectSql, arguments);
-    await databaseManager.insertorReplace('summaryDay', summary[0]);
+    List<Map<String, dynamic>>? listDay =
+        await databaseManager.rawQuery(daySelectSql, arguments);
+
+    Summary summary = Summary.newSummary();
+    summary.sDate = DateTimeUtil.getDate(range[0]);
+    summary.startTime = range[0];
+    summary.endTime = range[1];
+    summary.frequency = listDay.length;
+    for (Map<String, dynamic> item in listDay) {
+      summary.count += item['count'] as int;
+      summary.totalTime += Duration(milliseconds: item['totalTime']);
+      summary.interval += Duration(milliseconds: item['interval']);
+      if (summary.interval > Duration.zero) summary.intervalCount += 1;
+      summary.evaluate += item['evaluate'];
+    }
+
+    summary.avgTime = Duration(
+        milliseconds:
+            (summary.totalTime.inMilliseconds / summary.frequency).round());
+    summary.evaluate = summary.evaluate / summary.frequency;
+    print('check ${summary.toString()}');
+    await databaseManager.insertorReplace('summaryDay', summary.toMap());
   }
 
   generateSummaries(Set<DateTime> dates) async {
@@ -142,8 +173,12 @@ class SummaryService {
     }
   }
 
+  deleteAll() async {
+    await databaseManager!.deleteAll("summaryDay");
+  }
+
   cleanAll() async {
-    await databaseManager.deleteAll("summaryDay");
+    await deleteAll();
 
     List<Map<String, dynamic>> statuses =
         await databaseManager.select("smokingStatus");
@@ -160,18 +195,9 @@ class SummaryService {
     await generateSummaries(dates);
   }
 
-  final String summarySelectSql = '''
-    SELECT
-          ? as sDate, 
-          COALESCE(SUM(count), 0) as count, 
-          ? as startTime,
-          ? as endTime,
-          count(*) as frequency,
-          COALESCE(SUM(totalTime), 0) as totalTime, 
-          COALESCE(CAST(avg(totalTime) AS INTEGER), 0) as avgTime,
-          COALESCE(CAST(avg(interval) AS INTEGER), 0)  as interval,
-          COALESCE(CAST(avg(evaluate) AS INTEGER), 0)  as evaluate
-    FROM smokingStatus 
-    WHERE endTime >= ? and endTime <= ? 
+  final String daySelectSql = '''
+    SELECT *        
+    FROM smokingStatus
+    WHERE endTime >= ? and endTime <= ?
   ''';
 }

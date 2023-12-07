@@ -1,6 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smoking_record/core/services/AppSettingService.dart';
 
 import '../../ui/pages/editRecordPage.dart';
 import '../../utils/dateTimeUtil.dart';
@@ -30,7 +31,7 @@ class ReportProvider with ChangeNotifier {
 
   ReportProvider({required this.isWeekly, required BuildContext context})
       : summaryService = Provider.of<SummaryService>(context) {
-    loadData(Week: isWeekly);
+    loadData(isWeek: isWeekly);
   }
 
   void setIsWeekly(bool value) {
@@ -38,22 +39,16 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadData({DateTimeRange? picked, bool? Week}) async {
-    Week = Week ?? false;
+  Future<void> loadData({DateTimeRange? picked, bool? isWeek}) async {
+    isWeek = isWeek ?? false;
     DateTime now = DateTime.now();
     if (picked != null) {
       dateRange = picked;
-    } else if (Week) {
-      DateTime weekend =
-          now.add(Duration(days: DateTime.sunday - now.weekday)); // 這週的週日
-      weekend = AppSettingService.getIsWeekStartMonday()
-          ? weekend.subtract(Duration(days: 1))
-          : weekend;
+    } else if (isWeek) {
       dateRange = DateTimeRange(
-          start: weekend
-              .subtract(const Duration(days: 7 * 10))
-              .subtract(const Duration(days: 6)),
-          end: weekend);
+        start: now.subtract(const Duration(days: 9 * 7)), // 找9週前的第一天
+        end: now, // 找當中的最後一天
+      );
     } else {
       dateRange = DateTimeRange(
         start: now.subtract(const Duration(days: 9)), //
@@ -61,32 +56,30 @@ class ReportProvider with ChangeNotifier {
       );
     }
 
-    summaryDayList = await summaryService.getSummaryList(
-        dateRange!, Week ? "SummaryWeek" : "SummaryDay");
+    summaryDayList = await summaryService.getSummaryList(dateRange!, isWeek);
 
     _calculateMaxBarValue();
     dateShow =
         '${DateTimeUtil.getDate(dateRange!.start)} ~ ${DateTimeUtil.getDate(dateRange!.end)}';
 
     notifyListeners();
-    isWeekly = Week ?? false;
+    isWeekly = isWeek ?? false;
   }
 
   void _calculateMaxBarValue() {
     for (String column in maxBarValue.keys) {
-      print(column);
       for (int i = 0; i < summaryDayList!.length; i++) {
         final data = summaryDayList![i].toMinuteMap();
-        print(data[column]);
-        maxBarValue[column] = maxBarValue[column]! > data[column].toDouble()
-            ? maxBarValue[column]
-            : data[column].toDouble();
+        maxBarValue[column] = max(
+            maxBarValue[column] ?? 0,
+            column == 'interval'
+                ? (data[column] / data['intervalCount'])
+                : data[column].toDouble());
       }
       maxBarValue[column] = (maxBarValue[column]! / 10) < 1
           ? 15
           : (maxBarValue[column]! / 10).ceilToDouble() * 10 + 10;
     }
-    print(maxBarValue);
   }
 
   void changColumn(String? newValue) {

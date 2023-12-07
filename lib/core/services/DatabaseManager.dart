@@ -4,8 +4,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'AppSettingService.dart';
-
 class DatabaseManager {
   static Database? _db;
   static const int databaseVersion = 2;
@@ -26,7 +24,7 @@ class DatabaseManager {
 
   static Future<Database> initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "MyDatabase.db");
+    String path = join(documentsDirectory.path, "smockingLog.db");
     return await openDatabase(
       path,
       version: databaseVersion,
@@ -62,20 +60,7 @@ class DatabaseManager {
           totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           avgTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           interval INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
-          evaluate REAL  NOT NULL
-      );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE SummaryWeek (
-          sDate TEXT PRIMARY KEY,  -- 將 sDate 設定為主鍵
-          startTime TEXT,
-          endTime TEXT,
-          count INTEGER NOT NULL,
-          frequency INTEGER NOT NULL,
-          totalTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
-          avgTime INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
-          interval INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
+          intervalCount INTEGER NOT NULL, -- 存儲 Duration 的毫秒值
           evaluate REAL  NOT NULL
       );
     ''');
@@ -90,6 +75,7 @@ class DatabaseManager {
     // 如果有更多的版本，可以繼續添加更多的條件
   }
 
+  /*
   Future<void> checkAndUpdate() async {
     final currentVersion = 0.3; // 你的當前 app 版本
     final storedVersion = AppSettingService.getAppVersion();
@@ -117,6 +103,7 @@ class DatabaseManager {
           'smokeNumber': 0,
           'totalSmokingTime': 0, // 簡單起見，假設這是以分鐘為單位
           'smokingInterval': 0, // 簡單起見，假設這是以分鐘為單位
+          'intervalCount': 0,
           'smokingEvaluate': 0
         };
       }
@@ -149,7 +136,7 @@ class DatabaseManager {
       await _db!.insert('DailySmokingSummary', groupedData[date]!);
     }
   }
-
+*/
   Future<int> delete(String table, int id) async {
     return await _db!.delete(table, where: 'id = ?', whereArgs: [id]) ?? 0;
   }

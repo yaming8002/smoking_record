@@ -28,7 +28,6 @@ This application aims to track and analyze smoking habits, assisting smokers in 
 ## Database Schema
 - **SmokingStatus:** Managed by `SmokingStatus.dart`.
 - **SummaryDay:** Managed by `Summary.dart`, primarily aggregates daily data.
-- **SummaryWeek:** Managed by `Summary.dart`, primarily aggregates weekly data.
 
 ## Getting Started
 

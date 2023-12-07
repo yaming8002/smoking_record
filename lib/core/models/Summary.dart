@@ -11,6 +11,7 @@ class Summary {
   Duration totalTime;
   Duration avgTime;
   Duration interval;
+  int intervalCount;
 
   double evaluate;
 
@@ -24,6 +25,7 @@ class Summary {
       this.totalTime,
       this.avgTime,
       this.interval,
+      this.intervalCount,
       this.evaluate);
 
   Summary.newSummary()
@@ -35,6 +37,7 @@ class Summary {
         totalTime = Duration.zero,
         avgTime = Duration.zero,
         interval = Duration.zero,
+        intervalCount = 0,
         evaluate = 0.0;
 
   Summary copy() {
@@ -47,6 +50,7 @@ class Summary {
       Duration(milliseconds: totalTime.inMilliseconds),
       Duration(milliseconds: avgTime.inMilliseconds),
       Duration(milliseconds: interval.inMilliseconds),
+      intervalCount,
       evaluate,
     );
   }
@@ -62,6 +66,7 @@ class Summary {
       'totalTime': totalTime.inMilliseconds, // 總耗時
       'avgTime': avgTime.inMilliseconds,
       'interval': interval.inMilliseconds, // 平均間隔時間
+      'intervalCount': intervalCount, // 平均間隔時間
       'evaluate': evaluate, // 平均感受評分
     };
   }
@@ -77,6 +82,7 @@ class Summary {
       'totalTime': (totalTime.inMinutes < 0 ? 0 : totalTime.inMinutes), // 總耗時
       'avgTime': (avgTime.inMinutes < 0 ? 0 : avgTime.inMinutes),
       'interval': (interval.inMinutes < 0 ? 0 : interval.inMinutes), // 平均間隔時間
+      'intervalCount': intervalCount,
       'evaluate': evaluate, // 平均感受評分
     };
   }
@@ -94,6 +100,7 @@ class Summary {
             milliseconds: (map['interval'] ?? 0) < 0
                 ? 0
                 : (map['interval'] ?? 0).round()),
+        intervalCount = map['intervalCount'], // 平均間隔時間
         evaluate = double.parse((map['evaluate'] ?? 0.0).toStringAsFixed(2));
 
   void aggregate(Summary other) {
@@ -105,6 +112,6 @@ class Summary {
 
   @override
   String toString() {
-    return 'SummaryWeek{sDate: $sDate,startTime: $startTime, endTime: $endTime, count: $count, frequency: $frequency, totalTime: $totalTime, avgTime: $avgTime, interval: $interval, evaluate: $evaluate}';
+    return 'Summary{id: $id, sDate: $sDate, startTime: $startTime, endTime: $endTime, count: $count, frequency: $frequency, totalTime: $totalTime, avgTime: $avgTime, interval: $interval, intervalCount: $intervalCount, evaluate: $evaluate}';
   }
 }

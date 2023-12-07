@@ -136,7 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
         "time_end": MessageLookupByLibrary.simpleMessage("結束"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("結束時間"),
-        "time_intervalTime": MessageLookupByLibrary.simpleMessage("間隔時間"),
+        "time_intervalTime": MessageLookupByLibrary.simpleMessage("平均間隔時間"),
         "time_seconds": MessageLookupByLibrary.simpleMessage("(秒)"),
         "time_start": MessageLookupByLibrary.simpleMessage("開始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間"),

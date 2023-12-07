@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../core/providers/HomePageProvider.dart';
 import '../core/providers/SettingProvider.dart';
 import '../generated/l10n.dart';
 import 'pages/settingPage.dart';
@@ -10,12 +11,14 @@ class AppFrame extends StatelessWidget {
   final Widget body;
   final String? appBarTitle;
   final List<Widget>? appBarActions;
+  final HomePageProvider? provider;
 
   const AppFrame({
     Key? key,
     required this.body,
     this.appBarTitle,
     this.appBarActions,
+    this.provider,
   }) : super(key: key);
 
   @override
@@ -29,8 +32,8 @@ class AppFrame extends StatelessWidget {
           if (appBarActions != null) ...appBarActions!,
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChangeNotifierProvider(
@@ -39,6 +42,9 @@ class AppFrame extends StatelessWidget {
                   ),
                 ),
               );
+              // 当从设置页面返回时，此处的代码将被执行
+
+              await provider?.loadData();
             },
           ),
         ],

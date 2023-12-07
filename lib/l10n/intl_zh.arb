@@ -63,8 +63,8 @@
     "time_end": "结束",
     "time_by_day": "今日 / 昨日",
     "time_by_week": "本周 / 上周",
-    "time_intervalTime": "间隔时间",
-    "time_unit": "(分钟",
+    "time_intervalTime": "平均间隔时间",
+    "time_unit": "(分钟)",
     "time_seconds": "(秒)",
     "freq_unit": "(根)",
 

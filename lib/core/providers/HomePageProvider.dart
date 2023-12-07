@@ -15,7 +15,7 @@ import '../services/NotificationService.dart';
 import '../services/SmokingSatusService.dart';
 import '../services/SummaryService.dart';
 
-class HomePageProvider with ChangeNotifier {
+class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
   final SmokingSatusService satusService;
   final SummaryService summaryService;
   Timer? _timer;
@@ -35,15 +35,18 @@ class HomePageProvider with ChangeNotifier {
   HomePageProvider(BuildContext context)
       : satusService = Provider.of<SmokingSatusService>(context),
         summaryService = Provider.of<SummaryService>(context) {
+    WidgetsBinding.instance!.addObserver(this);
     loadData();
     szieMap = PageTextSizes();
+    notifyListeners();
   }
 
   Future<void> loadData() async {
     // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
-
+    print("check reload");
+    print(today.toString());
     upgroupTimeDiff();
     startTimer();
     notifyListeners();
@@ -77,6 +80,7 @@ class HomePageProvider with ChangeNotifier {
 
   @override
   void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
     _timer?.cancel();
     super.dispose();
   }

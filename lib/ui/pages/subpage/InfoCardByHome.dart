@@ -130,12 +130,16 @@ class InfoCardByHome extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => SmokingListPage(startTime, endTime)),
         );
+
+        await provider.loadData();
+        print("provider.loadData();");
+        provider.notifyListeners();
       },
       child: Container(
         decoration: BoxDecoration(

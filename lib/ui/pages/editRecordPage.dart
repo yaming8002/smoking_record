@@ -38,7 +38,6 @@ class _EditSomkingPageState extends State<EditSomkingPage> {
                 startBaseswitch: ReferenceBool(false),
                 endBaseswitch: ReferenceBool(false),
                 savestatus: (byStart, byEnd, newStatus) async {
-                  print("ttttttttttttt");
                   await provider.updateSmokingStatus();
                   Navigator.pop(context);
                 },

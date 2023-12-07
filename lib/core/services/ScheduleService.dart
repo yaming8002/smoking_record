@@ -13,7 +13,7 @@ class ScheduleManager {
     await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
     final now = DateTime.now();
     var scheduledDate = DateTime(
-        now.year, now.month, now.hour < 3 ? now.day : now.day + 1, 2, 30, 0);
+        now.year, now.month, now.hour < 8 ? now.day : now.day + 1, 8, 0, 0);
 
     final scheduledTime = scheduledDate.difference(now);
 

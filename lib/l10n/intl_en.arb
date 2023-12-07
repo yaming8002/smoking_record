@@ -63,7 +63,7 @@
     "time_end": "End",
     "time_by_day": "Today / yesterday",
     "time_by_week": "This week / last week",
-    "time_intervalTime": "Interval time",
+    "time_intervalTime": "Interval time(avg.)",
     "time_unit": "(minute)",
     "time_seconds": "(s)",
     "freq_unit": "(Freq.)",

@@ -620,10 +620,10 @@ class S {
     );
   }
 
-  /// `Interval time`
+  /// `Interval time(avg.)`
   String get time_intervalTime {
     return Intl.message(
-      'Interval time',
+      'Interval time(avg.)',
       name: 'time_intervalTime',
       desc: '',
       args: [],

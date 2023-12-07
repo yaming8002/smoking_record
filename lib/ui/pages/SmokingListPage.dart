@@ -66,7 +66,7 @@ class _SmokingListPageState extends State<SmokingListPage> {
         _paddedText(item.startTime.toIso8601String().substring(11, 19)),
         _paddedText(item.endTime.toIso8601String().substring(11, 19)),
         _paddedText(
-            DateTimeUtil.formatDuration(item.interval ?? Duration.zero )),
+            DateTimeUtil.formatDuration(item.interval ?? Duration.zero)),
       ],
     );
   }
@@ -121,31 +121,34 @@ class _SmokingListPageState extends State<SmokingListPage> {
     return Expanded(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: IntrinsicWidth(
-          child: Table(
-            border: TableBorder.all(),
-            columnWidths: const {
-              0: IntrinsicColumnWidth(),
-              1: IntrinsicColumnWidth(),
-              2: IntrinsicColumnWidth(),
-              3: IntrinsicColumnWidth(),
-              4: IntrinsicColumnWidth(),
-            },
-            children: [
-              TableRow(
-                children: [
-                  _paddedText(S.current.setting_edit),
-                  _paddedText(S.current.smokingStatus_smokeCount),
-                  _paddedText(S.current.time_startTime),
-                  _paddedText(S.current.time_endTime),
-                  _paddedText(S.current.smokingStatus_interval),
-                ],
-              ),
-              ...provider.smokingList
-                  .map((item) =>
-                      _tableRowFromItem(item, provider.onNavigateToEditPage))
-                  .toList(),
-            ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: IntrinsicWidth(
+            child: Table(
+              border: TableBorder.all(),
+              columnWidths: const {
+                0: IntrinsicColumnWidth(),
+                1: IntrinsicColumnWidth(),
+                2: IntrinsicColumnWidth(),
+                3: IntrinsicColumnWidth(),
+                4: IntrinsicColumnWidth(),
+              },
+              children: [
+                TableRow(
+                  children: [
+                    _paddedText(S.current.setting_edit),
+                    _paddedText(S.current.smokingStatus_smokeCount),
+                    _paddedText(S.current.time_startTime),
+                    _paddedText(S.current.time_endTime),
+                    _paddedText(S.current.smokingStatus_interval),
+                  ],
+                ),
+                ...provider.smokingList
+                    .map((item) =>
+                        _tableRowFromItem(item, provider.onNavigateToEditPage))
+                    .toList(),
+              ],
+            ),
           ),
         ),
       ),

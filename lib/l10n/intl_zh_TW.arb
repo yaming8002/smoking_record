@@ -61,7 +61,7 @@
     "time_end": "結束",
     "time_by_day": "今日 / 昨日",
     "time_by_week": "本週 / 上週",
-    "time_intervalTime": "間隔時間",
+    "time_intervalTime": "平均間隔時間",
     "time_unit": "(分)",
     "time_seconds": "(秒)",
     "freq_unit": "(根)",

@@ -25,7 +25,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
   late TabController _chartTabController;
-  GlobalKey _globalKey = GlobalKey();
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -224,7 +224,7 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                     provider.dateRange = dateRange; // 局部变量，用于追踪此对话框中的状态
                     provider.loadData(
                         picked: dateRange,
-                        Week: localIsWeekly); // 更新provider的状态
+                        isWeek: localIsWeekly); // 更新provider的状态
                     Navigator.of(context).pop();
                   },
                 ),
@@ -279,8 +279,8 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                 DataCell(Text('${data.count}')),
                 DataCell(
                     Text('${data.totalTime.inMinutes}${S.current.time_unit}')),
-                DataCell(
-                    Text('${data.interval.inMinutes}${S.current.time_unit}')),
+                DataCell(Text(
+                    '${(data.interval.inMinutes / data.intervalCount).round()}${S.current.time_unit}')),
               ],
             );
           }).toList(),

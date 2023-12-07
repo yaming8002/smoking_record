@@ -67,10 +67,10 @@ class CsvManager {
       list[0].interval = Duration.zero;
       for (int i = 1; i < list.length; i += 1) {
         satusService.insertSmokingStatus(list[i - 1].toMap());
-        Duration interval = list[i].startTime.difference(list[i - 1].endTime);
-        list[i].interval = interval > Duration.zero ? interval : Duration.zero;
+        list[i].interval =
+            _checkIntervalValid(list[i - 1].endTime, list[i].startTime);
       }
-
+      await summaryService.deleteAll();
       await summaryService.generateSummaries(dates);
       // return int.parse(contents);
     } catch (e, s) {
@@ -79,5 +79,15 @@ class CsvManager {
       // If encountering an error, return 0
       // return 0;
     }
+  }
+
+  Duration _checkIntervalValid(DateTime a /*last end */, DateTime b /*start*/) {
+    Duration interval = b.difference(a);
+    if (DateTimeUtil.getDate(a) == DateTimeUtil.getDate(b) &&
+        interval > Duration.zero &&
+        interval.inHours < 6) {
+      return interval;
+    }
+    return Duration.zero; // startTime.difference(endTime);
   }
 }

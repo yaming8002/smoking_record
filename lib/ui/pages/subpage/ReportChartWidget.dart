@@ -98,7 +98,7 @@ class _ReportChatWidget extends State<ReportChatWidget> {
       }
       if (currentColumn.contains("interval")) {
         rods.add(BarChartRodData(
-          toY: max(0, data['interval'].toDouble()),
+          toY: max(0, (data['interval'] / data['intervalCount'])),
           width: 15,
           color: Colors.lightGreen,
         ));

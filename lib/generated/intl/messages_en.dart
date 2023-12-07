@@ -164,7 +164,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
         "time_intervalTime":
-            MessageLookupByLibrary.simpleMessage("Interval time"),
+            MessageLookupByLibrary.simpleMessage("Interval time(avg.)"),
         "time_seconds": MessageLookupByLibrary.simpleMessage("(s)"),
         "time_start": MessageLookupByLibrary.simpleMessage("start"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
