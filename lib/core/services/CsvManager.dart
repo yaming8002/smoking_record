@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:smoking_record/utils/dateTimeUtil.dart';
+import 'package:smoking_record/utils/DateTimeUtil.dart';
 
 import '../models/SmokingStatus.dart';
 import 'SmokingSatusService.dart';
@@ -38,7 +39,6 @@ class CsvManager {
     // 1. 将数据转换为CSV格式
 
     final csvString = await satusService.selectAll();
-    print(csvString);
     final file = await _localFile('smokingRcord${DateTimeUtil.getDate()}.csv');
     file.writeAsString(csvString);
 
@@ -52,7 +52,8 @@ class CsvManager {
 
     try {
       File file = File(result!.files.single.path!);
-      satusService.deleteAll();
+      await satusService.deleteAll();
+      await summaryService.deleteAll();
       // final List<SmokingStatus> statusList = [];
       final lines = await file.readAsLines();
       Set<DateTime> dates = {};
@@ -64,20 +65,15 @@ class CsvManager {
       }
 
       list.sort((a, b) => a.startTime.compareTo(b.startTime));
-      list[0].interval = Duration.zero;
-      for (int i = 1; i < list.length; i += 1) {
-        satusService.insertSmokingStatus(list[i - 1].toMap());
-        list[i].interval =
-            _checkIntervalValid(list[i - 1].endTime, list[i].startTime);
-      }
-      await summaryService.deleteAll();
+      satusService.updateAllByDate(list, false);
+
       await summaryService.generateSummaries(dates);
       // return int.parse(contents);
     } catch (e, s) {
-      print('Exception: $e');
-      print('Stack Trace: $s');
-      // If encountering an error, return 0
-      // return 0;
+      if (kDebugMode) {
+        print('Exception: $e');
+        print('Stack Trace: $s');
+      }
     }
   }
 

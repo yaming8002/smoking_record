@@ -800,131 +800,91 @@ class S {
     );
   }
 
+  /// `About the App`
+  String get aboutAppTitle {
+    return Intl.message(
+      'About the App',
+      name: 'aboutAppTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goal`
+  String get appGoalTitle {
+    return Intl.message(
+      'Goal',
+      name: 'appGoalTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The goal is to gradually reduce smoking frequency by recording smoking habits and extending the time between them, with the ultimate aim of quitting smoking.`
+  String get appGoalContent {
+    return Intl.message(
+      'The goal is to gradually reduce smoking frequency by recording smoking habits and extending the time between them, with the ultimate aim of quitting smoking.',
+      name: 'appGoalContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Version Number`
+  String get versionNumberTitle {
+    return Intl.message(
+      'Version Number',
+      name: 'versionNumberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author`
+  String get authorTitle {
+    return Intl.message(
+      'Author',
+      name: 'authorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Privacy Policy`
-  String get privacyPolicy_title {
+  String get privacyPolicyTitle {
     return Intl.message(
       'Privacy Policy',
-      name: 'privacyPolicy_title',
+      name: 'privacyPolicyTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `1. Data Collection`
-  String get privacyPolicy_section1_title {
+  /// `1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.`
+  String get privacyPolicyContent {
     return Intl.message(
-      '1. Data Collection',
-      name: 'privacyPolicy_section1_title',
+      '1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.',
+      name: 'privacyPolicyContent',
       desc: '',
       args: [],
     );
   }
 
-  /// `Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information.`
-  String get privacyPolicy_section1_content {
+  /// `Legal Notice`
+  String get legalNoticeTitle {
     return Intl.message(
-      'Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information.',
-      name: 'privacyPolicy_section1_content',
+      'Legal Notice',
+      name: 'legalNoticeTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `2. Use of Data`
-  String get privacyPolicy_section2_title {
+  /// `This application uses multiple third-party software components governed by different open source licenses. Below is a list of these components categorized by their license types:\n\nBSD-2-Clause License:\n- sqflite\n\nBSD-3-Clause License:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT License:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 License:\n- google_mobile_ads\n\nEach component is used in compliance with its specified license terms, respecting the copyright of the original authors. Please note that the use of these open-source components does not imply direct endorsement by the original authors. For more details on the licenses, please refer to the official documentation of the respective software.`
+  String get legalNoticeContent {
     return Intl.message(
-      '2. Use of Data',
-      name: 'privacyPolicy_section2_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.`
-  String get privacyPolicy_section2_content {
-    return Intl.message(
-      'The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.',
-      name: 'privacyPolicy_section2_content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `3. Data Export and Import`
-  String get privacyPolicy_section3_title {
-    return Intl.message(
-      '3. Data Export and Import',
-      name: 'privacyPolicy_section3_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.`
-  String get privacyPolicy_section3_content {
-    return Intl.message(
-      'Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.',
-      name: 'privacyPolicy_section3_content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `4. Sharing Function`
-  String get privacyPolicy_section4_title {
-    return Intl.message(
-      '4. Sharing Function',
-      name: 'privacyPolicy_section4_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information.`
-  String get privacyPolicy_section4_content {
-    return Intl.message(
-      'Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information.',
-      name: 'privacyPolicy_section4_content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `5. Data Protection`
-  String get privacyPolicy_section5_title {
-    return Intl.message(
-      '5. Data Protection',
-      name: 'privacyPolicy_section5_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.`
-  String get privacyPolicy_section5_content {
-    return Intl.message(
-      'We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.',
-      name: 'privacyPolicy_section5_content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `6. Third-party Advertising Service`
-  String get privacyPolicy_section6_title {
-    return Intl.message(
-      '6. Third-party Advertising Service',
-      name: 'privacyPolicy_section6_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Our App uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users.`
-  String get privacyPolicy_section6_content {
-    return Intl.message(
-      'Our App uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users.',
-      name: 'privacyPolicy_section6_content',
+      'This application uses multiple third-party software components governed by different open source licenses. Below is a list of these components categorized by their license types:\n\nBSD-2-Clause License:\n- sqflite\n\nBSD-3-Clause License:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT License:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 License:\n- google_mobile_ads\n\nEach component is used in compliance with its specified license terms, respecting the copyright of the original authors. Please note that the use of these open-source components does not imply direct endorsement by the original authors. For more details on the licenses, please refer to the official documentation of the respective software.',
+      name: 'legalNoticeContent',
       desc: '',
       args: [],
     );

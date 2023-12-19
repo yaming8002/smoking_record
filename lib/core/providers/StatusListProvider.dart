@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../../core/models/SmokingStatus.dart';
 import '../../ui/pages/editRecordPage.dart';
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../services/SmokingSatusService.dart';
 
 class StatusListProvider with ChangeNotifier {

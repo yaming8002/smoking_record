@@ -1,51 +1,66 @@
-import 'package:smoking_record/utils/DateTimeUtil.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:workmanager/workmanager.dart';
 
+import '../../utils/DateTimeUtil.dart';
 import 'AppSettingService.dart';
 import 'NotificationService.dart';
 
 class ScheduleManager {
-  static final ScheduleManager _instance = ScheduleManager._internal();
-  factory ScheduleManager() => _instance;
-  ScheduleManager._internal();
+  ScheduleManager._privateConstructor();
+  static final ScheduleManager _instance =
+      ScheduleManager._privateConstructor();
+  static ScheduleManager get instance => _instance;
+
+  factory ScheduleManager() {
+    return _instance;
+  }
 
   Future<void> initialize() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await cancelTask();
     await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+    await scheduleNextTask();
+  }
+
+  Future<void> scheduleNextTask() async {
     final now = DateTime.now();
     var scheduledDate = DateTime(
         now.year, now.month, now.hour < 8 ? now.day : now.day + 1, 8, 0, 0);
 
     final scheduledTime = scheduledDate.difference(now);
-
+    final scheduledTime_test = const Duration(minutes: 20);
     await Workmanager().registerOneOffTask(
-      // await Workmanager().registerPeriodicTask(
-      "smoking_notification", // 任務名稱
-      "smoking_notification", // 任務標籤
-      initialDelay: scheduledTime,
+      "1",
+      "smoking_notification",
+      initialDelay: scheduledTime_test,
+      tag: "apifetchtag",
       inputData: <String, dynamic>{
-        'languageCode': AppSettingService.getLanguage(),
-        'now': DateTimeUtil.getDateTime(now),
-        'scheduledDate': DateTimeUtil.getDateTime(scheduledDate),
-        'scheduledTime': DateTimeUtil.formatDuration(scheduledTime),
+        'languageCode': AppSettingService.getLanguageLocale(),
+        'now': DateTimeUtil.getDateTime(now), // test
+        'scheduledDate': DateTimeUtil.getDateTime(scheduledDate), // test
+        'scheduledTime': DateTimeUtil.formatDuration(scheduledTime), // test
       },
     );
   }
 
   Future<void> cancelTask() async {
-    await Workmanager().cancelByTag('simpleTask');
+    await Workmanager().cancelAll();
   }
 }
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    String languageCode = inputData!['languageCode'];
-    String debugInfo = '';
-    debugInfo += 'Debug Info:\n';
-    debugInfo += 'now: ${inputData!['now']}\n';
-    debugInfo += 'scheduledDate:${inputData!['scheduledDate']}\n';
-    debugInfo += 'scheduledTime: ${inputData!['scheduledTime']}\n';
-    await NotificationService.instance.showNotifications(languageCode);
+    try {
+      Locale languageCode = inputData!['languageCode'];
+      await NotificationService.instance.showNotifications(languageCode);
+      await ScheduleManager.instance.scheduleNextTask();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
     return Future.value(true);
   });
 }

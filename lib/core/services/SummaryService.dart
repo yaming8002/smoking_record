@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../models/Summary.dart';
 import 'AppSettingService.dart';
 import 'DatabaseManager.dart';
@@ -161,9 +161,10 @@ class SummaryService {
 
     summary.avgTime = Duration(
         milliseconds:
-            (summary.totalTime.inMilliseconds / summary.frequency).round());
+            (summary.totalTime.inMilliseconds / (summary.frequency ?? 1))
+                .round());
+
     summary.evaluate = summary.evaluate / summary.frequency;
-    print('check ${summary.toString()}');
     await databaseManager.insertorReplace('summaryDay', summary.toMap());
   }
 

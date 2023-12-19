@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../../utils/ReferenceBool.dart';
-import '../../utils/dateTimeUtil.dart';
 import '../models/SmokingStatus.dart';
 import '../services/AppSettingService.dart';
 import '../services/SmokingSatusService.dart';
@@ -82,10 +82,9 @@ class AddPageProvider with ChangeNotifier {
       status.totalTime = status.endTime.difference(status.startTime);
     }
 
-    Set<DateTime> s = {status.endTime};
     AppSettingService.setLastEndTime(status.endTime);
     await service.insertSmokingStatus(status.toMap());
 
-    await summaryService?.generateSummaries(s);
+    await summaryService?.generateSummaries({status.endTime});
   }
 }

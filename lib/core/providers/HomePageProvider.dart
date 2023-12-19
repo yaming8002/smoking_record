@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../ui/pages/AddPage.dart';
 import '../../ui/widgets/input/InterstitialState.dart';
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../models/PageTextSizes.dart';
 import '../models/SmokingStatus.dart';
 import '../models/Summary.dart';
@@ -45,8 +45,6 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
     // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
-    print("check reload");
-    print(today.toString());
     upgroupTimeDiff();
     startTimer();
     notifyListeners();
@@ -64,16 +62,18 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
     DateTime now = DateTime.now();
     Duration diff = now.difference(_targetTime ?? now);
     Duration interval = AppSettingService.getIntervalTime();
+    Duration restartTime = AppSettingService.getRestartTime();
 
     if (diff.inMilliseconds > 0 && interval.inMinutes > 0 && diff < interval) {
       timeDiff =
           S.current.home_interval(DateTimeUtil.formatDuration(interval - diff));
       CircleColor = Colors.grey;
-    } else if (diff.inMilliseconds > 0) {
+    } else if (diff.inMilliseconds > 0 && diff < restartTime) {
       timeDiff = DateTimeUtil.formatDuration(diff);
       CircleColor = Colors.red;
     } else {
       timeDiff = S.current.home_start;
+      CircleColor = Colors.red;
     }
     notifyListeners();
   }

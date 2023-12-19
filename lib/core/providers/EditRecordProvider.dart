@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smoking_record/core/models/SmokingStatus.dart';
 import 'package:smoking_record/core/services/SmokingSatusService.dart';
 
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../services/SummaryService.dart';
 
 class EditRecordProvider with ChangeNotifier {
@@ -38,7 +38,7 @@ class EditRecordProvider with ChangeNotifier {
 
   Future<void> updateSmokingStatus() async {
     status.totalTime = status.endTime.difference(status.startTime);
-    service.updateSmokingStatus(status.toMap());
-    await summaryService?.updateSummaryDay(status.endTime);
+    await service.updateSmokingStatus(status.toMap(), true);
+    await summaryService?.generateSummaries({status.endTime});
   }
 }

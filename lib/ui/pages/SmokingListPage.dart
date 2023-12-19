@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smoking_record/core/models/SmokingStatus.dart';
-import 'package:smoking_record/utils/dateTimeUtil.dart';
+import 'package:smoking_record/utils/DateTimeUtil.dart';
 
 import '../../core/providers/StatusListProvider.dart';
 import '../../generated/l10n.dart';

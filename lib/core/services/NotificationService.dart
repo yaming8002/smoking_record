@@ -60,32 +60,34 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotifications(String languageCode, [String? testMsg]) async {
-    await initializeLocalization(languageCode); // 確保本地化完成
-    String text = await _getLocalizedKeepItUpMessage(languageCode); // 獲取本地化的消息
-    var platform =
-        NotificationDetails(android: androidDetails, iOS: iosDetails);
-    await flutterLocalNotificationsPlugin.show(
-        0,
-        await _getLocalizedAppName(languageCode), // 獲取本地化的應用名稱
-        '$text \n ${testMsg ?? ""}',
-        platform);
+  Future<void> showNotifications(Locale languageCode, [String? testMsg]) async {
+    try {
+      await S.load(languageCode); // 確保本地化完成
+      String text =
+          await _getLocalizedKeepItUpMessage(languageCode); // 獲取本地化的消息
+      String title = await _getLocalizedAppName(languageCode);
+      var platform =
+          NotificationDetails(android: androidDetails, iOS: iosDetails);
+      await flutterLocalNotificationsPlugin.show(
+          0,
+          title, // 獲取本地化的應用名稱
+          '$text \n ${testMsg ?? ""}',
+          platform);
+    } catch (e) {
+      // 处理异常
+      print('Error showing notification: $e');
+    }
   }
 
-  Future<void> initializeLocalization(String languageCode) async {
-    var locale = Locale(languageCode);
-    await S.load(locale); // 加載本地化資源
-  }
-
-  Future<String> _getLocalizedKeepItUpMessage(String languageCode) async {
+  Future<String> _getLocalizedKeepItUpMessage(Locale languageCode) async {
     List<String> messages = await _getLocalizedKeepItUpMessages(languageCode);
     var randomIndex = Random().nextInt(messages.length);
     return messages[randomIndex];
   }
 
   Future<List<String>> _getLocalizedKeepItUpMessages(
-      String languageCode) async {
-    var s = await S.load(Locale(languageCode)); // 確保本地化資源已加載
+      Locale languageCode) async {
+    var s = await S.load(languageCode); // 確保本地化資源已加載
     var messages = [
       s.notification_msg1,
       s.notification_msg2,
@@ -95,8 +97,8 @@ class NotificationService {
     return messages;
   }
 
-  Future<String> _getLocalizedAppName(String languageCode) async {
-    var s = await S.load(Locale(languageCode));
+  Future<String> _getLocalizedAppName(Locale languageCode) async {
+    var s = await S.load(languageCode);
     return s.appName; // 返回本地化後的應用名稱
   }
 }

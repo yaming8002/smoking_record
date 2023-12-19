@@ -1,5 +1,5 @@
 import 'package:share_plus/share_plus.dart';
-import 'package:smoking_record/utils/dateTimeUtil.dart';
+import 'package:smoking_record/utils/DateTimeUtil.dart';
 
 import '../models/SmokingStatus.dart';
 import 'DatabaseManager.dart';
@@ -25,26 +25,45 @@ class SmokingSatusService {
     String end = DateTimeUtil.getDate(endTime ?? DateTime.now());
 
     int offset = currentPage * itemsPerPage;
-    List<Map<String, dynamic>> queryResult = await databaseManager!.rawQuery(
+    List<Map<String, dynamic>> queryStatus = await databaseManager!.rawQuery(
         "SELECT * FROM smokingStatus WHERE SUBSTR(endTime, 1, 10) between ? and ? order by endTime  LIMIT ? OFFSET ? ",
         [start, end, itemsPerPage, offset]);
 
     List<SmokingStatus> list =
-        queryResult.map((item) => SmokingStatus.fromMap(item)).toList();
+        queryStatus.map((item) => SmokingStatus.fromMap(item)).toList();
     return list;
   }
 
   insertSmokingStatus(Map<String, dynamic> map) async {
-    int check = await databaseManager!.insert('smokingStatus', map);
-    List<Map<String, dynamic>> queryResult = await databaseManager!
-        .rawQuery("SELECT * FROM smokingStatus WHERE id = ? ", [check]);
+    await databaseManager!.insert('smokingStatus', map);
+  }
+
+  updateAllByDate(List<SmokingStatus> list, bool isEdit) async {
+    if (list == null || list.isEmpty) {
+      return;
+    }
+    list[0].interval = Duration.zero;
+    for (int i = 1; i < list.length; i += 1) {
+      if (isEdit) {
+        await updateSmokingStatus(list[i - 1].toMap());
+      } else {
+        await insertSmokingStatus(list[i - 1].toMap());
+      }
+      list[i].interval =
+          _checkIntervalValid(list[i - 1].endTime, list[i].startTime);
+    }
+    if (isEdit) {
+      await updateSmokingStatus(list[list.length - 1].toMap());
+    } else {
+      await insertSmokingStatus(list[list.length - 1].toMap());
+    }
   }
 
   deleteAll() async {
     await databaseManager!.deleteAll("smokingStatus");
   }
 
-  updateSmokingStatus(Map<String, dynamic> map) async {
+  updateSmokingStatus(Map<String, dynamic> map, [bool? first]) async {
     if (map['id'] != null) {
       List<String> updates = [];
       map.forEach((key, value) {
@@ -60,9 +79,37 @@ class SmokingSatusService {
 
       await databaseManager!.execute(sql);
     } else {
-      print('Error: smokingStatus does not have an id.');
       insertSmokingStatus(map);
     }
+
+    if (first ?? false) {
+      List<DateTime> range =
+          DateTimeUtil.getOneDateRange(DateTime.parse(map['endTime']));
+      List<Map<String, dynamic>> queryStatus = await databaseManager!.rawQuery(
+          "SELECT * FROM smokingStatus WHERE  endTime >= ? and  endTime <= ?  order by endTime",
+          [range[0].toIso8601String(), range[1].toIso8601String()]);
+      List<SmokingStatus> list = [];
+      for (Map<String, dynamic> status in queryStatus) {
+        list.add(SmokingStatus.fromMap(status));
+      }
+      await updateAllByDate(list, true);
+    }
+  }
+
+  updateLastEndTime(DateTime lastTime) async {
+    lastTime = lastTime ?? DateTime.now();
+    List<DateTime> range = DateTimeUtil.getOneDateRange(lastTime);
+    List<Map<String, dynamic>> queryStatus = await databaseManager!.rawQuery(
+        "SELECT * FROM smokingStatus WHERE endTime >= ? and endTime <= ? order by endTime DESC LIMIT 5",
+        [range[0].toIso8601String(), range[1].toIso8601String()]);
+    // 检查是否有记录
+    if (queryStatus.isNotEmpty) {
+      AppSettingService.setLastEndTime(range['']);
+    } else {
+      print("没有找到记录");
+    }
+
+    AppSettingService.getLastEndTime();
   }
 
   Future<void> exportDataToCsv() async {
@@ -77,5 +124,15 @@ class SmokingSatusService {
 
     // Share the CSV
     Share.share(rows, subject: 'Smoking Status Records.csv');
+  }
+
+  Duration _checkIntervalValid(DateTime a /*last end */, DateTime b /*start*/) {
+    Duration interval = b.difference(a);
+    if (DateTimeUtil.getDate(a) == DateTimeUtil.getDate(b) &&
+        interval > Duration.zero &&
+        interval.inHours < 6) {
+      return interval;
+    }
+    return Duration.zero; // startTime.difference(endTime);
   }
 }

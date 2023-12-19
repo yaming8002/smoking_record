@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:smoking_record/utils/dateTimeUtil.dart';
+import 'package:smoking_record/utils/DateTimeUtil.dart';
 
 import '../../../core/models/SmokingStatus.dart';
 import '../../../generated/l10n.dart';
@@ -140,21 +140,6 @@ class _SetSmokStatusWidget extends State<SetSmokStatusWidget> {
                   widget.endBaseswitch.value, widget.status);
             },
           ),
-          // TODO 後續提供新增後再紀錄的功能
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     await provider.insertSmokingStatus(
-          //         isByCount: false, status: widget.status);
-          //     await provider.reAdd(
-          //         isByCount: false, status: widget.status);
-          //   },
-          //   child: AutoSizeText(
-          //     provider.timeDiff,
-          //     style: TextStyle(fontSize: 18),
-          //     minFontSize: 10,
-          //     maxFontSize: 30,
-          //   ),
-          // ),
         ),
       ],
     );

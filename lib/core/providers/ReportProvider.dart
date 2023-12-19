@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../ui/pages/editRecordPage.dart';
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../models/Summary.dart';
 import '../services/SummaryService.dart';
 

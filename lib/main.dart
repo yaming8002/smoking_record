@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:locale_plus/locale_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:smoking_record/ui/pages/HomePage.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'core/services/AppSettingService.dart';
 import 'core/services/DatabaseManager.dart';
-import 'core/services/ScheduleService.dart';
 import 'core/services/SmokingSatusService.dart';
 import 'core/services/SummaryService.dart';
 import 'generated/l10n.dart';
@@ -15,8 +16,24 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppSettingService.init();
   Database db = await DatabaseManager.initDB();
-  ScheduleManager manager = ScheduleManager();
-  await manager.initialize();
+
+  Locale? locale = AppSettingService.getLanguageLocale();
+  if (locale == null) {
+    var language = await LocalePlus().getLanguageCode();
+    var region = await LocalePlus().getRegionCode();
+    locale = Locale(language!, region);
+    AppSettingService.setLanguageLocale(locale);
+  }
+
+  await requestPermissions([
+    Permission.notification,
+    Permission.accessNotificationPolicy,
+    Permission.storage,
+    Permission.accessMediaLocation,
+    Permission.mediaLibrary,
+    Permission.reminders,
+    Permission.scheduleExactAlarm,
+  ]);
 
   runApp(MultiProvider(
     providers: [
@@ -33,12 +50,26 @@ void main() async {
       ),
     ],
     builder: (context, child) {
-      return MyApp();
+      return MyApp(locale: locale);
     },
   ));
+  // final scheduleManager = ScheduleManager();
+  // await scheduleManager.initialize();
+}
+
+Future<void> requestPermissions(List<Permission> permissions) async {
+  for (var permission in permissions) {
+    if (await permission.isDenied) {
+      await permission.request();
+    }
+  }
 }
 
 class MyApp extends StatefulWidget {
+  Locale? locale;
+
+  MyApp({super.key, this.locale});
+
   @override
   _MyAppState createState() => _MyAppState();
 
@@ -48,24 +79,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  // void initState() {
-  //   super.initState();
-  //   // Load ads.
-  // }
+  void initState() {
+    super.initState();
+  }
 
-  late Locale _locale =
-      AppSettingService.getLanguageLocale() ?? Locale('en', 'US');
-
-  void setLocale(Locale value) {
-    setState(() {
-      _locale = value;
-    });
+  void setLocale(Locale newLocale) async {
+    widget.locale = newLocale;
+    AppSettingService.setLanguageLocale(newLocale);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: _locale,
+      locale: widget.locale,
       title: 'smokingRecord',
       theme: ThemeData(
         primarySwatch: Colors.yellow,
@@ -78,27 +105,8 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        // 如果 locale 已經設置，則優先使用它
-        if (AppSettingService.getLanguage() != null) {
-          return _locale;
-        }
-
-        // 否則，根據手機的當前語言設置來選擇
-        if (locale?.languageCode == 'zh') {
-          AppSettingService.setLanguage('zh');
-          _locale = const Locale('zh', 'CN');
-        } else if (locale?.countryCode == 'TW') {
-          AppSettingService.setLanguage('zh_TW');
-          _locale = const Locale('zh', 'TW');
-        } else {
-          AppSettingService.setLanguage('en');
-          _locale = const Locale('en', 'US');
-        }
-        return _locale;
-      },
       supportedLocales: S.delegate.supportedLocales,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

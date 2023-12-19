@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/providers/ReportProvider.dart';
 import '../../generated/l10n.dart';
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 import '../AppFrame.dart';
 import 'subpage/ReportChartWidget.dart';
 

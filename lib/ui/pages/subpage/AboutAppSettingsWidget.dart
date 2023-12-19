@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/providers/SettingProvider.dart';
 import '../../../generated/l10n.dart';
 import '../../widgets/SettingsTile.dart';
-import 'PrivacyPolicyPage.dart';
+import 'AboutAppPage.dart';
 
 class AboutAppSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -20,10 +20,9 @@ class AboutAppSettingsWidget extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          decoration: const BoxDecoration(
             color: Colors.amber, // 設置底色
-            // borderRadius: BorderRadius.circular(8.0), // 設置圓角
           ),
           child: Text(
             S.current.about_app,
@@ -38,30 +37,20 @@ class AboutAppSettingsWidget extends StatelessWidget {
           children: [
             // _buildADMode(provider),
             // const Divider(),
-            _buildPrivacyPolicyPage(context),
-            const Divider(),
+            // _buildPrivacyPolicyPage(context),
+            // const Divider(),
+            // _buildLegalPage(context),
+            // const Divider(),
             _buildAboutAppSetting(context),
-            const Divider(),
-            _buildContactAuthorSetting(context),
-            const Divider(),
+            // const Divider(),
+            // _buildContactAuthorSetting(context),
+            // const Divider(),
             // 这里您可以添加 "隱私與服務條款" 的设置项
           ],
         ),
       ],
     );
   }
-}
-
-Widget _buildPrivacyPolicyPage(BuildContext context) {
-  return SettingsTile(
-    title: S.current.privacyPolicy_title,
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
-      );
-    },
-  );
 }
 
 // 關於我們
@@ -71,7 +60,7 @@ Widget _buildAboutAppSetting(BuildContext context) {
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+        MaterialPageRoute(builder: (context) => AboutAppPage()),
       );
     },
   );
@@ -94,7 +83,6 @@ Widget _buildContactAuthorSetting(BuildContext context) {
         return SettingsTile(
           title: S.current.contact_author,
           onTap: () async {
-            // 将 onTap 方法标记为 async
             encodeQueryParameters();
             if (await canLaunchUrl(params)) {
               // 使用正确的函数名和 params

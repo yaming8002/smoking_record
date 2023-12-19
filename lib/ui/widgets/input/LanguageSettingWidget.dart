@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/providers/SettingProvider.dart';
-import '../../../core/services/AppSettingService.dart';
 import '../../../main.dart';
 
 Widget LanguageSettingWidget(SettingsProvider provider, BuildContext context) {
   // 對應語言名稱到語言代碼
-  Map<String, String> languageMap = {
-    '繁體中文': 'zh_TW',
-    '簡體中文': 'zh',
-    'English': 'en'
+  Map<String, Locale> languageMap = {
+    '繁體中文': const Locale('zh', 'TW'),
+    '簡體中文': const Locale('zh'),
+    'English': const Locale('en'),
   };
 
   String currentLanguageName = languageMap.entries
       .firstWhere(
         (entry) => entry.value == provider.language,
-        orElse: () => MapEntry('English', 'en'),
+        orElse: () => const MapEntry('English', Locale('en')),
       )
       .key;
 
   return DropdownButton<String>(
     value: currentLanguageName,
     onChanged: (value) {
-      provider.language = languageMap[value!]!;
-      AppSettingService.setLanguage(languageMap[value]!); // 保存到偏好設定
-      MyApp.of(context)?.setLocale(AppSettingService.getLanguageLocale());
+      Locale languageLocale = languageMap[value!]!;
+      MyApp.of(context)?.setLocale(languageLocale);
+      provider.notifyListeners();
     },
     items: languageMap.keys.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(

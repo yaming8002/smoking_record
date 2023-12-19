@@ -24,16 +24,7 @@ class SettingsProvider with ChangeNotifier {
     notion = NotificationService.instance;
   }
 
-  String get contactAuthor => ""; // 这里可以添加具体的实现
-  String get exportDataToCSV => ""; // 这里可以添加具体的实现
-  String get importDataFromCSV => ""; // 这里可以添加具体的实现
-  String get aboutApp => "null"; // 这里可以添加具体的实现
-
-  String get language => AppSettingService.getLanguage();
-  set language(String value) {
-    AppSettingService.setLanguage(value);
-    notifyListeners();
-  }
+  Locale? get language => AppSettingService.getLanguageLocale();
 
   bool get dayChangeNotification =>
       AppSettingService.getDayChangeNotification();
@@ -75,6 +66,6 @@ class SettingsProvider with ChangeNotifier {
 
   testnutton() {
     print("測試打應");
-    notion?.showNotifications(AppSettingService.getLanguage());
+    notion?.showNotifications(AppSettingService.getLanguageLocale()!);
   }
 }

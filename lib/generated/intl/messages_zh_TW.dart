@@ -30,12 +30,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutAppTitle": MessageLookupByLibrary.simpleMessage("關於本程式"),
         "about_app": MessageLookupByLibrary.simpleMessage("關於本程式"),
         "add_Estimate": MessageLookupByLibrary.simpleMessage("估算"),
         "all": MessageLookupByLibrary.simpleMessage("全部"),
-        "appName": MessageLookupByLibrary.simpleMessage("吸菸紀錄"),
+        "appGoalContent": MessageLookupByLibrary.simpleMessage(
+            "期望透過記錄吸菸的情況，在透過紀錄的習慣跟延長時間。可以逐步降低吸菸的頻率，以達到戒菸的目的。"),
+        "appGoalTitle": MessageLookupByLibrary.simpleMessage("目標"),
+        "appName": MessageLookupByLibrary.simpleMessage("吸煙紀錄"),
+        "authorTitle": MessageLookupByLibrary.simpleMessage("作者"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
-        "contact_author": MessageLookupByLibrary.simpleMessage("聯繫作者"),
+        "contact_author": MessageLookupByLibrary.simpleMessage("聯絡作者"),
         "daily": MessageLookupByLibrary.simpleMessage("單日"),
         "date_range": MessageLookupByLibrary.simpleMessage("日期範圍"),
         "freq_unit": MessageLookupByLibrary.simpleMessage("(根)"),
@@ -49,6 +54,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_compare_this": MessageLookupByLibrary.simpleMessage("比較今日"),
         "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比較昨日"),
         "item": MessageLookupByLibrary.simpleMessage("項目"),
+        "legalNoticeContent": MessageLookupByLibrary.simpleMessage(
+            "本應用程序使用了多個受不同開源授權管理的第三方軟件組件。以下是根據授權類型分類的組件列表：\n\nBSD-2-Clause 授權:\n- sqflite\n\nBSD-3-Clause 授權:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT 授權:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 授權:\n- google_mobile_ads\n\n每個組件均遵循其指定的授權條款進行使用，並尊重原作者的版權。請注意，使用這些開源組件並不代表得到其原作者的直接認可。有關各個授權的詳細信息，請參閱相應軟件的官方文檔。"),
+        "legalNoticeTitle": MessageLookupByLibrary.simpleMessage("法律聲明"),
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("結束時間不能在未來！"),
         "notification_msg1":
@@ -60,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notification_msg4":
             MessageLookupByLibrary.simpleMessage("讓我們用記錄來感受生活，一步一步邁向更健康的生活。"),
         "page_add": MessageLookupByLibrary.simpleMessage("新增"),
-        "page_home": MessageLookupByLibrary.simpleMessage("吸菸紀錄"),
+        "page_home": MessageLookupByLibrary.simpleMessage("吸煙紀錄"),
         "page_imageDisplayPage": MessageLookupByLibrary.simpleMessage("分享圖片"),
         "page_list": MessageLookupByLibrary.simpleMessage("清單"),
         "page_next": MessageLookupByLibrary.simpleMessage("下一頁"),
@@ -68,31 +76,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_report": MessageLookupByLibrary.simpleMessage("報告"),
         "page_setting": MessageLookupByLibrary.simpleMessage("設定"),
         "page_title": MessageLookupByLibrary.simpleMessage("標題"),
-        "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
-            "我們的App專注於紀錄用戶的習慣。我們只蒐集與用戶習慣相關的資料，且這些資料完全匿名，不含任何能夠識別用戶身份的資訊。"),
-        "privacyPolicy_section1_title":
-            MessageLookupByLibrary.simpleMessage("1. 資料的蒐集"),
-        "privacyPolicy_section2_content": MessageLookupByLibrary.simpleMessage(
-            "蒐集到的資料僅用於幫助用戶追踪其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。"),
-        "privacyPolicy_section2_title":
-            MessageLookupByLibrary.simpleMessage("2. 資料的使用"),
-        "privacyPolicy_section3_content": MessageLookupByLibrary.simpleMessage(
-            "用戶可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含用戶的習慣，不包含其他任何可以識別用戶身份的資料。"),
-        "privacyPolicy_section3_title":
-            MessageLookupByLibrary.simpleMessage("3. 資料匯出及匯入"),
-        "privacyPolicy_section4_content": MessageLookupByLibrary.simpleMessage(
-            "我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。"),
-        "privacyPolicy_section4_title":
-            MessageLookupByLibrary.simpleMessage("4. 分享功能"),
-        "privacyPolicy_section5_content": MessageLookupByLibrary.simpleMessage(
-            "我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。"),
-        "privacyPolicy_section5_title":
-            MessageLookupByLibrary.simpleMessage("5. 資料的保護"),
-        "privacyPolicy_section6_content": MessageLookupByLibrary.simpleMessage(
-            "我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別用戶身份。"),
-        "privacyPolicy_section6_title":
-            MessageLookupByLibrary.simpleMessage("6. 第三方廣告服務"),
-        "privacyPolicy_title": MessageLookupByLibrary.simpleMessage("隱私權說明"),
+        "privacyPolicyContent": MessageLookupByLibrary.simpleMessage(
+            "1. 資料的蒐集：我們的App專注於記錄用戶的習慣。我們只蒐集與用戶習慣相關的材料，且這些數據完全匿名，不含任何能夠識別用戶身份的信息。\n\n2. 資料的使用：收集到的資料僅用於幫助用戶追蹤其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。\n\n3. 資料匯出與匯入：使用者可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含使用者的習慣，不包含其他任何可以識別使用者身分的資料。\n\n4. 分享功能：我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。\n\n5. 資料的保護：我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。\n\n6. 第三方廣告服務：我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別使用者身分。"),
+        "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage("隱私權說明"),
         "query": MessageLookupByLibrary.simpleMessage("查詢"),
         "query_criteria": MessageLookupByLibrary.simpleMessage("查詢條件"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("換日時間"),
@@ -103,13 +89,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_data_recalculation":
             MessageLookupByLibrary.simpleMessage("資料重新計算"),
         "setting_edit": MessageLookupByLibrary.simpleMessage("編輯"),
-        "setting_edit_one": MessageLookupByLibrary.simpleMessage("單筆資料編輯"),
+        "setting_edit_one": MessageLookupByLibrary.simpleMessage("單一資料編輯"),
         "setting_export": MessageLookupByLibrary.simpleMessage("匯出"),
         "setting_exportData": MessageLookupByLibrary.simpleMessage("資料匯出"),
         "setting_import": MessageLookupByLibrary.simpleMessage("匯入"),
         "setting_importData": MessageLookupByLibrary.simpleMessage("資料匯入"),
         "setting_isWeekStartMonday":
-            MessageLookupByLibrary.simpleMessage("周统计起始为周一"),
+            MessageLookupByLibrary.simpleMessage("週統計起始為週一"),
         "setting_language": MessageLookupByLibrary.simpleMessage("語言設定"),
         "setting_languageSettings":
             MessageLookupByLibrary.simpleMessage("語言設定"),
@@ -117,8 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_privacyAndServiceTerms":
             MessageLookupByLibrary.simpleMessage("隱私與服務條款"),
         "setting_recalculation": MessageLookupByLibrary.simpleMessage("重新計算"),
-        "setting_save": MessageLookupByLibrary.simpleMessage("保存"),
-        "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依照數量保存"),
+        "setting_save": MessageLookupByLibrary.simpleMessage("儲存"),
+        "setting_saveByCount": MessageLookupByLibrary.simpleMessage("依數量儲存"),
         "setting_settings": MessageLookupByLibrary.simpleMessage("偏好設定"),
         "setting_singleCigaretteTime":
             MessageLookupByLibrary.simpleMessage("單根菸的時間"),
@@ -141,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_start": MessageLookupByLibrary.simpleMessage("開始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間"),
         "time_unit": MessageLookupByLibrary.simpleMessage("(分)"),
-        "weekly": MessageLookupByLibrary.simpleMessage("單周")
+        "versionNumberTitle": MessageLookupByLibrary.simpleMessage("版本號"),
+        "weekly": MessageLookupByLibrary.simpleMessage("單週")
       };
 }

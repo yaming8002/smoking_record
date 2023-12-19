@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/dateTimeUtil.dart';
+import '../../utils/DateTimeUtil.dart';
 
 class AppSettingService {
   static late SharedPreferences _prefs;
@@ -11,23 +11,15 @@ class AppSettingService {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  // Language
-  static String getLanguage() {
-    return _prefs.getString('language') ?? 'en';
-  }
-
-  static Future<void> setLanguage(String language) async {
-    await _prefs.setString('language', language);
-  }
-
-  static Locale getLanguageLocale() {
+  static Locale? getLanguageLocale() {
     String? language = _prefs.getString('language');
-    if (language == 'zh') {
-      return const Locale('zh', 'CN');
-    } else if (language == 'zh_TW') {
-      return const Locale('zh', 'TW');
-    }
-    return const Locale('en', 'US');
+    String? region = _prefs.getString('region');
+    return language == null ? null : Locale(language, region);
+  }
+
+  static Future<void> setLanguageLocale(Locale locale) async {
+    await _prefs.setString('language', locale.languageCode);
+    await _prefs.setString('region', locale.countryCode ?? "");
   }
 
   // Last End Time
@@ -55,6 +47,13 @@ class AppSettingService {
   // Interval Time
   static Duration getIntervalTime() {
     return Duration(minutes: _prefs.getInt('interval_time') ?? 0);
+  }
+
+  static Duration getRestartTime() {
+    int? restartTime = _prefs.getInt('restart_time');
+    restartTime = restartTime ?? 6;
+    _prefs.setInt('restart_time', restartTime);
+    return Duration(hours: _prefs.getInt('restart_time') ?? 6);
   }
 
   static Future<void> setIntervalTime(Duration interval) async {

@@ -120,12 +120,12 @@ class DateTimeUtil {
       // 找到最近的星期一
       startDate = now.subtract(Duration(days: now.weekday - 1));
       // 找到最近的星期日
-      endDate = startDate.add(const Duration(days: 6));
+      endDate = startDate.add(const Duration(days: 7));
     } else {
       // 找到最近的星期日
       startDate = now.subtract(Duration(days: now.weekday % 7));
       // 找到最近的星期六
-      endDate = startDate.add(const Duration(days: 6));
+      endDate = startDate.add(const Duration(days: 7));
     }
 
     startDate =
@@ -156,16 +156,5 @@ class DateTimeUtil {
     final date1 = getDate(a);
     final date2 = getDate(b);
     return date1 == date2;
-  }
-
-  static List<String> updateSummaryDayArg(
-      String date, String changTime, String dateTime) {
-    DateTime startDateTime = DateTime.parse('$date $changTime');
-    DateTime endDateTime = startDateTime.add(const Duration(days: 1));
-
-    String dateString = getDate(startDateTime);
-    // "${startDateTime.toLocal().year}-${startDateTime.toLocal().month}-${startDateTime.toLocal().day}";
-    print([dateString, startDateTime.toString(), endDateTime.toString()]);
-    return [dateString, startDateTime.toString(), endDateTime.toString()];
   }
 }

@@ -84,17 +84,13 @@
     "image_Share":"Share",
     "image_Smoking_feel": "Enter feelings",
 
-    "privacyPolicy_title": "Privacy Policy",
-    "privacyPolicy_section1_title": "1. Data Collection",
-    "privacyPolicy_section1_content": "Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information.",
-    "privacyPolicy_section2_title": "2. Use of Data",
-    "privacyPolicy_section2_content": "The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.",
-    "privacyPolicy_section3_title": "3. Data Export and Import",
-    "privacyPolicy_section3_content": "Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.",
-    "privacyPolicy_section4_title": "4. Sharing Function",
-    "privacyPolicy_section4_content": "Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information.",
-    "privacyPolicy_section5_title": "5. Data Protection",
-    "privacyPolicy_section5_content": "We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.",
-    "privacyPolicy_section6_title": "6. Third-party Advertising Service",
-    "privacyPolicy_section6_content": "Our App uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users."
-}
+    "aboutAppTitle": "About the App",
+     "appGoalTitle": "Goal",
+     "appGoalContent": "The goal is to gradually reduce smoking frequency by recording smoking habits and extending the time between them, with the ultimate aim of quitting smoking.",
+     "versionNumberTitle": "Version Number",
+     "authorTitle": "Author",
+     "privacyPolicyTitle": "Privacy Policy",
+      "privacyPolicyContent": "1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.",
+     "legalNoticeTitle": "Legal Notice",
+     "legalNoticeContent": "This application uses multiple third-party software components governed by different open source licenses. Below is a list of these components categorized by their license types:\n\nBSD-2-Clause License:\n- sqflite\n\nBSD-3-Clause License:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT License:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 License:\n- google_mobile_ads\n\nEach component is used in compliance with its specified license terms, respecting the copyright of the original authors. Please note that the use of these open-source components does not imply direct endorsement by the original authors. For more details on the licenses, please refer to the official documentation of the respective software."
+ }

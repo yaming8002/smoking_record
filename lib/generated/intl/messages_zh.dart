@@ -30,10 +30,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutAppTitle": MessageLookupByLibrary.simpleMessage("關於本程式"),
         "about_app": MessageLookupByLibrary.simpleMessage("关于本程式"),
         "add_Estimate": MessageLookupByLibrary.simpleMessage("估算"),
         "all": MessageLookupByLibrary.simpleMessage("全部"),
+        "appGoalContent": MessageLookupByLibrary.simpleMessage(
+            "期望透過記錄吸菸的情況，在透過紀錄的習慣跟延長時間。可以逐步降低吸菸的頻率，以達到戒菸的目的。"),
+        "appGoalTitle": MessageLookupByLibrary.simpleMessage("目標"),
         "appName": MessageLookupByLibrary.simpleMessage("吸烟纪录"),
+        "authorTitle": MessageLookupByLibrary.simpleMessage("作者"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "contact_author": MessageLookupByLibrary.simpleMessage("联系作者"),
         "daily": MessageLookupByLibrary.simpleMessage("单日"),
@@ -49,6 +54,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_compare_this": MessageLookupByLibrary.simpleMessage("比较今日"),
         "image_compare_yesterday": MessageLookupByLibrary.simpleMessage("比较昨日"),
         "item": MessageLookupByLibrary.simpleMessage("项目"),
+        "legalNoticeContent": MessageLookupByLibrary.simpleMessage(
+            "本應用程序使用了多個受不同開源授權管理的第三方軟件組件。以下是根據授權類型分類的組件列表：\n\nBSD-2-Clause 授權:\n- sqflite\n\nBSD-3-Clause 授權:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT 授權:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 授權:\n- google_mobile_ads\n\n每個組件均遵循其指定的授權條款進行使用，並尊重原作者的版權。請注意，使用這些開源組件並不代表得到其原作者的直接認可。有關各個授權的詳細信息，請參閱相應軟件的官方文檔。"),
+        "legalNoticeTitle": MessageLookupByLibrary.simpleMessage("法律聲明"),
         "msg_endTimeFutureError":
             MessageLookupByLibrary.simpleMessage("结束时间不能在未来！"),
         "notification_msg1":
@@ -68,31 +76,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_report": MessageLookupByLibrary.simpleMessage("报告"),
         "page_setting": MessageLookupByLibrary.simpleMessage("设定"),
         "page_title": MessageLookupByLibrary.simpleMessage("标题"),
-        "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
-            "我们的App专注于纪录用户的习惯。我们只搜集与用户习惯相关的资料，且这些资料完全匿名，不含任何能够识别用户身份的资讯。"),
-        "privacyPolicy_section1_title":
-            MessageLookupByLibrary.simpleMessage("1. 资料的搜集"),
-        "privacyPolicy_section2_content": MessageLookupByLibrary.simpleMessage(
-            "搜集到的资料仅用于帮助用户追踪其习惯。我们不会将这些资料分享、出售或转让给任何第三方。"),
-        "privacyPolicy_section2_title":
-            MessageLookupByLibrary.simpleMessage("2. 资料的使用"),
-        "privacyPolicy_section3_content": MessageLookupByLibrary.simpleMessage(
-            "用户可以选择汇出或汇入其习惯资料。需要注意的是，汇出或汇入的资料仅包含用户的习惯，不包含其他任何可以识别用户身份的资料。"),
-        "privacyPolicy_section3_title":
-            MessageLookupByLibrary.simpleMessage("3. 资料汇出及汇入"),
-        "privacyPolicy_section4_content": MessageLookupByLibrary.simpleMessage(
-            "我们的App提供分享功能，允许用户分享他们的习惯资料。这些分享的资料是匿名的，不含任何个人标识资讯。"),
-        "privacyPolicy_section4_title":
-            MessageLookupByLibrary.simpleMessage("4. 分享功能"),
-        "privacyPolicy_section5_content": MessageLookupByLibrary.simpleMessage(
-            "我们重视您的资料保护。虽然资料是存放在本地，但我们已采取适当的保护措施，确保资料的安全性。"),
-        "privacyPolicy_section5_title":
-            MessageLookupByLibrary.simpleMessage("5. 资料的保护"),
-        "privacyPolicy_section6_content": MessageLookupByLibrary.simpleMessage(
-            "我们的App使用Google的广告服务。请注意，Google可能会使用cookies或其他技术来提供广告。这些技术与我们App中的习惯资料无关，且不会用于识别用户身份。"),
-        "privacyPolicy_section6_title":
-            MessageLookupByLibrary.simpleMessage("6. 第三方广告服务"),
-        "privacyPolicy_title": MessageLookupByLibrary.simpleMessage("隐私权说明"),
+        "privacyPolicyContent": MessageLookupByLibrary.simpleMessage(
+            "1. 資料的蒐集：我們的App專注於記錄用戶的習慣。我們只蒐集與用戶習慣相關的材料，且這些數據完全匿名，不含任何能夠識別用戶身份的信息。\n\n2. 資料的使用：收集到的資料僅用於幫助用戶追蹤其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。\n\n3. 資料匯出與匯入：使用者可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含使用者的習慣，不包含其他任何可以識別使用者身分的資料。\n\n4. 分享功能：我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。\n\n5. 資料的保護：我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。\n\n6. 第三方廣告服務：我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別使用者身分。"),
+        "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage("隱私權說明"),
         "query": MessageLookupByLibrary.simpleMessage("查询"),
         "query_criteria": MessageLookupByLibrary.simpleMessage("查询条件"),
         "setting_changeDayTime": MessageLookupByLibrary.simpleMessage("换日时间"),
@@ -141,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_start": MessageLookupByLibrary.simpleMessage("开始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
         "time_unit": MessageLookupByLibrary.simpleMessage("(分钟)"),
+        "versionNumberTitle": MessageLookupByLibrary.simpleMessage("版本號"),
         "weekly": MessageLookupByLibrary.simpleMessage("单周")
       };
 }

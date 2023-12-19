@@ -33,10 +33,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutAppTitle": MessageLookupByLibrary.simpleMessage("About the App"),
         "about_app": MessageLookupByLibrary.simpleMessage("About This App"),
         "add_Estimate": MessageLookupByLibrary.simpleMessage("Estimate"),
         "all": MessageLookupByLibrary.simpleMessage("all"),
+        "appGoalContent": MessageLookupByLibrary.simpleMessage(
+            "The goal is to gradually reduce smoking frequency by recording smoking habits and extending the time between them, with the ultimate aim of quitting smoking."),
+        "appGoalTitle": MessageLookupByLibrary.simpleMessage("Goal"),
         "appName": MessageLookupByLibrary.simpleMessage("Smoking Record"),
+        "authorTitle": MessageLookupByLibrary.simpleMessage("Author"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
@@ -56,6 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_compare_yesterday":
             MessageLookupByLibrary.simpleMessage("Compare Yesterday"),
         "item": MessageLookupByLibrary.simpleMessage("item"),
+        "legalNoticeContent": MessageLookupByLibrary.simpleMessage(
+            "This application uses multiple third-party software components governed by different open source licenses. Below is a list of these components categorized by their license types:\n\nBSD-2-Clause License:\n- sqflite\n\nBSD-3-Clause License:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT License:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 License:\n- google_mobile_ads\n\nEach component is used in compliance with its specified license terms, respecting the copyright of the original authors. Please note that the use of these open-source components does not imply direct endorsement by the original authors. For more details on the licenses, please refer to the official documentation of the respective software."),
+        "legalNoticeTitle":
+            MessageLookupByLibrary.simpleMessage("Legal Notice"),
         "msg_endTimeFutureError": MessageLookupByLibrary.simpleMessage(
             "End time cannot be in the future!"),
         "notification_msg1": MessageLookupByLibrary.simpleMessage(
@@ -76,31 +85,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_report": MessageLookupByLibrary.simpleMessage("report"),
         "page_setting": MessageLookupByLibrary.simpleMessage("setting"),
         "page_title": MessageLookupByLibrary.simpleMessage("title"),
-        "privacyPolicy_section1_content": MessageLookupByLibrary.simpleMessage(
-            "Our App focuses on recording user habits. We only collect data related to user habits, and this data is completely anonymous, without any identifiable information."),
-        "privacyPolicy_section1_title":
-            MessageLookupByLibrary.simpleMessage("1. Data Collection"),
-        "privacyPolicy_section2_content": MessageLookupByLibrary.simpleMessage(
-            "The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party."),
-        "privacyPolicy_section2_title":
-            MessageLookupByLibrary.simpleMessage("2. Use of Data"),
-        "privacyPolicy_section3_content": MessageLookupByLibrary.simpleMessage(
-            "Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information."),
-        "privacyPolicy_section3_title":
-            MessageLookupByLibrary.simpleMessage("3. Data Export and Import"),
-        "privacyPolicy_section4_content": MessageLookupByLibrary.simpleMessage(
-            "Our App provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identifiable information."),
-        "privacyPolicy_section4_title":
-            MessageLookupByLibrary.simpleMessage("4. Sharing Function"),
-        "privacyPolicy_section5_content": MessageLookupByLibrary.simpleMessage(
-            "We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data."),
-        "privacyPolicy_section5_title":
-            MessageLookupByLibrary.simpleMessage("5. Data Protection"),
-        "privacyPolicy_section6_content": MessageLookupByLibrary.simpleMessage(
-            "Our App uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our App and will not be used to identify users."),
-        "privacyPolicy_section6_title": MessageLookupByLibrary.simpleMessage(
-            "6. Third-party Advertising Service"),
-        "privacyPolicy_title":
+        "privacyPolicyContent": MessageLookupByLibrary.simpleMessage(
+            "1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users."),
+        "privacyPolicyTitle":
             MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "query": MessageLookupByLibrary.simpleMessage("query"),
         "query_criteria":
@@ -169,6 +156,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_start": MessageLookupByLibrary.simpleMessage("start"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
         "time_unit": MessageLookupByLibrary.simpleMessage("(minute)"),
+        "versionNumberTitle":
+            MessageLookupByLibrary.simpleMessage("Version Number"),
         "weekly": MessageLookupByLibrary.simpleMessage("single week")
       };
 }
