@@ -42,30 +42,41 @@ class PreferenceSettingsWidget extends StatelessWidget {
             const Divider(),
             SettingsTile(
               title: S.current.setting_isWeekStartMonday,
-              trailing: _buildWeekStartByMon(context),
+              trailing: _buildWeekStartByMon(provider, context),
             ),
             const Divider(),
             SettingsTile(
-              title: S.current.setting_singleCigaretteTime,
+              title:
+                  "${S.current.setting_singleCigaretteTime}${S.current.time_seconds}",
               trailing: _buildNumberEditButton(
                 context,
-                S.current.setting_singleCigaretteTime,
+                "${S.current.setting_singleCigaretteTime}${S.current.time_seconds}",
                 provider.averageSmokingTime,
                 (newValue) => provider.averageSmokingTime = newValue,
               ),
             ),
             const Divider(),
             SettingsTile(
-              title: S.current.time_intervalTime,
+              title: "${S.current.time_intervalTime}${S.current.time_hours}",
               trailing: _buildNumberEditButton(
                 context,
-                S.current.time_intervalTime,
-                provider.intervalTime.inMinutes,
-                (newValue) =>
-                    provider.intervalTime = Duration(minutes: newValue),
+                "${S.current.time_intervalTime}${S.current.time_hours}",
+                provider.intervalTime.inHours,
+                (newValue) => provider.intervalTime = Duration(hours: newValue),
               ),
             ),
             const Divider(),
+            SettingsTile(
+              title: "${S.current.time_stopTime}${S.current.time_minutes}",
+              trailing: _buildNumberEditButton(
+                context,
+                "${S.current.time_stopTime}${S.current.time_minutes}",
+                provider.stopTime.inMinutes,
+                (newValue) {
+                  provider.stopTime = Duration(minutes: newValue);
+                },
+              ),
+            ),
           ],
         ),
       ],
@@ -81,6 +92,7 @@ Widget _buildNumberEditButton(BuildContext context, String title,
           await _showEditDialog(context, title, currentValue.toString());
       if (newValue != null && newValue.isNotEmpty) {
         int? newValueInt = int.tryParse(newValue);
+        print("newValueInt $newValueInt");
         if (newValueInt != null) {
           onValueChange(newValueInt);
         }
@@ -94,11 +106,12 @@ Widget _buildNumberEditButton(BuildContext context, String title,
   );
 }
 
-Widget _buildWeekStartByMon(BuildContext context) {
+Widget _buildWeekStartByMon(SettingsProvider provider, BuildContext context) {
   return Switch(
       value: AppSettingService.getIsWeekStartMonday(),
       onChanged: (newValue) {
-        AppSettingService.setIsWeekStartMonday(newValue);
+        provider.updateWeekStartMonday(newValue);
+        //  AppSettingService.setIsWeekStartMonday(newValue);
       });
 }
 

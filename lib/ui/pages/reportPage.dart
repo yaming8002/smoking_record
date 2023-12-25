@@ -277,10 +277,10 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                   // ),
                 ),
                 DataCell(Text('${data.count}')),
-                DataCell(
-                    Text('${data.totalTime.inMinutes}${S.current.time_unit}')),
                 DataCell(Text(
-                    '${(data.interval.inMinutes / data.intervalCount).round()}${S.current.time_unit}')),
+                    '${data.totalTime.inMinutes}${S.current.time_minutes}')),
+                DataCell(Text(
+                    '${(data.interval.inMinutes / data.intervalCount).round()}${S.current.time_minutes}')),
               ],
             );
           }).toList(),

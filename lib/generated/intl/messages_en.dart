@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appGoalTitle": MessageLookupByLibrary.simpleMessage("Goal"),
         "appName": MessageLookupByLibrary.simpleMessage("Smoking Record"),
         "authorTitle": MessageLookupByLibrary.simpleMessage("Author"),
+        "avg": MessageLookupByLibrary.simpleMessage("(avg)"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "contact_author":
             MessageLookupByLibrary.simpleMessage("Contact Author"),
@@ -86,7 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_setting": MessageLookupByLibrary.simpleMessage("setting"),
         "page_title": MessageLookupByLibrary.simpleMessage("title"),
         "privacyPolicyContent": MessageLookupByLibrary.simpleMessage(
-            "1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users."),
+            "1. Data Collection: Our app is dedicated to recording user habits. We collect only materials related to user habits, and these data are completely anonymous, containing no information that could identify the user\'s identity.\n\n2. Data Usage: The collected data are used solely to assist users in tracking their habits. We do not share, sell, or transfer these data to any third parties.\n\n3. Data Export and Import: Users have the option to export or import their habit data. It is important to note that the exported or imported data includes only the user\'s habits and does not contain any other information that could identify the user\'s identity.\n\n4. Data Protection: We place great importance on the protection of your data. Although the data are stored locally, we have taken appropriate measures to ensure the security of the data.\n\n5. Third-Party Advertising Services: Our app uses Google\'s advertising services. Please be aware that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and are not used to identify the user\'s identity."),
         "privacyPolicyTitle":
             MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "query": MessageLookupByLibrary.simpleMessage("query"),
@@ -150,12 +151,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("Date"),
         "time_end": MessageLookupByLibrary.simpleMessage("End"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("End time"),
+        "time_hours": MessageLookupByLibrary.simpleMessage("(h.)"),
         "time_intervalTime":
-            MessageLookupByLibrary.simpleMessage("Interval time(avg.)"),
-        "time_seconds": MessageLookupByLibrary.simpleMessage("(s)"),
+            MessageLookupByLibrary.simpleMessage("Interval time"),
+        "time_minutes": MessageLookupByLibrary.simpleMessage("(m.)"),
+        "time_seconds": MessageLookupByLibrary.simpleMessage("(s.)"),
         "time_start": MessageLookupByLibrary.simpleMessage("start"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("Start time"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(minute)"),
+        "time_stopTime": MessageLookupByLibrary.simpleMessage("stop time"),
         "versionNumberTitle":
             MessageLookupByLibrary.simpleMessage("Version Number"),
         "weekly": MessageLookupByLibrary.simpleMessage("single week")

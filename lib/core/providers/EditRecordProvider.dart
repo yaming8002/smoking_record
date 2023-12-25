@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:smoking_record/core/models/SmokingStatus.dart';
+import 'package:smoking_record/core/services/AppSettingService.dart';
 import 'package:smoking_record/core/services/SmokingSatusService.dart';
 
 import '../../utils/DateTimeUtil.dart';
@@ -38,6 +39,11 @@ class EditRecordProvider with ChangeNotifier {
 
   Future<void> updateSmokingStatus() async {
     status.totalTime = status.endTime.difference(status.startTime);
+    DateTime? lastEndTime = AppSettingService.getLastEndTime();
+    if (lastEndTime == null ? true : lastEndTime.isBefore(status.endTime)) {
+      AppSettingService.setLastEndTime(status.endTime);
+    }
+
     await service.updateSmokingStatus(status.toMap(), true);
     await summaryService?.generateSummaries({status.endTime});
   }

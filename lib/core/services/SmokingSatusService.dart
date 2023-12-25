@@ -96,22 +96,6 @@ class SmokingSatusService {
     }
   }
 
-  updateLastEndTime(DateTime lastTime) async {
-    lastTime = lastTime ?? DateTime.now();
-    List<DateTime> range = DateTimeUtil.getOneDateRange(lastTime);
-    List<Map<String, dynamic>> queryStatus = await databaseManager!.rawQuery(
-        "SELECT * FROM smokingStatus WHERE endTime >= ? and endTime <= ? order by endTime DESC LIMIT 5",
-        [range[0].toIso8601String(), range[1].toIso8601String()]);
-    // 检查是否有记录
-    if (queryStatus.isNotEmpty) {
-      AppSettingService.setLastEndTime(range['']);
-    } else {
-      print("没有找到记录");
-    }
-
-    AppSettingService.getLastEndTime();
-  }
-
   Future<void> exportDataToCsv() async {
     // 1. 從SQLite數據庫查詢數據
     final List<Map<String, dynamic>> maps =

@@ -20,12 +20,13 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
   final SummaryService summaryService;
   Timer? _timer;
   DateTime? _targetTime = AppSettingService.getLastEndTime();
-  String timeDiff = "";
+  String timeDiff = S.current.home_start;
   Summary? today;
   Summary? yesterday;
   Summary? thisWeek;
   Summary? beforeWeek;
   Duration interval = AppSettingService.getIntervalTime();
+  Duration stop = AppSettingService.getStopTime();
   String? imagePath;
   String? message;
   Color CircleColor = Colors.red;
@@ -45,6 +46,9 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
     // await _reloadTargetTime();
     await _getSummaryDayFromService();
     await _getSummaryWeekFromService();
+    interval = AppSettingService.getIntervalTime();
+    stop = AppSettingService.getStopTime();
+    _targetTime = AppSettingService.getLastEndTime();
     upgroupTimeDiff();
     startTimer();
     notifyListeners();
@@ -58,17 +62,17 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   void upgroupTimeDiff() {
-    _targetTime = AppSettingService.getLastEndTime();
     DateTime now = DateTime.now();
     Duration diff = now.difference(_targetTime ?? now);
-    Duration interval = AppSettingService.getIntervalTime();
-    Duration restartTime = AppSettingService.getRestartTime();
+    // print("diff $diff");
+    // print("interval $interval");
+    // print("stop $stop");
 
-    if (diff.inMilliseconds > 0 && interval.inMinutes > 0 && diff < interval) {
+    if (diff.inMilliseconds > 0 && stop.inMinutes > 0 && diff < stop) {
       timeDiff =
-          S.current.home_interval(DateTimeUtil.formatDuration(interval - diff));
+          S.current.home_interval(DateTimeUtil.formatDuration(stop - diff));
       CircleColor = Colors.grey;
-    } else if (diff.inMilliseconds > 0 && diff < restartTime) {
+    } else if (diff.inMilliseconds > 0 && diff < interval) {
       timeDiff = DateTimeUtil.formatDuration(diff);
       CircleColor = Colors.red;
     } else {

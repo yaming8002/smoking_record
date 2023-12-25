@@ -63,10 +63,13 @@
     "time_end": "End",
     "time_by_day": "Today / yesterday",
     "time_by_week": "This week / last week",
-    "time_intervalTime": "Interval time(avg.)",
-    "time_unit": "(minute)",
-    "time_seconds": "(s)",
+    "time_intervalTime": "Interval time",
+    "time_stopTime": "stop time",
+    "time_hours": "(h.)",
+    "time_minutes": "(m.)",
+    "time_seconds": "(s.)",
     "freq_unit": "(Freq.)",
+    "avg": "(avg)",
 
     "msg_endTimeFutureError": "End time cannot be in the future!",
     "notification_msg1":"With each record, we find our direction, continuously moving towards a better self.",
@@ -90,7 +93,7 @@
      "versionNumberTitle": "Version Number",
      "authorTitle": "Author",
      "privacyPolicyTitle": "Privacy Policy",
-      "privacyPolicyContent": "1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.",
+     "privacyPolicyContent": "1. Data Collection: Our app is dedicated to recording user habits. We collect only materials related to user habits, and these data are completely anonymous, containing no information that could identify the user's identity.\n\n2. Data Usage: The collected data are used solely to assist users in tracking their habits. We do not share, sell, or transfer these data to any third parties.\n\n3. Data Export and Import: Users have the option to export or import their habit data. It is important to note that the exported or imported data includes only the user's habits and does not contain any other information that could identify the user's identity.\n\n4. Data Protection: We place great importance on the protection of your data. Although the data are stored locally, we have taken appropriate measures to ensure the security of the data.\n\n5. Third-Party Advertising Services: Our app uses Google's advertising services. Please be aware that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and are not used to identify the user's identity.",
      "legalNoticeTitle": "Legal Notice",
      "legalNoticeContent": "This application uses multiple third-party software components governed by different open source licenses. Below is a list of these components categorized by their license types:\n\nBSD-2-Clause License:\n- sqflite\n\nBSD-3-Clause License:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT License:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 License:\n- google_mobile_ads\n\nEach component is used in compliance with its specified license terms, respecting the copyright of the original authors. Please note that the use of these open-source components does not imply direct endorsement by the original authors. For more details on the licenses, please refer to the official documentation of the respective software."
  }

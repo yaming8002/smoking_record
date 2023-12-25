@@ -17,10 +17,6 @@ class AboutAppPage extends StatelessWidget {
           children: <Widget>[
             _sectionTitle(S.current.appGoalTitle), // "目標" 標題
             _sectionContent(S.current.appGoalContent), // 目標內容
-            _sectionTitle(S.current.versionNumberTitle), // "版本號" 標題
-            _sectionContent("1.0.0"), // 版本號
-            _sectionTitle(S.current.authorTitle), // "作者" 標題
-            _sectionContent("yaming"), // 作者名稱
             ExpansionTile(
               title: Text(S.current.privacyPolicyTitle), // "隱私權說明" 可展開標題
               children: <Widget>[
@@ -34,6 +30,8 @@ class AboutAppPage extends StatelessWidget {
                 _sectionContent(S.current.legalNoticeContent), // 法律聲明內容
               ],
             ),
+            _sectionTitle("${S.current.versionNumberTitle} :1.0.0"), // "版本號" 標題
+            _sectionTitle("${S.current.authorTitle} :yaming"), // "作者" 標題
           ],
         ),
       ),
@@ -51,12 +49,22 @@ class AboutAppPage extends StatelessWidget {
   }
 
   Widget _sectionContent(String content) {
-    print(content) ;
+    // print(content);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Text(
-        content,
-        style: const TextStyle(fontSize: 16),
+      child: Row(
+        // 使用 Row 小部件包裹 Text
+        children: <Widget>[
+          const SizedBox(width: 20.0), // 左侧空隙
+          Expanded(
+            // 使用 Expanded 使文本能够填充中间空间
+            child: Text(
+              content,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+          const SizedBox(width: 20.0), // 右侧空隙
+        ],
       ),
     );
   }

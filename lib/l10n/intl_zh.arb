@@ -63,10 +63,13 @@
     "time_end": "结束",
     "time_by_day": "今日 / 昨日",
     "time_by_week": "本周 / 上周",
-    "time_intervalTime": "平均间隔时间",
-    "time_unit": "(分钟)",
+    "time_intervalTime": "间隔时间",
+    "time_stopTime": "停止時間时间",
+    "time_hours": "(時)",
+    "time_minutes": "(分)",
     "time_seconds": "(秒)",
     "freq_unit": "(根)",
+    "avg" :"(平均)",
 
     "msg_endTimeFutureError": "结束时间不能在未来！",
     "notification_msg1":"有了纪录，我们就有了方向，持续走向更好的自己。",
@@ -92,7 +95,7 @@
      "versionNumberTitle": "版本號",
      "authorTitle": "作者",
      "privacyPolicyTitle": "隱私權說明",
-     "privacyPolicyContent": "1. 資料的蒐集：我們的App專注於記錄用戶的習慣。我們只蒐集與用戶習慣相關的材料，且這些數據完全匿名，不含任何能夠識別用戶身份的信息。\n\n2. 資料的使用：收集到的資料僅用於幫助用戶追蹤其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。\n\n3. 資料匯出與匯入：使用者可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含使用者的習慣，不包含其他任何可以識別使用者身分的資料。\n\n4. 分享功能：我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。\n\n5. 資料的保護：我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。\n\n6. 第三方廣告服務：我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別使用者身分。",
+     "privacyPolicyContent": "1. 资料的搜集：我们的App专注于记录用户的习惯。我们只搜集与用户习惯相关的材料，且这些数据完全匿名，不含任何能够识别用户身份的信息。\n\n2. 资料的使用：收集到的资料仅用于帮助用户追踪其习惯。我们不会将这些资料分享、出售或转让给任何第三方。\n\n3. 资料汇出与汇入：使用者可以选择汇出或汇入其习惯资料。需要注意的是，汇出或汇入的资料仅包含使用者的习惯，不包含其他任何可以识别使用者身分的资料。\n\n4. 资料的保护：我们重视您的资料保护。虽然资料是存放在本地，但我们已采取适当的保护措施，确保资料的安全性。\n\n5. 第三方广告服务：我们的App使用Google的广告服务。请注意，Google可能会使用cookies或其他技术来提供广告。这些技术与我们App中的习惯资料无关，且不会用于识别使用者身分。",
      "legalNoticeTitle": "法律聲明",
      "legalNoticeContent": "本應用程序使用了多個受不同開源授權管理的第三方軟件組件。以下是根據授權類型分類的組件列表：\n\nBSD-2-Clause 授權:\n- sqflite\n\nBSD-3-Clause 授權:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT 授權:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 授權:\n- google_mobile_ads\n\n每個組件均遵循其指定的授權條款進行使用，並尊重原作者的版權。請注意，使用這些開源組件並不代表得到其原作者的直接認可。有關各個授權的詳細信息，請參閱相應軟件的官方文檔。"
 

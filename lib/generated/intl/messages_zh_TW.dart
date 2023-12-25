@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appGoalTitle": MessageLookupByLibrary.simpleMessage("目標"),
         "appName": MessageLookupByLibrary.simpleMessage("吸煙紀錄"),
         "authorTitle": MessageLookupByLibrary.simpleMessage("作者"),
+        "avg": MessageLookupByLibrary.simpleMessage("(平均)"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "contact_author": MessageLookupByLibrary.simpleMessage("聯絡作者"),
         "daily": MessageLookupByLibrary.simpleMessage("單日"),
@@ -77,7 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_setting": MessageLookupByLibrary.simpleMessage("設定"),
         "page_title": MessageLookupByLibrary.simpleMessage("標題"),
         "privacyPolicyContent": MessageLookupByLibrary.simpleMessage(
-            "1. 資料的蒐集：我們的App專注於記錄用戶的習慣。我們只蒐集與用戶習慣相關的材料，且這些數據完全匿名，不含任何能夠識別用戶身份的信息。\n\n2. 資料的使用：收集到的資料僅用於幫助用戶追蹤其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。\n\n3. 資料匯出與匯入：使用者可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含使用者的習慣，不包含其他任何可以識別使用者身分的資料。\n\n4. 分享功能：我們的App提供分享功能，允許用戶分享他們的習慣資料。這些分享的資料是匿名的，不含任何個人標識資訊。\n\n5. 資料的保護：我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。\n\n6. 第三方廣告服務：我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別使用者身分。"),
+            "1. 資料的蒐集：我們的App專注於記錄用戶的習慣。我們只蒐集與用戶習慣相關的材料，且這些數據完全匿名，不含任何能夠識別用戶身份的信息。\n\n2. 資料的使用：收集到的資料僅用於幫助用戶追蹤其習慣。我們不會將這些資料分享、出售或轉讓給任何第三方。\n\n3. 資料匯出與匯入：使用者可以選擇匯出或匯入其習慣資料。需要注意的是，匯出或匯入的資料僅包含使用者的習慣，不包含其他任何可以識別使用者身分的資料。\n\n5. 資料的保護：我們重視您的資料保護。雖然資料是存放在本地，但我們已採取適當的保護措施，確保資料的安全性。\n\n6. 第三方廣告服務：我們的App使用Google的廣告服務。請注意，Google可能會使用cookies或其他技術來提供廣告。這些技術與我們App中的習慣資料無關，且不會用於識別使用者身分。"),
         "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage("隱私權說明"),
         "query": MessageLookupByLibrary.simpleMessage("查詢"),
         "query_criteria": MessageLookupByLibrary.simpleMessage("查詢條件"),
@@ -122,11 +123,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_date": MessageLookupByLibrary.simpleMessage("日期"),
         "time_end": MessageLookupByLibrary.simpleMessage("結束"),
         "time_endTime": MessageLookupByLibrary.simpleMessage("結束時間"),
-        "time_intervalTime": MessageLookupByLibrary.simpleMessage("平均間隔時間"),
+        "time_hours": MessageLookupByLibrary.simpleMessage("(時)"),
+        "time_intervalTime": MessageLookupByLibrary.simpleMessage("間隔時間"),
+        "time_minutes": MessageLookupByLibrary.simpleMessage("(分)"),
         "time_seconds": MessageLookupByLibrary.simpleMessage("(秒)"),
         "time_start": MessageLookupByLibrary.simpleMessage("開始"),
         "time_startTime": MessageLookupByLibrary.simpleMessage("開始時間"),
-        "time_unit": MessageLookupByLibrary.simpleMessage("(分)"),
+        "time_stopTime": MessageLookupByLibrary.simpleMessage("停止時間"),
         "versionNumberTitle": MessageLookupByLibrary.simpleMessage("版本號"),
         "weekly": MessageLookupByLibrary.simpleMessage("單週")
       };

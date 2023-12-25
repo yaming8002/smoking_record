@@ -35,6 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   PreferenceSettingsWidget(provider),
                   DataProcessingSettingsWidget(provider),
                   AboutAppSettingsWidget(provider),
+                  /*
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start, // 使标题靠左对齐
                       children: [
@@ -47,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             child: Text("Test 訊息"),
                           ),
                         ),
-                      ])
+                      ])*/
                 ],
               ),
             ),

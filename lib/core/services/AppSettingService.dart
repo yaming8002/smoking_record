@@ -46,18 +46,25 @@ class AppSettingService {
 
   // Interval Time
   static Duration getIntervalTime() {
-    return Duration(minutes: _prefs.getInt('interval_time') ?? 0);
-  }
-
-  static Duration getRestartTime() {
-    int? restartTime = _prefs.getInt('restart_time');
-    restartTime = restartTime ?? 6;
-    _prefs.setInt('restart_time', restartTime);
-    return Duration(hours: _prefs.getInt('restart_time') ?? 6);
+    int? intervalTime = _prefs.getInt('interval_time');
+    intervalTime = intervalTime ?? 6;
+    _prefs.setInt('interval_time', intervalTime);
+    return Duration(hours: _prefs.getInt('interval_time') ?? 6);
   }
 
   static Future<void> setIntervalTime(Duration interval) async {
-    await _prefs.setInt('interval_time', interval.inMinutes);
+    await _prefs.setInt('interval_time', interval.inHours);
+  }
+
+  static Duration getStopTime() {
+    int? stopTime = _prefs.getInt('stop_time');
+    stopTime = stopTime ?? 0;
+    _prefs.setInt('stop_time', stopTime);
+    return Duration(minutes: _prefs.getInt('stop_time') ?? 0);
+  }
+
+  static Future<void> setStopTime(Duration stopTime) async {
+    await _prefs.setInt('stop_time', stopTime.inMinutes);
   }
 
   // Average Smoking Time

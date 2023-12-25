@@ -69,12 +69,12 @@ class AddPageProvider with ChangeNotifier {
     int totalSmokingTimeInSeconds =
         (status.count! * AppSettingService.getAverageSmokingTime());
     if (byStart) {
+      status.endTime = status.startTime.add(status.totalTime);
       if (status.endTime.isAfter(DateTime.now())) {
         onError!(S.current.msg_endTimeFutureError);
         return;
       }
       status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
-      status.endTime = status.startTime.add(status.totalTime);
     } else if (byEnd) {
       status.totalTime = Duration(seconds: totalSmokingTimeInSeconds);
       status.startTime = status.endTime.subtract(status.totalTime);

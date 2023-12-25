@@ -620,30 +620,50 @@ class S {
     );
   }
 
-  /// `Interval time(avg.)`
+  /// `Interval time`
   String get time_intervalTime {
     return Intl.message(
-      'Interval time(avg.)',
+      'Interval time',
       name: 'time_intervalTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `(minute)`
-  String get time_unit {
+  /// `stop time`
+  String get time_stopTime {
     return Intl.message(
-      '(minute)',
-      name: 'time_unit',
+      'stop time',
+      name: 'time_stopTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `(s)`
+  /// `(h.)`
+  String get time_hours {
+    return Intl.message(
+      '(h.)',
+      name: 'time_hours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(m.)`
+  String get time_minutes {
+    return Intl.message(
+      '(m.)',
+      name: 'time_minutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(s.)`
   String get time_seconds {
     return Intl.message(
-      '(s)',
+      '(s.)',
       name: 'time_seconds',
       desc: '',
       args: [],
@@ -655,6 +675,16 @@ class S {
     return Intl.message(
       '(Freq.)',
       name: 'freq_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(avg)`
+  String get avg {
+    return Intl.message(
+      '(avg)',
+      name: 'avg',
       desc: '',
       args: [],
     );
@@ -860,10 +890,10 @@ class S {
     );
   }
 
-  /// `1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user's habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google's advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.`
+  /// `1. Data Collection: Our app is dedicated to recording user habits. We collect only materials related to user habits, and these data are completely anonymous, containing no information that could identify the user's identity.\n\n2. Data Usage: The collected data are used solely to assist users in tracking their habits. We do not share, sell, or transfer these data to any third parties.\n\n3. Data Export and Import: Users have the option to export or import their habit data. It is important to note that the exported or imported data includes only the user's habits and does not contain any other information that could identify the user's identity.\n\n4. Data Protection: We place great importance on the protection of your data. Although the data are stored locally, we have taken appropriate measures to ensure the security of the data.\n\n5. Third-Party Advertising Services: Our app uses Google's advertising services. Please be aware that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and are not used to identify the user's identity.`
   String get privacyPolicyContent {
     return Intl.message(
-      '1. Data Collection: Our app focuses on recording user habits. We only collect materials related to user habits, and this data is completely anonymous, without any identifiable personal information.\n\n2. Use of Data: The collected data is only used to help users track their habits. We will not share, sell, or transfer this data to any third party.\n\n3. Data Export and Import: Users can choose to export or import their habit data. It should be noted that the exported or imported data only contains the user\'s habits and does not contain any identifiable information.\n\n4. Sharing Function: Our app provides a sharing function, allowing users to share their habit data. This shared data is anonymous and does not contain any personal identification information.\n\n5. Data Protection: We value your data protection. Although the data is stored locally, we have taken appropriate measures to ensure the security of the data.\n\n6. Third-party Advertising Service: Our app uses Google\'s advertising service. Please note that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and will not be used to identify users.',
+      '1. Data Collection: Our app is dedicated to recording user habits. We collect only materials related to user habits, and these data are completely anonymous, containing no information that could identify the user\'s identity.\n\n2. Data Usage: The collected data are used solely to assist users in tracking their habits. We do not share, sell, or transfer these data to any third parties.\n\n3. Data Export and Import: Users have the option to export or import their habit data. It is important to note that the exported or imported data includes only the user\'s habits and does not contain any other information that could identify the user\'s identity.\n\n4. Data Protection: We place great importance on the protection of your data. Although the data are stored locally, we have taken appropriate measures to ensure the security of the data.\n\n5. Third-Party Advertising Services: Our app uses Google\'s advertising services. Please be aware that Google may use cookies or other technologies to provide advertisements. These technologies are unrelated to the habit data in our app and are not used to identify the user\'s identity.',
       name: 'privacyPolicyContent',
       desc: '',
       args: [],

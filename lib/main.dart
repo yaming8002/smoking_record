@@ -25,14 +25,15 @@ void main() async {
     AppSettingService.setLanguageLocale(locale);
   }
 
+  // 更新了权限请求列表，移除了与闹钟和信息提示相关的权限
   await requestPermissions([
-    Permission.notification,
-    Permission.accessNotificationPolicy,
     Permission.storage,
     Permission.accessMediaLocation,
     Permission.mediaLibrary,
     Permission.reminders,
-    Permission.scheduleExactAlarm,
+    // Permission.notification, // 已移除
+    // Permission.accessNotificationPolicy, // 已移除
+    // Permission.scheduleExactAlarm, // 已移除
   ]);
 
   runApp(MultiProvider(
@@ -53,8 +54,9 @@ void main() async {
       return MyApp(locale: locale);
     },
   ));
+
   // final scheduleManager = ScheduleManager();
-  // await scheduleManager.initialize();
+  // await scheduleManager.initialize(); // 假设 ScheduleManager 不依赖已移除的权限
 }
 
 Future<void> requestPermissions(List<Permission> permissions) async {

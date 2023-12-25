@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -37,7 +38,9 @@ class _AdBannerState extends State<AdBanner> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
+          if (kDebugMode) {
+            print('Failed to load a banner ad: ${err.message}');
+          }
           ad.dispose();
         },
       ),
@@ -48,12 +51,11 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    if (_bannerAd == null) print("if(_bannerAd == null)");
     return Container(
       height: 60,
       color: Colors.white,
       child: _bannerAd == null
-          ? SizedBox.shrink()
+          ? const SizedBox.shrink()
           : AdWidget(ad: _bannerAd!), // 使用 AdWidget 顯示廣告
     );
   }

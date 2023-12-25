@@ -34,9 +34,14 @@ class SettingsProvider with ChangeNotifier {
   }
 
   Duration get intervalTime => AppSettingService.getIntervalTime();
-
   set intervalTime(Duration value) {
     AppSettingService.setIntervalTime(value);
+    notifyListeners();
+  }
+
+  Duration get stopTime => AppSettingService.getStopTime();
+  set stopTime(Duration value) {
+    AppSettingService.setStopTime(value);
     notifyListeners();
   }
 
@@ -49,6 +54,11 @@ class SettingsProvider with ChangeNotifier {
   double get appVersion => AppSettingService.getAppVersion();
   set appVersion(double value) {
     AppSettingService.setAppVersion(value);
+    notifyListeners();
+  }
+
+  void updateWeekStartMonday(bool newValue) {
+    AppSettingService.setIsWeekStartMonday(newValue);
     notifyListeners();
   }
 

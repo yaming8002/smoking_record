@@ -53,7 +53,7 @@ class InfoCardByHome extends StatelessWidget {
                       thisSummaryDay?.endTime,
                       thisSummaryDay?.totalTime.inMinutes,
                       beforeSummaryDay?.totalTime.inMinutes,
-                      S.current.time_unit),
+                      S.current.time_minutes),
                 ),
               ],
             ),
