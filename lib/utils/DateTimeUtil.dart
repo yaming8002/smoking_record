@@ -120,12 +120,12 @@ class DateTimeUtil {
       // 找到最近的星期一
       startDate = now.subtract(Duration(days: now.weekday - 1));
       // 找到最近的星期日
-      endDate = startDate.add(const Duration(days: 7));
+      endDate = startDate.add(const Duration(days: 6));
     } else {
       // 找到最近的星期日
       startDate = now.subtract(Duration(days: now.weekday % 7));
       // 找到最近的星期六
-      endDate = startDate.add(const Duration(days: 7));
+      endDate = startDate.add(const Duration(days: 6));
     }
 
     startDate =

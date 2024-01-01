@@ -97,6 +97,6 @@
      "privacyPolicyTitle": "隱私權說明",
      "privacyPolicyContent": "1. 资料的搜集：我们的App专注于记录用户的习惯。我们只搜集与用户习惯相关的材料，且这些数据完全匿名，不含任何能够识别用户身份的信息。\n\n2. 资料的使用：收集到的资料仅用于帮助用户追踪其习惯。我们不会将这些资料分享、出售或转让给任何第三方。\n\n3. 资料汇出与汇入：使用者可以选择汇出或汇入其习惯资料。需要注意的是，汇出或汇入的资料仅包含使用者的习惯，不包含其他任何可以识别使用者身分的资料。\n\n4. 资料的保护：我们重视您的资料保护。虽然资料是存放在本地，但我们已采取适当的保护措施，确保资料的安全性。\n\n5. 第三方广告服务：我们的App使用Google的广告服务。请注意，Google可能会使用cookies或其他技术来提供广告。这些技术与我们App中的习惯资料无关，且不会用于识别使用者身分。",
      "legalNoticeTitle": "法律聲明",
-     "legalNoticeContent": "本應用程序使用了多個受不同開源授權管理的第三方軟件組件。以下是根據授權類型分類的組件列表：\n\nBSD-2-Clause 授權:\n- sqflite\n\nBSD-3-Clause 授權:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT 授權:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n- flutter_launcher_icons\n\nApache-2.0 授權:\n- google_mobile_ads\n\n每個組件均遵循其指定的授權條款進行使用，並尊重原作者的版權。請注意，使用這些開源組件並不代表得到其原作者的直接認可。有關各個授權的詳細信息，請參閱相應軟件的官方文檔。"
+     "legalNoticeContent": "本應用程序使用了多個受不同開源授權管理的第三方軟件組件。以下是根據授權類型分類的組件列表：\n\nBSD-2-Clause 授權:\n- sqflite\n\nBSD-3-Clause 授權:\n- shared_preferences\n- intl_translation\n- share_plus\n- flutter_local_notifications\n- url_launcher\n\nMIT 授權:\n- fl_chart\n- provider\n- csv\n- file_picker\n- workmanager\n- permission_handler\n- auto_size_text\n-  in_app_review\n- flutter_launcher_icons\n\nApache-2.0 授權:\n- google_mobile_ads\n\n每個組件均遵循其指定的授權條款進行使用，並尊重原作者的版權。請注意，使用這些開源組件並不代表得到其原作者的直接認可。有關各個授權的詳細信息，請參閱相應軟件的官方文檔。"
 
 }

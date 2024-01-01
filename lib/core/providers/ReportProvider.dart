@@ -24,11 +24,6 @@ class ReportProvider with ChangeNotifier {
     'interval': 0.0,
   };
 
-  // void setIsWeekly(bool value) {
-  //   print(value) ;
-  //   isWeekly = value;
-  // }
-
   ReportProvider({required this.isWeekly, required BuildContext context})
       : summaryService = Provider.of<SummaryService>(context) {
     loadData(isWeek: isWeekly);
@@ -61,7 +56,6 @@ class ReportProvider with ChangeNotifier {
     _calculateMaxBarValue();
     dateShow =
         '${DateTimeUtil.getDate(dateRange!.start)} ~ ${DateTimeUtil.getDate(dateRange!.end)}';
-
     notifyListeners();
     isWeekly = isWeek ?? false;
   }
@@ -70,11 +64,14 @@ class ReportProvider with ChangeNotifier {
     for (String column in maxBarValue.keys) {
       for (int i = 0; i < summaryDayList!.length; i++) {
         final data = summaryDayList![i].toMinuteMap();
-        maxBarValue[column] = max(
-            maxBarValue[column] ?? 0,
-            column == 'interval'
-                ? (data[column] / data['intervalCount'])
-                : data[column].toDouble());
+        maxBarValue[column] = (data[column] == 0 ||
+                (column == 'interval' && data['intervalCount'] == 0))
+            ? 0
+            : max(
+                maxBarValue[column] ?? 0,
+                column == 'interval'
+                    ? (data[column] / data['intervalCount'])
+                    : data[column].toDouble());
       }
       maxBarValue[column] = (maxBarValue[column]! / 10) < 1
           ? 15

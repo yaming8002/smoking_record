@@ -52,7 +52,7 @@ dependencies:
   google_mobile_ads: ^1.2.0 # Apache-2.0
   url_launcher: ^6.2.2 # BSD-3-Clause
   flutter_launcher_icons: ^0.13.1  # MIT
-
+  in_app_review: 2.0.8 # MIT
 
 
 dev_dependencies:

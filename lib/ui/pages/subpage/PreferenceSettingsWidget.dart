@@ -92,7 +92,6 @@ Widget _buildNumberEditButton(BuildContext context, String title,
           await _showEditDialog(context, title, currentValue.toString());
       if (newValue != null && newValue.isNotEmpty) {
         int? newValueInt = int.tryParse(newValue);
-        print("newValueInt $newValueInt");
         if (newValueInt != null) {
           onValueChange(newValueInt);
         }

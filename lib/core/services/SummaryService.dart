@@ -58,7 +58,7 @@ class SummaryService {
 
     bool isValidResult = queryResult.isNotEmpty &&
         queryResult[0].values.any((value) => value != null);
-    print(queryResult);
+
     // Check if there is data for the week and create a summary
     Summary summary;
     if (isValidResult) {
@@ -98,13 +98,13 @@ class SummaryService {
 
   Future<List<Summary>> getSummaryWeekList(DateTimeRange dateRange) async {
     List<Summary> list = [];
-    DateTime working = dateRange.start;
+    DateTime begin = dateRange.start;
     DateTime end = dateRange.end;
-    while (working.isBefore(end)) {
-      list.add(await getSummaryWeek(working));
-      working = working.add(Duration(days: 7)); // 更新 working 变量
+    while (begin.isBefore(end)) {
+      list.add(await getSummaryWeek(begin));
+      begin = begin.add(Duration(days: 7)); // 更新 working 变量
     }
-
+    list.add(await getSummaryWeek(end));
     return list;
   }
 

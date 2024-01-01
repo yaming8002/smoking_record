@@ -40,6 +40,15 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  String _countAvgInterval(Duration interval, int intervalCount) {
+    String avgInterval = '0';
+    if (interval.inMinutes > 0 && intervalCount > 0) {
+      avgInterval = "${(interval.inMinutes / intervalCount).round()}";
+    }
+
+    return "$avgInterval${S.current.time_minutes}";
+  }
+
   Future<Uint8List?> capturePng(GlobalKey globalKey) async {
     try {
       if (globalKey.currentContext == null) {
@@ -279,8 +288,11 @@ class _ReportPageState extends State<ReportPage> with TickerProviderStateMixin {
                 DataCell(Text('${data.count}')),
                 DataCell(Text(
                     '${data.totalTime.inMinutes}${S.current.time_minutes}')),
-                DataCell(Text(
-                    '${(data.interval.inMinutes / data.intervalCount).round()}${S.current.time_minutes}')),
+                // DataCell(Text(
+                //  '${(data.interval.inMinutes / data.intervalCount).round()}${S.current.time_minutes}')),
+                DataCell(
+                    Text(_countAvgInterval(data.interval, data.intervalCount))),
+                // _countAvgInterval
               ],
             );
           }).toList(),

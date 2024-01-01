@@ -1,12 +1,11 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/providers/SettingProvider.dart';
 import '../../../generated/l10n.dart';
 import '../../widgets/SettingsTile.dart';
-import 'AboutAppPage.dart';
+import 'ShowCustomMessageAndRequestReview.dart';
 
 class AboutAppSettingsWidget extends StatelessWidget {
   final SettingsProvider provider;
@@ -41,6 +40,7 @@ class AboutAppSettingsWidget extends StatelessWidget {
             // const Divider(),
             // _buildLegalPage(context),
             // const Divider(),
+            // _buildAboutAppSetting(context),
             _buildAboutAppSetting(context),
             // const Divider(),
             // _buildContactAuthorSetting(context),
@@ -58,41 +58,7 @@ Widget _buildAboutAppSetting(BuildContext context) {
   return SettingsTile(
     title: S.current.about_app,
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AboutAppPage()),
-      );
-    },
-  );
-}
-
-Widget _buildContactAuthorSetting(BuildContext context) {
-  return FutureBuilder<String>(
-    future: encodeQueryParameters(),
-    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const CircularProgressIndicator(); // 返回一个加载指示器，表示等待
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else {
-        final Uri params = Uri(
-          scheme: 'mailto',
-          path: 'mountain0212@hotmail.com',
-          query: snapshot.data, // 使用解析后的数据
-        );
-        return SettingsTile(
-          title: S.current.contact_author,
-          onTap: () async {
-            encodeQueryParameters();
-            if (await canLaunchUrl(params)) {
-              // 使用正确的函数名和 params
-              await launchUrl(params); // 使用正确的函数名和 params
-            } else {
-              throw 'Could not launch $params'; // 使用正确的变量名
-            }
-          },
-        );
-      }
+      showCustomMessageAndRequestReview(context);
     },
   );
 }

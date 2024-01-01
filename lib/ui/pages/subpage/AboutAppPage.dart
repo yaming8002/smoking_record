@@ -49,7 +49,6 @@ class AboutAppPage extends StatelessWidget {
   }
 
   Widget _sectionContent(String content) {
-    // print(content);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(

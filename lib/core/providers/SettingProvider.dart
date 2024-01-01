@@ -75,7 +75,7 @@ class SettingsProvider with ChangeNotifier {
   }
 
   testnutton() {
-    print("測試打應");
+    
     notion?.showNotifications(AppSettingService.getLanguageLocale()!);
   }
 }

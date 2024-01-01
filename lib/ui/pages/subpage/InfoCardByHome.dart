@@ -138,7 +138,6 @@ class InfoCardByHome extends StatelessWidget {
         );
 
         await provider.loadData();
-        print("provider.loadData();");
         provider.notifyListeners();
       },
       child: Container(

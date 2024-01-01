@@ -59,17 +59,17 @@ class _ReportChatWidget extends State<ReportChatWidget> {
 
     if (maxValue < 10.0) {
       showLine = 2.0;
-    } else if (maxValue < 50.0) {
+    } else if (maxValue <= 50.0) {
       showLine = 5.0;
-    } else if (maxValue < 100.0) {
+    } else if (maxValue <= 100.0) {
       showLine = 10.0;
-    } else if (maxValue < 200.0) {
+    } else if (maxValue <= 200.0) {
       showLine = 20.0;
-    } else if (maxValue < 500.0) {
+    } else if (maxValue <= 500.0) {
       showLine = 50.0;
-    } else if (maxValue < 1000.0) {
+    } else if (maxValue <= 1000.0) {
       showLine = 100.0;
-    } else if (maxValue < 2000.0) {
+    } else if (maxValue <= 2000.0) {
       showLine = 200.0;
     } else {
       showLine = pow(10, (log(maxValue) / ln10).floor() - 1).toDouble();
@@ -98,7 +98,9 @@ class _ReportChatWidget extends State<ReportChatWidget> {
       }
       if (currentColumn.contains("interval")) {
         rods.add(BarChartRodData(
-          toY: max(0, (data['interval'] / data['intervalCount'])),
+          toY: data['interval'] == 0 || data['intervalCount'] == 0
+              ? 0
+              : (data['interval'] / data['intervalCount']),
           width: 15,
           color: Colors.lightGreen,
         ));

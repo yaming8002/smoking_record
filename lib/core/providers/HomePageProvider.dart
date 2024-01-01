@@ -64,9 +64,7 @@ class HomePageProvider with ChangeNotifier, WidgetsBindingObserver {
   void upgroupTimeDiff() {
     DateTime now = DateTime.now();
     Duration diff = now.difference(_targetTime ?? now);
-    // print("diff $diff");
-    // print("interval $interval");
-    // print("stop $stop");
+
 
     if (diff.inMilliseconds > 0 && stop.inMinutes > 0 && diff < stop) {
       timeDiff =
