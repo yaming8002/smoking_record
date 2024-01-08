@@ -1,4 +1,4 @@
-package com.example.smoking_record
+package com.record.smoking_record
 
 import io.flutter.embedding.android.FlutterActivity
 
